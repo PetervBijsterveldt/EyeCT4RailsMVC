@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
 
-namespace EyeCTForRailsMVC.Models
+namespace EyeCT4RailzMVC.Models
 {
     public class Sector
     {
