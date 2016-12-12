@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EyeCT4RailsMVC", "EyeCT4RailsMVC\EyeCT4RailsMVC.csproj", "{73CC9F28-8BF3-4D41-A011-628219A0C01B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EyeCT4RailsMVC.Tests", "EyeCT4RailsMVC.Tests\EyeCT4RailsMVC.Tests.csproj", "{D8D5E462-E6CD-4BC4-B654-EE022169225D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73CC9F28-8BF3-4D41-A011-628219A0C01B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73CC9F28-8BF3-4D41-A011-628219A0C01B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73CC9F28-8BF3-4D41-A011-628219A0C01B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73CC9F28-8BF3-4D41-A011-628219A0C01B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8D5E462-E6CD-4BC4-B654-EE022169225D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8D5E462-E6CD-4BC4-B654-EE022169225D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8D5E462-E6CD-4BC4-B654-EE022169225D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8D5E462-E6CD-4BC4-B654-EE022169225D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
