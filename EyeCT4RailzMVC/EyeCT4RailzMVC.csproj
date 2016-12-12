@@ -153,6 +153,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Remise.cs" />
+    <Compile Include="Models\ReparatieBeurt.cs" />
+    <Compile Include="Models\ReparatiebeurtType.cs" />
+    <Compile Include="Models\SchoonmaakBeurt.cs" />
+    <Compile Include="Models\SchoonmaakType.cs" />
     <Compile Include="Models\Sector.cs" />
     <Compile Include="Models\Spoor.cs" />
     <Compile Include="Models\Tram.cs" />

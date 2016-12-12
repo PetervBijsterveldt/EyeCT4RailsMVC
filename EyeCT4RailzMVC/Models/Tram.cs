@@ -11,7 +11,7 @@ namespace EyeCT4RailzMVC.Models
         public string Naam { get; set; }
         public Spoor HuidigSpoor { get; set; }
         public User Bestuurder { get; set; }
-        public List<Schoonmaakbeurt> SchoonmaakBeurten { get; set; }
+        public List<SchoonmaakBeurt> SchoonmaakBeurten { get; set; }
         public List<ReparatieBeurt> ReparatieBeurten { get; set; }
         public TramType Type { get; set; }
         public TramStatus Status { get; set; }
@@ -49,9 +49,9 @@ namespace EyeCT4RailzMVC.Models
         {
             SchoonmaakBeurten.Add(schoonmaakBeurt);
         }
-        public void Onderhoud(OnderhoudBeurt onderhoudBeurt)
+        public void Reparatie(ReparatieBeurt reparatieBeurt)
         {
-            ReparatieBeurten.Add(onderhoudBeurt);
+            ReparatieBeurten.Add(reparatieBeurt);
         }
         public void StatusVeranderen(TramStatus status)
         {
