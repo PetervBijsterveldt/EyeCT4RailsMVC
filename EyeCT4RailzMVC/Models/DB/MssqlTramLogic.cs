@@ -25,7 +25,8 @@ namespace EyeCT4RailzMVC.Models
                     {
                         using (SqlCommand cmd = new SqlCommand())
                         {
-                            cmd.CommandText = "SELECT TramID, TypeTram, Lengte, Status FROM Tram WHERE TramID = @id";
+                            cmd.CommandText = "select t.ID, Nummer, omschrijving, lengte, status from tram t " +
+                                              "left join tramtype tt on t.Tramtype_ID = tt.ID WHERE ID = @id";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@id", tramId);
@@ -35,31 +36,31 @@ namespace EyeCT4RailzMVC.Models
                                 int id = reader.GetInt32(0);
                                 int tramnr = reader.GetInt32(1);
                                 TramType type;
-                                if (reader.GetString(1) == "11g")
+                                if (reader.GetString(2) == "11g")
                                 {
-                                    type = TramType.ElfG;
+                                    type = TramType._11G;
                                 }
-                                else if (reader.GetString(1) == "12g")
+                                else if (reader.GetString(2) == "12g")
                                 {
-                                    type = TramType.TwaalfG;
+                                    type = TramType._12G;
                                 }
                                 else
                                 {
-                                    type = (TramType)Enum.Parse(typeof(TramType), reader.GetString(1).Replace(" ", ""));
+                                    type = (TramType)Enum.Parse(typeof(TramType), reader.GetString(2).Replace(" ", ""));
                                 }
-                                int lengte = reader.GetInt32(2);
-                                TramStatus status = (TramStatus)Enum.Parse(typeof(TramStatus), reader.GetString(3));
+                                int lengte = reader.GetInt32(3);
+                                TramStatus status = (TramStatus)Enum.Parse(typeof(TramStatus), reader.GetString(4));
 
                                 List<SchoonmaakBeurt> schoonmaakBeurten = ListSchoonmaakbeurten(id);
                                 List<ReparatieBeurt> reparatieBeurten = ListReparatiebeurten(id);
-
-                                return new Tram(id, tramnr, lengte, status, type, schoonmaakBeurten, reparatieBeurten);
+                                
+                                return new Tram(id, tramnr, lengte, type, status, schoonmaakBeurten, reparatieBeurten);
                             }
                         }
                     }
                     catch (Exception ex)
                     {
-                        System.Windows.Forms.MessageBox.Show(ex.Message);
+                        throw new DataException();
                         conn.Close();
                         return null;
                     }
@@ -85,11 +86,11 @@ namespace EyeCT4RailzMVC.Models
 
                             cmd.Parameters.AddWithValue("@tramnr", tram.TramNr);
 
-                            if (tram.Type == TramType.ElfG)
+                            if (tram.Type == TramType._11G)
                             {
                                 cmd.Parameters.AddWithValue("@type", "11g");
                             }
-                            else if (tram.Type == TramType.TwaalfG)
+                            else if (tram.Type == TramType._12G)
                             {
                                 cmd.Parameters.AddWithValue("@type", "12g");
                             }
