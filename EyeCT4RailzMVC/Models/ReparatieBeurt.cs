@@ -28,6 +28,16 @@ namespace EyeCT4RailzMVC.Models
             this.EindDatumEnTijd = EindDatumEnTijd;
             this.ReparatiebeurtType = ReparatiebeurtType;
         }
+        public ReparatieBeurt(int Id, int TramId, int MedewerkerId, DateTime StartDatumEnTijd, ReparatiebeurtType ReparatiebeurtType)
+        {
+            this.Id = Id;
+            this.TramId = TramId;
+            this.MedewerkerId = MedewerkerId;
+            //this.Naam = Naam;
+            //this.Beschrijving = Beschrijving;
+            this.StartDatumEnTijd = StartDatumEnTijd;
+            this.ReparatiebeurtType = ReparatiebeurtType;
+        }
 
         public ReparatieBeurt(int Id, int TramId, int MedewerkerId, string Naam, string Beschrijving, DateTime StartDatumEnTijd, DateTime VerwachteDatumEnTijd, ReparatiebeurtType ReparatiebeurtType)
         {

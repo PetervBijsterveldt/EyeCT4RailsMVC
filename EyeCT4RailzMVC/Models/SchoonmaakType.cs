@@ -7,7 +7,7 @@ namespace EyeCT4RailzMVC.Models
 {
     public enum SchoonmaakType
     {
-        Groot,
-        Klein
+        SchoonmaakGroot,
+        SchoonmaakKlein
     }
 }

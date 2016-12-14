@@ -40,7 +40,7 @@ namespace EyeCT4RailzMVC.Models
                             //voor iedere kolom die hij leest, geeft hij de waarde van die kolom aan de volgende int en strings
                             int id = reader.GetInt32(0);
                             string naam = reader.GetString(1);
-                            UserType rol = (UserType)Enum.Parse(typeof(UserType), reader.GetString(2));
+                            UserType rol = (UserType) Enum.Parse(typeof(UserType), reader.GetString(2));
                             string email = reader.GetString(3);
                             string postcode = reader.GetString(4);
                             string woonplaats = reader.GetString(5);
@@ -52,9 +52,11 @@ namespace EyeCT4RailzMVC.Models
                         }
                         catch (Exception ex)
                         {
-                            System.Windows.Forms.MessageBox.Show(ex.Message);
+                            throw new Exceptions.DataException();
+                        }
+                        finally
+                        {
                             conn.Close();
-                            return null;
                         }
                     }
                 }
