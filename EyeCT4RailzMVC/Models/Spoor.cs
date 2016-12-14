@@ -13,7 +13,7 @@ namespace EyeCT4RailzMVC.Models
         public int Lengte { get; set; }
         public int RestererendeLengte { get; set; }
         public bool Geblokkeerd { get; set; }
-
+        
         public Spoor(int nr, int lengte)
         {
             SpoorNR = nr;
