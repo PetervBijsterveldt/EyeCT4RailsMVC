@@ -15,7 +15,7 @@ namespace EyeCT4RailzMVC.Models
         public string Woonplaats { get; set; }
         public string Rfid { get; set; }
         public UserType Rol { get; set; }
-
+        //test
         public User(int nr, string naam, string ww)
         {
             Personeelsnummer = nr;
