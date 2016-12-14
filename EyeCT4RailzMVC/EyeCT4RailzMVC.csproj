@@ -152,7 +152,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DB\ISpoorServices.cs" />
+    <Compile Include="Models\DB\ITramServices.cs" />
+    <Compile Include="Models\DB\IUserServices.cs" />
+    <Compile Include="Models\DB\MssqlSpoorLogic.cs" />
+    <Compile Include="Models\DB\MssqlTramLogic.cs" />
+    <Compile Include="Models\DB\MssqlUserLogic.cs" />
     <Compile Include="Models\DB\SpoorRepository.cs" />
+    <Compile Include="Models\DB\TramRepository.cs" />
+    <Compile Include="Models\DB\UserRepository.cs" />
     <Compile Include="Models\Remise.cs" />
     <Compile Include="Models\ReparatieBeurt.cs" />
     <Compile Include="Models\ReparatiebeurtType.cs" />
