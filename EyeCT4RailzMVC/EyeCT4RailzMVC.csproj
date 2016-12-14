@@ -161,6 +161,7 @@
     <Compile Include="Models\DB\SpoorRepository.cs" />
     <Compile Include="Models\DB\TramRepository.cs" />
     <Compile Include="Models\DB\UserRepository.cs" />
+    <Compile Include="Models\Exceptions\DataException.cs" />
     <Compile Include="Models\Remise.cs" />
     <Compile Include="Models\ReparatieBeurt.cs" />
     <Compile Include="Models\ReparatiebeurtType.cs" />

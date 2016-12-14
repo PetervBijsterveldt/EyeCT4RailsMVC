@@ -41,11 +41,9 @@ namespace EyeCT4RailzMVC.Models
                             //voor iedere kolom die hij leest, geeft hij de waarde van die kolom aan de volgende integers
                             int nr = reader.GetInt32(2);
                             int lengte = reader.GetInt32(4);
-                            bool geblokkeerd = reader.GetBoolean(3);
-                            int remiseid = reader.GetInt32(1);
 
                             //een user wordt gecreeerd met de waardes uit de database en deze wordt daarna gereturned
-                            Spoor spr = new Spoor(nr, lengte, geblokkeerd, remiseid);
+                            Spoor spr = new Spoor(nr, lengte);
 
                             //connectie sluiten
                             conn.Close();
