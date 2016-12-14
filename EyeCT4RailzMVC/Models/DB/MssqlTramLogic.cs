@@ -26,7 +26,7 @@ namespace EyeCT4RailzMVC.Models
                     {
                         using (SqlCommand cmd = new SqlCommand())
                         {
-                            cmd.CommandText = "select t.ID, Nummer, omschrijving, lengte, status from tram t " +
+                            cmd.CommandText = "select t.ID, Nummer, omschrijving, lengte, status, ConducteurGeschikt from tram t " +
                                               "left join tramtype tt on t.Tramtype_ID = tt.ID WHERE ID = @id";
                             cmd.Connection = conn;
 
@@ -45,24 +45,32 @@ namespace EyeCT4RailzMVC.Models
                                 {
                                     type = TramType._12G;
                                 }
+                                else if (reader.GetString(2) == "9g")
+                                {
+                                    type = TramType._9G;
+                                }
+                                else if (reader.GetString(2) == "10g")
+                                {
+                                    type = TramType._10G;
+                                }
                                 else
                                 {
                                     type = (TramType) Enum.Parse(typeof(TramType), reader.GetString(2).Replace(" ", ""));
                                 }
                                 int lengte = reader.GetInt32(3);
                                 TramStatus status = (TramStatus) Enum.Parse(typeof(TramStatus), reader.GetString(4));
+                                bool conducteurgeschikt = reader.GetBoolean(5);
 
                                 List<SchoonmaakBeurt> schoonmaakBeurten = ListSchoonmaakbeurten(id);
                                 List<ReparatieBeurt> reparatieBeurten = ListReparatiebeurten(id);
 
-                                return new Tram(id, tramnr, lengte, type, status, schoonmaakBeurten, reparatieBeurten);
+                                return new Tram(id, tramnr, lengte, type, status,conducteurgeschikt, schoonmaakBeurten, reparatieBeurten);
                             }
                         }
                     }
                     catch (Exception ex)
                     {
                         throw new Exceptions.DataException();
-                        return null;
                     }
                     finally
                     {
@@ -86,7 +94,6 @@ namespace EyeCT4RailzMVC.Models
                         using (SqlCommand cmd = new SqlCommand())
                         {
                             cmd.CommandText =
-                                //Tramtype nog aanpassen, ID uit apart tabel te zijn.
                                 "UPDATE Tram SET Nummer = @tramnr, TypeTram = @type, Lengte = @lengte, [Status] = @status WHERE ID = @tramid";
                             cmd.Connection = conn;
 
@@ -94,19 +101,31 @@ namespace EyeCT4RailzMVC.Models
 
                             if (tram.Type == TramType._11G)
                             {
-                                cmd.Parameters.AddWithValue("@type", "11g");
+                                cmd.Parameters.AddWithValue("@type", "2");
                             }
                             else if (tram.Type == TramType._12G)
                             {
-                                cmd.Parameters.AddWithValue("@type", "12g");
+                                cmd.Parameters.AddWithValue("@type", "4");
                             }
-                            else if (tram.Type == TramType.Dubbel_Kop_Combino)
+                            else if (tram.Type == TramType.DubbelKopCombino)
                             {
-                                cmd.Parameters.AddWithValue("@type", "Dubbel kop combino");
+                                cmd.Parameters.AddWithValue("@type", "3");
                             }
-                            else
+                            else if (tram.Type == TramType.Combino)
                             {
-                                cmd.Parameters.AddWithValue("@type", tram.Type.ToString());
+                                cmd.Parameters.AddWithValue("@type", "1");
+                            }
+                            else if (tram.Type == TramType.Opleidingtram)
+                            {
+                                cmd.Parameters.AddWithValue("@type", "5");
+                            }
+                            else if (tram.Type == TramType._9G)
+                            {
+                                cmd.Parameters.AddWithValue("@type", "6");
+                            }
+                            else if (tram.Type == TramType._10G)
+                            {
+                                cmd.Parameters.AddWithValue("@type", "7");
                             }
 
                             cmd.Parameters.AddWithValue("@lengte", tram.Lengte);
@@ -142,13 +161,41 @@ namespace EyeCT4RailzMVC.Models
                         {
                             cmd.CommandText =
                                 //Typetram is nr uit ander tabel
-                                "INSERT INTO Tram (Nummer, TypeTram, Lengte, Status) VALUES (@nr, @type, @lengte, @status)";
+                                "INSERT INTO Tram (Nummer, TypeTram, Lengte, Status, ConducteurGeschikt) VALUES (@nr, @type, @lengte, @status, @conducteur)";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@nr", tram.TramNr);
-                            cmd.Parameters.AddWithValue("@type", tram.Type.ToString());
+                            if (tram.Type == TramType._11G)
+                            {
+                                cmd.Parameters.AddWithValue("@type", "2");
+                            }
+                            else if (tram.Type == TramType._12G)
+                            {
+                                cmd.Parameters.AddWithValue("@type", "4");
+                            }
+                            else if (tram.Type == TramType.DubbelKopCombino)
+                            {
+                                cmd.Parameters.AddWithValue("@type", "3");
+                            }
+                            else if (tram.Type == TramType.Combino)
+                            {
+                                cmd.Parameters.AddWithValue("@type", "1");
+                            }
+                            else if (tram.Type == TramType.Opleidingtram)
+                            {
+                                cmd.Parameters.AddWithValue("@type", "5");
+                            }
+                            else if (tram.Type == TramType._9G)
+                            {
+                                cmd.Parameters.AddWithValue("@type", "6");
+                            }
+                            else if (tram.Type == TramType._10G)
+                            {
+                                cmd.Parameters.AddWithValue("@type", "7");
+                            }
                             cmd.Parameters.AddWithValue("@lengte", tram.Lengte);
                             cmd.Parameters.AddWithValue("@status", tram.Status.ToString());
+                            cmd.Parameters.AddWithValue("@conducteur", tram.ConducteurGeschikt);
 
                             cmd.ExecuteNonQuery();
                         }
@@ -215,7 +262,7 @@ namespace EyeCT4RailzMVC.Models
                     {
                         using (SqlCommand cmd = new SqlCommand())
                         {
-                            cmd.CommandText = "select t.ID, Nummer, omschrijving, lengte, status from tram t " +
+                            cmd.CommandText = "select t.ID, Nummer, omschrijving, lengte, status, ConducteurGeschikt from tram t " +
                                               "left join tramtype tt on t.Tramtype_ID = tt.ID WHERE ID = @id";
                             cmd.Connection = conn;
 
@@ -234,20 +281,28 @@ namespace EyeCT4RailzMVC.Models
                                     {
                                         type = TramType._12G;
                                     }
+                                    else if (reader.GetString(2) == "9g")
+                                    {
+                                        type = TramType._9G;
+                                    }
+                                    else if (reader.GetString(2) == "10g")
+                                    {
+                                        type = TramType._10G;
+                                    }
                                     else
                                     {
                                         type =
                                             (TramType)
                                             Enum.Parse(typeof(TramType), reader.GetString(2).Replace(" ", ""));
                                     }
+                                    bool conducteurgeschikt = reader.GetBoolean(5);
                                     int lengte = reader.GetInt32(3);
 
                                     TramStatus status = (TramStatus) Enum.Parse(typeof(TramStatus), reader.GetString(4));
                                     List<SchoonmaakBeurt> schoonmaakBeurten = ListSchoonmaakbeurten(tramId);
                                     List<ReparatieBeurt> reparatieBeurten = ListReparatiebeurten(tramId);
 
-                                    trams.Add(new Tram(tramId, tramnr, lengte, type, status, schoonmaakBeurten,
-                                        reparatieBeurten));
+                                    trams.Add(new Tram(tramId, tramnr, lengte, type, status, conducteurgeschikt, schoonmaakBeurten, reparatieBeurten));
                                 }
 
                                 return trams;
@@ -528,7 +583,8 @@ namespace EyeCT4RailzMVC.Models
                     {
                         using (SqlCommand cmd = new SqlCommand())
                         {
-                            cmd.CommandText = "SELECT r.*, Naam FROM Reparatie r, Medewerker m WHERE TramID = @id AND r.MedewerkerID = m.MedewerkerID;";
+                            cmd.CommandText =
+                                "SELECT r.*, Naam FROM Reparatie r, Medewerker m WHERE TramID = @id AND r.MedewerkerID = m.MedewerkerID;";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@id", tramnr);
@@ -553,12 +609,14 @@ namespace EyeCT4RailzMVC.Models
                                         if (isGroteSchoonmaak)
                                         {
                                             reparatieBeurten.Add(new ReparatieBeurt(reparatieId, tramId, medewerkerId,
-                                                beschrijvijng, beginDatumEntijd, eindDatumEnTijd, verwachteEindDatumEnTijd, ReparatiebeurtType.Groot, naam));
+                                                beschrijvijng, beginDatumEntijd, eindDatumEnTijd,
+                                                verwachteEindDatumEnTijd, ReparatiebeurtType.Groot, naam));
                                         }
                                         else
                                         {
                                             reparatieBeurten.Add(new ReparatieBeurt(reparatieId, tramId, medewerkerId,
-                                                beschrijvijng, beginDatumEntijd, eindDatumEnTijd, verwachteEindDatumEnTijd, ReparatiebeurtType.Klein, naam));
+                                                beschrijvijng, beginDatumEntijd, eindDatumEnTijd,
+                                                verwachteEindDatumEnTijd, ReparatiebeurtType.Klein, naam));
                                         }
                                     }
                                     else
@@ -566,12 +624,14 @@ namespace EyeCT4RailzMVC.Models
                                         if (isGroteSchoonmaak)
                                         {
                                             reparatieBeurten.Add(new ReparatieBeurt(reparatieId, tramId, medewerkerId,
-                                                beschrijvijng, beginDatumEntijd, verwachteEindDatumEnTijd, ReparatiebeurtType.Groot, naam));
+                                                beschrijvijng, beginDatumEntijd, verwachteEindDatumEnTijd,
+                                                ReparatiebeurtType.Groot, naam));
                                         }
                                         else
                                         {
                                             reparatieBeurten.Add(new ReparatieBeurt(reparatieId, tramId, medewerkerId,
-                                                beschrijvijng, beginDatumEntijd, verwachteEindDatumEnTijd, ReparatiebeurtType.Klein, naam));
+                                                beschrijvijng, beginDatumEntijd, verwachteEindDatumEnTijd,
+                                                ReparatiebeurtType.Klein, naam));
                                         }
                                     }
                                 }
@@ -583,9 +643,11 @@ namespace EyeCT4RailzMVC.Models
                     }
                     catch (Exception ex)
                     {
-                        System.Windows.Forms.MessageBox.Show(ex.Message);
+                        throw new Exceptions.DataException();
+                    }
+                    finally
+                    {
                         conn.Close();
-                        return null;
                     }
                 }
             }
@@ -604,22 +666,25 @@ namespace EyeCT4RailzMVC.Models
                         using (SqlCommand cmd = new SqlCommand())
                         {
                             cmd.CommandText =
-                                    "INSERT INTO Schoonmaakbeurt (Tramid, Beschrijving, Begindatumentijd, medewerkerid, isgroteschoonmaak)" +
-                                    "VALUES (@tramid, @beschrijving, @begin, @medewerkerid, @isgroot)";
+                                "INSERT INTO TRAM_ONDERHOUD (medewerker_id, tram_id, datumtijdstip, beschikbaardatum, typeonderhoud)" +
+                                "VALUES (@medewerkerid, @tramid, @begin, @eind, @onderhoud)";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@tramid", schoonmaakBeurt.TramId);
-                            cmd.Parameters.AddWithValue("@beschrijving", schoonmaakBeurt.Beschrijving);
                             cmd.Parameters.AddWithValue("@begin", schoonmaakBeurt.StartDatum);
+                            cmd.Parameters.AddWithValue("@eind", schoonmaakBeurt.EindDatum);
                             cmd.Parameters.AddWithValue("@medewerkerid", schoonmaakBeurt.MedewerkerId);
-                            cmd.Parameters.AddWithValue("@isgroot", schoonmaakBeurt.SchoonmaakType == SchoonmaakType.Groot);
+                            cmd.Parameters.AddWithValue("@onderhoud", schoonmaakBeurt.Type);
 
                             cmd.ExecuteNonQuery();
                         }
                     }
                     catch (Exception ex)
                     {
-                        System.Windows.Forms.MessageBox.Show(ex.Message);
+                        throw new Exceptions.DataException();
+                    }
+                    finally
+                    {
                         conn.Close();
                     }
                 }
@@ -638,17 +703,15 @@ namespace EyeCT4RailzMVC.Models
                         using (SqlCommand cmd = new SqlCommand())
                         {
                             cmd.CommandText =
-                                "INSERT INTO Reparatie (tramid, beschrijving, isgrotebeurt, begindatumentijd, verwachteeindtijd, medewerkerid)" +
-                                "VALUES (@tramid, @beschrijving, @isgroot, @begin, @verwacht, @medewerkerid)";
+                                "INSERT INTO TRAM_ONDERHOUD (medewerker_id, tram_id, datumtijdstip, beschikbaardatum, typeonderhoud)" +
+                                "VALUES (@medewerkerid, @tramid, @begin, @eind, @onderhoud)";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@tramid", reparatieBeurt.TramId);
-                            cmd.Parameters.AddWithValue("@beschrijving", reparatieBeurt.Beschrijving);
                             cmd.Parameters.AddWithValue("@begin", reparatieBeurt.StartDatumEnTijd);
-                            cmd.Parameters.AddWithValue("@verwacht", reparatieBeurt.VerwachteDatumEnTijd);
                             cmd.Parameters.AddWithValue("@medewerkerid", reparatieBeurt.MedewerkerId);
-                            cmd.Parameters.AddWithValue("@isgroot",
-                                reparatieBeurt.ReparatiebeurtType == ReparatiebeurtType.Groot);
+                            cmd.Parameters.AddWithValue("@eind", reparatieBeurt.EindDatumEnTijd);
+                            cmd.Parameters.AddWithValue("@onderhoud", reparatieBeurt.ReparatiebeurtType);
 
                             cmd.ExecuteNonQuery();
                         }

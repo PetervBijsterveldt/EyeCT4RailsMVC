@@ -8,9 +8,11 @@ namespace EyeCT4RailzMVC.Models
     public enum TramType
     {
         Combino,
-        Dubbel_Kop_Combino,
+        DubbelKopCombino,
         _11G,
         _12G,
-        Opleiding
+        Opleidingtram,
+        _9G,
+        _10G
     }
 }

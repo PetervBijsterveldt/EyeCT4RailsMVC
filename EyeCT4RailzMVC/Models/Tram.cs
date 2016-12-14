@@ -17,6 +17,7 @@ namespace EyeCT4RailzMVC.Models
         public TramStatus Status { get; set; }
         public int Lengte { get; set; }
         public int TramNr { get; set; }
+        public bool ConducteurGeschikt { get; set; }
 
         //constructors
         public Tram(int id, int nr, int lengte, TramType type)
@@ -32,7 +33,7 @@ namespace EyeCT4RailzMVC.Models
             Lengte = lengte;
             Type = type;
         }
-        public Tram(int id, int nr, int lengte, TramType type, TramStatus status, List<SchoonmaakBeurt> schoonmaakbeurten, List<ReparatieBeurt> reparatiebeurten)
+        public Tram(int id, int nr, int lengte, TramType type, TramStatus status, bool conducteurgeschikt, List<SchoonmaakBeurt> schoonmaakbeurten, List<ReparatieBeurt> reparatiebeurten)
         {
             TramID = id;
             TramNr = nr;
