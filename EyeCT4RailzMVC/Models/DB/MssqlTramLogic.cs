@@ -70,7 +70,7 @@ namespace EyeCT4RailzMVC.Models
                     }
                     catch (Exception ex)
                     {
-                        throw new Exceptions.DataException();
+                        throw new Exceptions.DataException(ex.Message);
                     }
                     finally
                     {
@@ -137,7 +137,7 @@ namespace EyeCT4RailzMVC.Models
                     }
                     catch (Exception ex)
                     {
-                        throw new Exceptions.DataException();
+                        throw new Exceptions.DataException(ex.Message);
                     }
                     finally
                     {
@@ -202,7 +202,7 @@ namespace EyeCT4RailzMVC.Models
                     }
                     catch (Exception ex)
                     {
-                        throw new Exceptions.DataException();
+                        throw new Exceptions.DataException(ex.Message);
                     }
                     finally
                     {
@@ -234,7 +234,7 @@ namespace EyeCT4RailzMVC.Models
                     }
                     catch (Exception ex)
                     {
-                        throw new Exceptions.DataException();
+                        throw new Exceptions.DataException(ex.Message);
                     }
                     finally
                     {
@@ -312,7 +312,7 @@ namespace EyeCT4RailzMVC.Models
                     }
                     catch (Exception ex)
                     {
-                        throw new Exceptions.DataException();
+                        throw new Exceptions.DataException(ex.Message);
                     }
                     finally
                     {
@@ -369,7 +369,7 @@ namespace EyeCT4RailzMVC.Models
                     }
                     catch (Exception ex)
                     {
-                        throw new Exceptions.DataException();
+                        throw new Exceptions.DataException(ex.Message);
                     }
                     finally
                     {
@@ -452,7 +452,7 @@ namespace EyeCT4RailzMVC.Models
                     }
                     catch (Exception ex)
                     {
-                        throw new Exceptions.DataException();
+                        throw new Exceptions.DataException(ex.Message);
                         return null;
                     }
                     finally
@@ -510,7 +510,7 @@ namespace EyeCT4RailzMVC.Models
                     }
                     catch (Exception ex)
                     {
-                        throw new Exceptions.DataException();
+                        throw new Exceptions.DataException(ex.Message);
                     }
                     finally
                     {
@@ -595,7 +595,7 @@ namespace EyeCT4RailzMVC.Models
                     }
                     catch (Exception ex)
                     {
-                        throw new Exceptions.DataException();
+                        throw new Exceptions.DataException(ex.Message);
                     }
                     finally
                     {
@@ -633,7 +633,7 @@ namespace EyeCT4RailzMVC.Models
                     }
                     catch (Exception ex)
                     {
-                        throw new Exceptions.DataException();
+                        throw new Exceptions.DataException(ex.Message);
                     }
                     finally
                     {
@@ -670,7 +670,7 @@ namespace EyeCT4RailzMVC.Models
                     }
                     catch (Exception ex)
                     {
-                        throw new Exceptions.DataException();
+                        throw new Exceptions.DataException(ex.Message);
                     }
                     finally
                     {
@@ -703,7 +703,7 @@ namespace EyeCT4RailzMVC.Models
                     }
                     catch (Exception ex)
                     {
-                        throw new Exceptions.DataException();
+                        throw new Exceptions.DataException(ex.Message);
                     }
                     finally
                     {
@@ -736,7 +736,7 @@ namespace EyeCT4RailzMVC.Models
                     }
                     catch (Exception ex)
                     {
-                        throw new Exceptions.DataException();
+                        throw new Exceptions.DataException(ex.Message);
                     }
                     finally
                     {

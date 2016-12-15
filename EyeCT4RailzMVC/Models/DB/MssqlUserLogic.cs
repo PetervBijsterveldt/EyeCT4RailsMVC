@@ -47,7 +47,7 @@ namespace EyeCT4RailzMVC.Models
                         }
                         catch (Exception ex)
                         {
-                            throw new Exceptions.DataException();
+                            throw new Exceptions.DataException(ex.Message);
                         }
                         finally
                         {
@@ -92,7 +92,7 @@ namespace EyeCT4RailzMVC.Models
                         }
                         catch (Exception ex)
                         {
-                            throw new Exceptions.DataException();
+                            throw new Exceptions.DataException(ex.Message);
                         }
                         finally
                         {
@@ -148,7 +148,7 @@ namespace EyeCT4RailzMVC.Models
                         }
                         catch (Exception ex)
                         {
-                            throw new Exceptions.DataException();
+                            throw new Exceptions.DataException(ex.Message);
                         }
                         finally
                         {
@@ -180,7 +180,7 @@ namespace EyeCT4RailzMVC.Models
                         }
                         catch (Exception ex)
                         {
-                            throw new Exceptions.DataException();
+                            throw new Exceptions.DataException(ex.Message);
                         }
                         finally
                         {
@@ -234,7 +234,7 @@ namespace EyeCT4RailzMVC.Models
                         }
                         catch (Exception ex)
                         {
-                            throw new Exceptions.DataException();
+                            throw new Exceptions.DataException(ex.Message);
                         }
                         finally
                         {
@@ -271,9 +271,9 @@ namespace EyeCT4RailzMVC.Models
                             }
                             return users;
                         }
-                        catch (Exception exc)
+                        catch (Exception ex)
                         {
-                            throw new Exceptions.DataException();
+                            throw new Exceptions.DataException(ex.Message);
                         }
                         finally
                         {
