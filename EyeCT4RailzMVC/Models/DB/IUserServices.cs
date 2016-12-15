@@ -10,7 +10,6 @@ namespace EyeCT4RailzMVC.Models
     public interface IUserServices
     {
         User CheckForUserId(string userId);
-        User CheckForUserNameAndPw(string name, string pw);
         User CheckForUser(User user);
         void AddUser(User user);
         void RemoveUser(User user);

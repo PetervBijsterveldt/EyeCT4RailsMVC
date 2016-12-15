@@ -40,73 +40,23 @@ namespace EyeCT4RailzMVC.Models
                             //voor iedere kolom die hij leest, geeft hij de waarde van die kolom aan de volgende int en strings
                             int id = reader.GetInt32(0);
                             string naam = reader.GetString(1);
-                            UserType rol = (UserType)Enum.Parse(typeof(UserType), reader.GetString(2));
-                            string email = reader.GetString(3);
-                            string postcode = reader.GetString(4);
-                            string woonplaats = reader.GetString(5);
-                            string rfidtram = reader.GetString(6);
-                            string ww = reader.GetString(7);
+                            UserType rol = (UserType) Enum.Parse(typeof(UserType), reader.GetString(2));
 
                             conn.Close();
-                            return new User(id, naam, ww, email, postcode, woonplaats, rfidtram, rol);
+                            return new User(id, naam, rol);
                         }
                         catch (Exception ex)
                         {
-                            System.Windows.Forms.MessageBox.Show(ex.Message);
+                            throw new Exceptions.DataException();
+                        }
+                        finally
+                        {
                             conn.Close();
-                            return null;
                         }
                     }
                 }
                 return null;
             }
-        }
-
-        //check of de user bestaat door naam en wachtwoord
-        public User CheckForUserNameAndPw(string name, string pw)
-        {
-            using (SqlConnection conn = new SqlConnection(connectie))
-            {
-                if (conn.State != ConnectionState.Open)
-                {
-                    conn.Open();
-                    using (SqlCommand cmd = new SqlCommand())
-                    {
-                        try
-                        {
-                            cmd.CommandText = "SELECT * FROM Medewerker WHERE Naam = @naam AND Wachtwoord = @ww";
-                            cmd.Connection = conn;
-
-                            cmd.Parameters.AddWithValue("@naam", name);
-                            cmd.Parameters.AddWithValue("@ww", pw);
-
-                            using (SqlDataReader reader = cmd.ExecuteReader())
-                            {
-                                reader.Read();
-
-                                int id = reader.GetInt32(0);
-                                string naam = reader.GetString(1);
-                                UserType rol = (UserType)Enum.Parse(typeof(UserType), reader.GetString(2));
-                                string email = reader.GetString(3);
-                                string postcode = reader.GetString(4);
-                                string woonplaats = reader.GetString(5);
-                                string rfid = reader.GetString(6);
-                                string ww = reader.GetString(7);
-
-                                conn.Close();
-                                return new User(id, naam, ww, email, postcode, woonplaats, rfid, rol);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            System.Windows.Forms.MessageBox.Show(ex.Message);
-                            conn.Close();
-                            return null;
-                        }
-                    }
-                }
-            }
-            return null;
         }
 
         //check of de user bestaat
@@ -121,12 +71,12 @@ namespace EyeCT4RailzMVC.Models
                     {
                         try
                         {
-                            cmd.CommandText = "SELECT * FROM Medewerker WHERE MedewekerID = @ID AND Gebruikersnaam = @gebrn AND Wachtwoord = @ww";
+                            cmd.CommandText =
+                                "SELECT m.ID, m.Naam, f.Naam FROM medewerker m left join functie f ON m.Functie_ID = f.ID WHERE m.ID = @ID AND m.naam = @gebrn";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@ID", user.Personeelsnr);
+                            cmd.Parameters.AddWithValue("@ID", user.ID);
                             cmd.Parameters.AddWithValue("@gebrn", user.Naam);
-                            cmd.Parameters.AddWithValue("@ww", user.Wachtwoord);
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
@@ -134,22 +84,19 @@ namespace EyeCT4RailzMVC.Models
 
                                 int id = reader.GetInt32(0);
                                 string naam = reader.GetString(1);
-                                UserType rol = (UserType)Enum.Parse(typeof(UserType), reader.GetString(2));
-                                string email = reader.GetString(3);
-                                string postcode = reader.GetString(4);
-                                string woonplaats = reader.GetString(5);
-                                string rfid = reader.GetString(6);
-                                string ww = reader.GetString(7);
+                                UserType rol = (UserType) Enum.Parse(typeof(UserType), reader.GetString(2));
 
                                 conn.Close();
-                                return new User(id, naam, ww, email, postcode, woonplaats, rfid, rol);
+                                return new User(id, naam, rol);
                             }
                         }
                         catch (Exception ex)
                         {
-                            System.Windows.Forms.MessageBox.Show(ex.Message);
+                            throw new Exceptions.DataException();
+                        }
+                        finally
+                        {
                             conn.Close();
-                            return null;
                         }
                     }
                 }
@@ -170,22 +117,41 @@ namespace EyeCT4RailzMVC.Models
                     {
                         try
                         {
-                            cmd.CommandText = "INSERT INTO Medewerker (Naam, Functie, E-Mail, Postcode, Woonplaats, RFID, Wachtwoord) VALUES (@naam, @rol, @mail, @post, @woon, @rfid, @ww";
+                            cmd.CommandText =
+                                "INSERT INTO Medewerker (Functie_ID, Naam) VALUES (@rol, @naam)";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@naam", user.Naam);
                             cmd.Parameters.AddWithValue("@rol", user.Rol);
-                            cmd.Parameters.AddWithValue("@mail", user.Email);
-                            cmd.Parameters.AddWithValue("@post", user.Postcode);
-                            cmd.Parameters.AddWithValue("@woon", user.Woonplaats);
-                            cmd.Parameters.AddWithValue("@rfid", user.Rfid);
-                            cmd.Parameters.AddWithValue("@ww", user.Wachtwoord);
+                            if (user.Rol == UserType.Beheerder)
+                            {
+                                cmd.Parameters.AddWithValue("@rol", 1);
+                            }
+                            if (user.Rol == UserType.Wagenparkbeheerder)
+                            {
+                                cmd.Parameters.AddWithValue("@rol", 2);
+                            }
+                            if (user.Rol == UserType.Bestuurder)
+                            {
+                                cmd.Parameters.AddWithValue("@rol", 3);
+                            }
+                            if (user.Rol == UserType.Technicus)
+                            {
+                                cmd.Parameters.AddWithValue("@rol", 4);
+                            }
+                            if (user.Rol == UserType.Schoonmaker)
+                            {
+                                cmd.Parameters.AddWithValue("@rol", 5);
+                            }
 
                             cmd.ExecuteNonQuery();
                         }
                         catch (Exception ex)
                         {
-                            System.Windows.Forms.MessageBox.Show(ex.Message);
+                            throw new Exceptions.DataException();
+                        }
+                        finally
+                        {
                             conn.Close();
                         }
                     }
@@ -205,17 +171,19 @@ namespace EyeCT4RailzMVC.Models
                     {
                         try
                         {
-                            cmd.CommandText = "DELETE FROM Medewerker WHERE Naam = @naam AND Wachtwoord = @ww";
+                            cmd.CommandText = "DELETE FROM Medewerker WHERE Naam = @naam";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@naam", user.Naam);
-                            cmd.Parameters.AddWithValue("@ww", user.Wachtwoord);
 
                             cmd.ExecuteNonQuery();
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(ex.Message);
+                            throw new Exceptions.DataException();
+                        }
+                        finally
+                        {
                             conn.Close();
                         }
                     }
@@ -235,20 +203,41 @@ namespace EyeCT4RailzMVC.Models
                     {
                         try
                         {
-                            cmd.CommandText = "UPDATE Medewerker SET Naam = @naam, Functie = @functie, [E-mail] = @email, Wachtwoord = @ww WHERE MedewerkerID = @mID";
+                            cmd.CommandText =
+                                "UPDATE Medewerker SET Naam = @naam, Functie_ID = @functie WHERE ID = @mID";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@functie", user.Rol.ToString());
-                            cmd.Parameters.AddWithValue("@email", user.Email);
+                            cmd.Parameters.AddWithValue("@mID", user.ID);
                             cmd.Parameters.AddWithValue("@naam", user.Naam);
-                            cmd.Parameters.AddWithValue("@ww", user.Wachtwoord);
-                            cmd.Parameters.AddWithValue("@mID", user.Personeelsnr);
+                            if (user.Rol == UserType.Beheerder)
+                            {
+                                cmd.Parameters.AddWithValue("@functie", 1);
+                            }
+                            if (user.Rol == UserType.Wagenparkbeheerder)
+                            {
+                                cmd.Parameters.AddWithValue("@functie", 2);
+                            }
+                            if (user.Rol == UserType.Bestuurder)
+                            {
+                                cmd.Parameters.AddWithValue("@functie", 3);
+                            }
+                            if (user.Rol == UserType.Technicus)
+                            {
+                                cmd.Parameters.AddWithValue("@functie", 4);
+                            }
+                            if (user.Rol == UserType.Schoonmaker)
+                            {
+                                cmd.Parameters.AddWithValue("@functie", 5);
+                            }
 
                             cmd.ExecuteNonQuery();
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(ex.Message);
+                            throw new Exceptions.DataException();
+                        }
+                        finally
+                        {
                             conn.Close();
                         }
                     }
@@ -269,7 +258,7 @@ namespace EyeCT4RailzMVC.Models
                     {
                         try
                         {
-                            cmd.CommandText = "SELECT * FROM Medewerker";
+                            cmd.CommandText = "SELECT m.ID, m.Naam, f.Naam FROM medewerker m left join functie f ON m.Functie_ID = f.ID";
                             cmd.Connection = conn;
 
                             SqlDataReader reader = cmd.ExecuteReader();
@@ -277,21 +266,18 @@ namespace EyeCT4RailzMVC.Models
                             {
                                 int id = reader.GetInt32(0);
                                 string naam = reader.GetString(1);
-                                UserType functie = (UserType)Enum.Parse(typeof(UserType), reader.GetString(2));
-                                string email = reader.GetString(3);
-                                string postcode = reader.GetString(4);
-                                string woonplaats = reader.GetString(5);
-                                string rfid = reader.GetString(6);
-                                string wachtwoord = reader.GetString(7);
-                                users.Add(new User(id, naam, wachtwoord, email, postcode, woonplaats, rfid, functie));
+                                UserType functie = (UserType) Enum.Parse(typeof(UserType), reader.GetString(2));
+                                users.Add(new User(id, naam, functie));
                             }
                             return users;
                         }
                         catch (Exception exc)
                         {
-                            MessageBox.Show(exc.Message);
+                            throw new Exceptions.DataException();
+                        }
+                        finally
+                        {
                             conn.Close();
-                            return null;
                         }
                     }
                 }

@@ -25,11 +25,6 @@ namespace EyeCT4RailzMVC.Models
             return userLogic.CheckForUser(user);
         }
 
-        public User CheckForUserNameAndPw(string name, string pw)
-        {
-            return userLogic.CheckForUserNameAndPw(name, pw);
-        }
-
         public void AddUser(User user)
         {
             userLogic.AddUser(user);

@@ -10,22 +10,32 @@ namespace EyeCT4RailzMVC.Models
         public int Id { get; set; }
         public int TramId { get; set; }
         public int MedewerkerId { get; set; }
-        public string Naam { get; set; }
-        public string Beschrijving { get; set; }
+        //public string Naam { get; set; }
+        //public string Beschrijving { get; set; }
         public DateTime StartDatumEnTijd { get; set; }
         public DateTime EindDatumEnTijd { get; set; }
-        public DateTime VerwachteDatumEnTijd { get; set; }
+        //public DateTime VerwachteDatumEnTijd { get; set; }
         public ReparatiebeurtType ReparatiebeurtType { get; set; }
        
-        public ReparatieBeurt(int Id, int TramId, int MedewerkerId, string Naam, string Beschrijving, DateTime StartDatumEnTijd, DateTime EindDatumEnTijd, DateTime VerwachteDatumEnTijd, ReparatiebeurtType ReparatiebeurtType)
+        public ReparatieBeurt(int Id, int TramId, int MedewerkerId, DateTime StartDatumEnTijd, DateTime EindDatumEnTijd, ReparatiebeurtType ReparatiebeurtType)
         {
             this.Id = Id;
             this.TramId = TramId;
             this.MedewerkerId = MedewerkerId;
-            this.Naam = Naam;
-            this.Beschrijving = Beschrijving;
+            //this.Naam = Naam;
+            //this.Beschrijving = Beschrijving;
             this.StartDatumEnTijd = StartDatumEnTijd;
             this.EindDatumEnTijd = EindDatumEnTijd;
+            this.ReparatiebeurtType = ReparatiebeurtType;
+        }
+        public ReparatieBeurt(int Id, int TramId, int MedewerkerId, DateTime StartDatumEnTijd, ReparatiebeurtType ReparatiebeurtType)
+        {
+            this.Id = Id;
+            this.TramId = TramId;
+            this.MedewerkerId = MedewerkerId;
+            //this.Naam = Naam;
+            //this.Beschrijving = Beschrijving;
+            this.StartDatumEnTijd = StartDatumEnTijd;
             this.ReparatiebeurtType = ReparatiebeurtType;
         }
 
@@ -34,8 +44,8 @@ namespace EyeCT4RailzMVC.Models
             this.Id = Id;
             this.TramId = TramId;
             this.MedewerkerId = MedewerkerId;
-            this.Naam = Naam;
-            this.Beschrijving = Beschrijving;
+            //this.Naam = Naam;
+            //this.Beschrijving = Beschrijving;
             this.StartDatumEnTijd = StartDatumEnTijd;
             this.ReparatiebeurtType = ReparatiebeurtType;
         }
@@ -45,8 +55,8 @@ namespace EyeCT4RailzMVC.Models
             
             this.TramId = TramId;
             this.MedewerkerId = MedewerkerId;
-            this.Naam = Naam;
-            this.Beschrijving = Beschrijving;
+            //this.Naam = Naam;
+            //this.Beschrijving = Beschrijving;
             this.StartDatumEnTijd = StartDatumEnTijd;
             this.ReparatiebeurtType = ReparatiebeurtType;
         }
@@ -55,8 +65,8 @@ namespace EyeCT4RailzMVC.Models
         {
             this.TramId = TramId;
             this.MedewerkerId = MedewerkerId;
-            this.Naam = Naam;
-            this.Beschrijving = Beschrijving;
+            //this.Naam = Naam;
+            //this.Beschrijving = Beschrijving;
             this.StartDatumEnTijd = StartDatumEnTijd;
             this.EindDatumEnTijd = EindDatumEnTijd;
             this.ReparatiebeurtType = ReparatiebeurtType;
