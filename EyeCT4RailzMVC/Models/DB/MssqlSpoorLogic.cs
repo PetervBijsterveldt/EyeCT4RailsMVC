@@ -17,41 +17,38 @@ namespace EyeCT4RailzMVC.Models
         {
             using (SqlConnection conn = new SqlConnection(connectie))
             {
-                //Als de connectie nog niet open is, wordt hij open gezet
                 if (conn.State != ConnectionState.Open)
                 {
                     conn.Open();
-                    //nieuw command
                     using (SqlCommand cmd = new SqlCommand())
                     {
                         try
                         {
-                            //query
-                            cmd.CommandText = "";
+                            cmd.CommandText = "SELECT * FROM Spoor WHERE ID = @id";
                             cmd.Connection = conn;
 
-                            //parameter meegeven aan de query
+                            cmd.Parameters.AddWithValue("@id", spoorId);
 
-                            //nieuwe reader aanmaken
-                            SqlDataReader reader = cmd.ExecuteReader();
-                            reader.Read();
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                reader.Read();
+                                int nr = reader.GetInt32(0);
+                                int lengte = reader.GetInt32(3);
+                                int remiseid = reader.GetInt32(1);
+                                bool block = reader.GetBoolean(4);
+                                List<Sector> sectoren = getSectoren(nr);
 
-                            //voor iedere kolom die hij leest, geeft hij de waarde van die kolom aan de volgende integers
-                            int nr = reader.GetInt32(2);
-                            
-
-                            //een user wordt gecreeerd met de waardes uit de database en deze wordt daarna gereturned
-                            
-
-                            //connectie sluiten
-                            conn.Close();
-                            //return je gemaakte user
-                            
+                                return new Spoor(nr, lengte, remiseid, block, sectoren);
+                            }
                         }
                         catch (Exception ex)
                         {
                             conn.Close();
                             throw new Exceptions.DataException(ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
                         }
                     }
                 }
@@ -83,7 +80,7 @@ namespace EyeCT4RailzMVC.Models
                         }
                         catch (Exception ex)
                         {
-                            
+
                             conn.Close();
                         }
                     }
@@ -113,6 +110,7 @@ namespace EyeCT4RailzMVC.Models
                         catch (Exception ex)
                         {
                             conn.Close();
+                            throw new DataException(ex.Message);
                         }
                     }
                 }
@@ -307,7 +305,7 @@ namespace EyeCT4RailzMVC.Models
                                     sectoren.Add(new Sector(sectorId, sectorNr, railsId));
                                 }
 
-                                
+
                             }
                         }
 
@@ -323,6 +321,52 @@ namespace EyeCT4RailzMVC.Models
                 }
             }
             return null;
+        }
+        public List<Sector> getSectoren(int spoornr)
+        {
+            using (SqlConnection conn = new SqlConnection(connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText = "SELECT * FROM Sector WHERE Spoor_ID = @id";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@id", spoornr);
+
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                List<Sector> sectoren = new List<Sector>();
+                                while (reader.Read())
+                                {
+                                    int id = reader.GetInt32(0);
+                                    int spoorid = spoornr;
+                                    int tramid = reader.GetInt32(2);
+                                    int nummer = reader.GetInt32(3);
+                                    int beschikbaar = reader.GetInt32(4);
+                                    int blokkade = reader.GetInt32(5);
+
+                                    sectoren.Add(new Sector(id, nummer, spoorid, tramid, beschikbaar));
+                                }
+                                return sectoren;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exceptions.DataException(ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+                return null;
+            }
         }
     }
 }
