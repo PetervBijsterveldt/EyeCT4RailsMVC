@@ -69,18 +69,26 @@ namespace EyeCT4RailzMVC.Models
                         try
                         {
                             cmd.CommandText =
-                                "INSERT INTO Rails (RemiseID, RailsNR, Geblokkeerd, Lengte) VALUES (@remiseid, @spoornr, @geblokkeerd, @lengte";
+                                "INSERT INTO Spoor (ID, Remise_ID, Nummer, Lengte, Beschikbaar, InUitRijSpoor) VALUES (@id, @remiseid, @nummer, @lengte, @beschikbaar, @inuitrijspoor)";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@lengte", spoor.Lengte);
-                            cmd.Parameters.AddWithValue("@geblokkeerd", spoor.Geblokkeerd);
+                            //er moet dus nog wat shit worden toegevoegd aan spoor, anders werkt het allemaal niet
+                            cmd.Parameters.AddWithValue("@id", spoor.SpoorNR);
+                            cmd.Parameters.AddWithValue("@remiseid", spoor.RemiseID);
+                            cmd.Parameters.AddWithValue("@nummer", spoor.);
+                            cmd.Parameters.AddWithValue("lengte", spoor.Lengte);
+                            cmd.Parameters.AddWithValue("@beschikbaar", spoor.);
+                            cmd.Parameters.AddWithValue("@inuitrijspoor", spoor.);
 
                             //Zorgt ervoor dat de query wordt uitgevoerd op de database
                             cmd.ExecuteNonQuery();
                         }
                         catch (Exception ex)
                         {
-
+                            throw new DataException(ex.Message);
+                        }
+                        finally
+                        {
                             conn.Close();
                         }
                     }
@@ -109,8 +117,11 @@ namespace EyeCT4RailzMVC.Models
                         }
                         catch (Exception ex)
                         {
-                            conn.Close();
                             throw new DataException(ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
                         }
                     }
                 }
@@ -147,9 +158,11 @@ namespace EyeCT4RailzMVC.Models
                         }
                         catch (Exception exc)
                         {
-                            System.Windows.Forms.MessageBox.Show(exc.Message);
+                            throw new DataException(exc.Message);
+                        }
+                        finally
+                        {
                             conn.Close();
-                            return null;
                         }
                     }
                 }
