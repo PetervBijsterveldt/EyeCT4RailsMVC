@@ -1,0 +1,30 @@
+﻿@model List< EyeCT4RailzMVC.Models.User>
+
+@{
+    ViewBag.Title = "UserLijst";
+}
+
+<h2>UserLijst</h2>
+
+<table>
+    <tr>
+        <th>
+            <h4>Naam</h4>
+        </th>
+        <th>
+            <h4>Functie</h4>
+        </th> 
+    </tr>
+
+   @foreach (var item in Model)
+   {
+    <tr>
+        <th>
+            @Html.Encode(item.Naam)
+        </th>
+        <th>
+            @Html.Encode(item.Rol)
+        </th>
+    </tr>
+   }
+</table>
