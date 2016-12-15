@@ -27,12 +27,10 @@ namespace EyeCT4RailzMVC.Models
                         try
                         {
                             //query
-                            cmd.CommandText =
-                                "SELECT RailsID, RemiseID, RailsNR, Geblokkeerd, Lengte FROM Rails WHERE RailsID = @railsid";
+                            cmd.CommandText = "";
                             cmd.Connection = conn;
 
                             //parameter meegeven aan de query
-                            cmd.Parameters.AddWithValue("@railsid", spoorId);
 
                             //nieuwe reader aanmaken
                             SqlDataReader reader = cmd.ExecuteReader();
@@ -40,21 +38,20 @@ namespace EyeCT4RailzMVC.Models
 
                             //voor iedere kolom die hij leest, geeft hij de waarde van die kolom aan de volgende integers
                             int nr = reader.GetInt32(2);
-                            int lengte = reader.GetInt32(4);
+                            
 
                             //een user wordt gecreeerd met de waardes uit de database en deze wordt daarna gereturned
-                            Spoor spr = new Spoor(nr, lengte);
+                            
 
                             //connectie sluiten
                             conn.Close();
                             //return je gemaakte user
-                            return spr;
+                            
                         }
                         catch (Exception ex)
                         {
-                            System.Windows.Forms.MessageBox.Show(ex.Message);
                             conn.Close();
-                            return null;
+                            throw new Exceptions.DataException();
                         }
                     }
                 }
@@ -78,8 +75,6 @@ namespace EyeCT4RailzMVC.Models
                                 "INSERT INTO Rails (RemiseID, RailsNR, Geblokkeerd, Lengte) VALUES (@remiseid, @spoornr, @geblokkeerd, @lengte";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@remiseid", spoor.Remiseid);
-                            cmd.Parameters.AddWithValue("@spoornr", spoor.Spoornr);
                             cmd.Parameters.AddWithValue("@lengte", spoor.Lengte);
                             cmd.Parameters.AddWithValue("@geblokkeerd", spoor.Geblokkeerd);
 
@@ -88,7 +83,7 @@ namespace EyeCT4RailzMVC.Models
                         }
                         catch (Exception ex)
                         {
-                            System.Windows.Forms.MessageBox.Show(ex.Message);
+                            
                             conn.Close();
                         }
                     }
@@ -117,7 +112,6 @@ namespace EyeCT4RailzMVC.Models
                         }
                         catch (Exception ex)
                         {
-                            System.Windows.Forms.MessageBox.Show(ex.Message);
                             conn.Close();
                         }
                     }
