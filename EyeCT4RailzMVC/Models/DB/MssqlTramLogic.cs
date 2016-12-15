@@ -403,47 +403,47 @@ namespace EyeCT4RailzMVC.Models
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
-                                while (reader.Read())
-                                {
-                                    int schoonmaakId = reader.GetInt32(0);
-                                    int tramId = reader.GetInt32(1);
-                                    string beschrijvijng = reader.GetString(2).TrimEnd(' ');
-                                    DateTime beginDatumEntijd = reader.GetDateTime(3);
-                                    int medewerkerId = reader.GetInt32(5);
-                                    bool isGroteSchoonmaak = reader.GetBoolean(6);
-                                    string naam = reader.GetString(7).TrimEnd(' ');
+                                //while (reader.Read())
+                                //{
+                                //    int schoonmaakId = reader.GetInt32(0);
+                                //    int tramId = reader.GetInt32(1);
+                                //    string beschrijvijng = reader.GetString(2).TrimEnd(' ');
+                                //    DateTime beginDatumEntijd = reader.GetDateTime(3);
+                                //    int medewerkerId = reader.GetInt32(5);
+                                //    bool isGroteSchoonmaak = reader.GetBoolean(6);
+                                //    string naam = reader.GetString(7).TrimEnd(' ');
 
-                                    if (!reader.IsDBNull(4))
-                                    {
-                                        DateTime eindDatumEnTijd = reader.GetDateTime(4);
+                                //    if (!reader.IsDBNull(4))
+                                //    {
+                                //        DateTime eindDatumEnTijd = reader.GetDateTime(4);
 
-                                        if (isGroteSchoonmaak)
-                                        {
-                                            schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkerId, tramId,
-                                                beschrijvijng, beginDatumEntijd, eindDatumEnTijd, SchoonmaakType.Groot,
-                                                naam));
-                                        }
-                                        else
-                                        {
-                                            schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkerId, tramId,
-                                                beschrijvijng, beginDatumEntijd, eindDatumEnTijd, SchoonmaakType.Klein,
-                                                naam));
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (isGroteSchoonmaak)
-                                        {
-                                            schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkerId, tramId,
-                                                beschrijvijng, beginDatumEntijd, SchoonmaakType.Groot, naam));
-                                        }
-                                        else
-                                        {
-                                            schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkerId, tramId,
-                                                beschrijvijng, beginDatumEntijd, SchoonmaakType.Klein, naam));
-                                        }
-                                    }
-                                }
+                                //        if (isGroteSchoonmaak)
+                                //        {
+                                //            schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkerId, tramId,
+                                //                beschrijvijng, beginDatumEntijd, eindDatumEnTijd, SchoonmaakType.Groot,
+                                //                naam));
+                                //        }
+                                //        else
+                                //        {
+                                //            schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkerId, tramId,
+                                //                beschrijvijng, beginDatumEntijd, eindDatumEnTijd, SchoonmaakType.Klein,
+                                //                naam));
+                                //        }
+                                //    }
+                                //    else
+                                //    {
+                                //        if (isGroteSchoonmaak)
+                                //        {
+                                //            schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkerId, tramId,
+                                //                beschrijvijng, beginDatumEntijd, SchoonmaakType.Groot, naam));
+                                //        }
+                                //        else
+                                //        {
+                                //            schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkerId, tramId,
+                                //                beschrijvijng, beginDatumEntijd, SchoonmaakType.Klein, naam));
+                                //        }
+                                //    }
+                                //}
 
                                 return schoonmaakBeurten;
                             }
@@ -543,50 +543,50 @@ namespace EyeCT4RailzMVC.Models
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
-                                while (reader.Read())
-                                {
-                                    int reparatieId = reader.GetInt32(0);
-                                    int tramId = reader.GetInt32(1);
-                                    string beschrijvijng = reader.GetString(2).TrimEnd(' ');
-                                    bool isGroteSchoonmaak = reader.GetBoolean(3);
-                                    DateTime beginDatumEntijd = reader.GetDateTime(4);
-                                    DateTime verwachteEindDatumEnTijd = reader.GetDateTime(6);
-                                    int medewerkerId = reader.GetInt32(7);
-                                    string naam = reader.GetString(8).TrimEnd(' ');
+                                //while (reader.Read())
+                                //{
+                                //    int reparatieId = reader.GetInt32(0);
+                                //    int tramId = reader.GetInt32(1);
+                                //    string beschrijvijng = reader.GetString(2).TrimEnd(' ');
+                                //    bool isGroteSchoonmaak = reader.GetBoolean(3);
+                                //    DateTime beginDatumEntijd = reader.GetDateTime(4);
+                                //    DateTime verwachteEindDatumEnTijd = reader.GetDateTime(6);
+                                //    int medewerkerId = reader.GetInt32(7);
+                                //    string naam = reader.GetString(8).TrimEnd(' ');
 
-                                    if (!reader.IsDBNull(5))
-                                    {
-                                        DateTime eindDatumEnTijd = reader.GetDateTime(5);
+                                //    if (!reader.IsDBNull(5))
+                                //    {
+                                //        DateTime eindDatumEnTijd = reader.GetDateTime(5);
 
-                                        if (isGroteSchoonmaak)
-                                        {
-                                            reparatieBeurten.Add(new ReparatieBeurt(reparatieId, tramId, medewerkerId,
-                                                beschrijvijng, beginDatumEntijd, eindDatumEnTijd,
-                                                verwachteEindDatumEnTijd, ReparatiebeurtType.Groot, naam));
-                                        }
-                                        else
-                                        {
-                                            reparatieBeurten.Add(new ReparatieBeurt(reparatieId, tramId, medewerkerId,
-                                                beschrijvijng, beginDatumEntijd, eindDatumEnTijd,
-                                                verwachteEindDatumEnTijd, ReparatiebeurtType.Klein, naam));
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (isGroteSchoonmaak)
-                                        {
-                                            reparatieBeurten.Add(new ReparatieBeurt(reparatieId, tramId, medewerkerId,
-                                                beschrijvijng, beginDatumEntijd, verwachteEindDatumEnTijd,
-                                                ReparatiebeurtType.Groot, naam));
-                                        }
-                                        else
-                                        {
-                                            reparatieBeurten.Add(new ReparatieBeurt(reparatieId, tramId, medewerkerId,
-                                                beschrijvijng, beginDatumEntijd, verwachteEindDatumEnTijd,
-                                                ReparatiebeurtType.Klein, naam));
-                                        }
-                                    }
-                                }
+                                //        if (isGroteSchoonmaak)
+                                //        {
+                                //            reparatieBeurten.Add(new ReparatieBeurt(reparatieId, tramId, medewerkerId,
+                                //                beschrijvijng, beginDatumEntijd, eindDatumEnTijd,
+                                //                verwachteEindDatumEnTijd, ReparatiebeurtType.Groot, naam));
+                                //        }
+                                //        else
+                                //        {
+                                //            reparatieBeurten.Add(new ReparatieBeurt(reparatieId, tramId, medewerkerId,
+                                //                beschrijvijng, beginDatumEntijd, eindDatumEnTijd,
+                                //                verwachteEindDatumEnTijd, ReparatiebeurtType.Klein, naam));
+                                //        }
+                                //    }
+                                //    else
+                                //    {
+                                //        if (isGroteSchoonmaak)
+                                //        {
+                                //            reparatieBeurten.Add(new ReparatieBeurt(reparatieId, tramId, medewerkerId,
+                                //                beschrijvijng, beginDatumEntijd, verwachteEindDatumEnTijd,
+                                //                ReparatiebeurtType.ReparatieGroot, naam));
+                                //        }
+                                //        else
+                                //        {
+                                //            reparatieBeurten.Add(new ReparatieBeurt(reparatieId, tramId, medewerkerId,
+                                //                beschrijvijng, beginDatumEntijd, verwachteEindDatumEnTijd,
+                                //                ReparatiebeurtType.Klein, naam));
+                                //        }
+                                //    }
+                                //}
 
                                 return reparatieBeurten;
                             }
