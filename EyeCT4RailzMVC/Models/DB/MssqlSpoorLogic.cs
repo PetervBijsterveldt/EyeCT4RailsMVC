@@ -51,7 +51,7 @@ namespace EyeCT4RailzMVC.Models
                         catch (Exception ex)
                         {
                             conn.Close();
-                            throw new Exceptions.DataException();
+                            throw new Exceptions.DataException(ex.Message);
                         }
                     }
                 }
