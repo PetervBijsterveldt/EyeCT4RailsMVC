@@ -312,7 +312,6 @@ namespace EyeCT4RailzMVC.Models
                     }
                     catch (Exception ex)
                     {
-                        return null;
                         throw new Exceptions.DataException();
                     }
                     finally
