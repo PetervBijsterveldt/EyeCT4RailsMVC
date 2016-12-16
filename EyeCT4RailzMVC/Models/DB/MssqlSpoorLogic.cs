@@ -32,13 +32,15 @@ namespace EyeCT4RailzMVC.Models
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
                                 reader.Read();
-                                int nr = reader.GetInt32(0);
-                                int lengte = reader.GetInt32(3);
+                                int id = reader.GetInt32(0);
                                 int remiseid = reader.GetInt32(1);
-                                bool block = reader.GetBoolean(4);
-                                List<Sector> sectoren = getSectoren(nr);
+                                int nummer = reader.GetInt32(2);
+                                int lengte = reader.GetInt32(3);
+                                int beschikbaar = reader.GetInt32(4);
+                                int inuitrijspoor = reader.GetInt32(5);
+                                List<Sector> sectoren = getSectoren(id);
 
-                                return new Spoor(nr, lengte, remiseid, block, sectoren);
+                                return new Spoor(id, remiseid, nummer, lengte, beschikbaar, inuitrijspoor, sectoren);
                             }
                         }
                         catch (Exception ex)
@@ -73,12 +75,12 @@ namespace EyeCT4RailzMVC.Models
                             cmd.Connection = conn;
 
                             //er moet dus nog wat shit worden toegevoegd aan spoor, anders werkt het allemaal niet
-                            cmd.Parameters.AddWithValue("@id", spoor.SpoorNR);
+                            cmd.Parameters.AddWithValue("@id", spoor.ID);
                             cmd.Parameters.AddWithValue("@remiseid", spoor.RemiseID);
-                            cmd.Parameters.AddWithValue("@nummer", spoor.);
+                            cmd.Parameters.AddWithValue("@nummer", spoor.Nummer);
                             cmd.Parameters.AddWithValue("lengte", spoor.Lengte);
-                            cmd.Parameters.AddWithValue("@beschikbaar", spoor.);
-                            cmd.Parameters.AddWithValue("@inuitrijspoor", spoor.);
+                            cmd.Parameters.AddWithValue("@beschikbaar", spoor.Beschikbaar);
+                            cmd.Parameters.AddWithValue("@inuitrijspoor", spoor.InUitRijSpoor);
 
                             //Zorgt ervoor dat de query wordt uitgevoerd op de database
                             cmd.ExecuteNonQuery();
@@ -107,11 +109,11 @@ namespace EyeCT4RailzMVC.Models
                     {
                         try
                         {
-                            cmd.CommandText = "DELETE FROM Rails WHERE RemiseID = @remiseid AND RailsNR = @spoornr";
+                            cmd.CommandText = "DELETE FROM Rails WHERE RemiseID = @remiseid AND RailsNR = @ID";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@remiseid", spoor.Remiseid);
-                            cmd.Parameters.AddWithValue("@spoornr", spoor.Spoornr);
+                            cmd.Parameters.AddWithValue("@spoornr", spoor.ID);
+                            cmd.Parameters.AddWithValue("@remiseid", spoor.RemiseID);
 
                             cmd.ExecuteNonQuery();
                         }
@@ -140,19 +142,21 @@ namespace EyeCT4RailzMVC.Models
                     {
                         try
                         {
-                            cmd.CommandText = "SELECT RailsID, RemiseID, Geblokkeerd, Lengte FROM Rails";
+                            cmd.CommandText = "SELECT ID, Remise_ID, Nummer, Lengte, Beschikbaar, InUitRijspoor FROM Rails";
                             cmd.Connection = conn;
 
                             SqlDataReader reader = cmd.ExecuteReader();
                             while (reader.Read())
                             {
-                                int spoornr = reader.GetInt32(0);
+                                int id = reader.GetInt32(0);
                                 int remiseid = reader.GetInt32(1);
-                                bool geblokkeerd = reader.GetBoolean(2);
+                                int nummer = reader.GetInt32(2);
                                 int lengte = reader.GetInt32(3);
-                                List<Sector> sector = ListSectoren(new Spoor(spoornr, lengte, geblokkeerd, remiseid));
+                                int beschikbaar = reader.GetInt32(4);
+                                int inuitrijspoor = reader.GetInt32(5);
+                                List<Sector> sectoren = getSectoren(id);
 
-                                sporen.Add(new Spoor(spoornr, lengte, geblokkeerd, remiseid, sector));
+                                sporen.Add(new Spoor(id, remiseid, nummer, lengte, beschikbaar, inuitrijspoor, sectoren));
                             }
                             return sporen;
                         }
@@ -182,30 +186,34 @@ namespace EyeCT4RailzMVC.Models
                         try
                         {
                             cmd.CommandText =
-                                "SELECT RailsID, RemiseID, Geblokkeerd, Lengte FROM Rails WHERE RailsNR = @spoornr AND RemiseID = @remiseid";
+                                "SELECT ID, Remise_ID, Nummer, Lengte, Beschikbaar, InUitRijspoor FROM Rails WHERE ID = @id AND RemiseID = @remiseid";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@spoornr", spoor.Spoornr);
-                            cmd.Parameters.AddWithValue("@remiseid", spoor.Remiseid);
+                            cmd.Parameters.AddWithValue("@id", spoor.ID);
+                            cmd.Parameters.AddWithValue("@remiseid", spoor.RemiseID);
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
                                 reader.Read();
 
-                                int nr = reader.GetInt32(0);
+                                int id = reader.GetInt32(0);
                                 int remiseid = reader.GetInt32(1);
-                                bool geblokkeerd = reader.GetBoolean(2);
+                                int nummer = reader.GetInt32(2);
                                 int lengte = reader.GetInt32(3);
+                                int beschikbaar = reader.GetInt32(4);
+                                int inuitrijspoor = reader.GetInt32(5);
+                                List<Sector> sectoren = getSectoren(spoor.ID);
 
-                                conn.Close();
-                                return new Spoor(nr, lengte, geblokkeerd, remiseid, ListSectoren(spoor));
+                                return new Spoor(id, remiseid, nummer, lengte, beschikbaar, inuitrijspoor, sectoren);
                             }
                         }
                         catch (Exception ex)
                         {
-                            System.Windows.Forms.MessageBox.Show(ex.Message);
+                            throw new DataException(ex.Message);
+                        }
+                        finally
+                        {
                             conn.Close();
-                            return null;
                         }
                     }
                 }
@@ -225,18 +233,21 @@ namespace EyeCT4RailzMVC.Models
                         try
                         {
                             cmd.CommandText =
-                                "UPDATE Rails SET Geblokkeerd = @geblokkeerd WHERE RailsID = @spoornr AND RemiseID = @remiseid";
+                                "UPDATE Rails SET Beschikbaar = @beschikbaar WHERE ID = @id AND Remise_ID = @remiseid";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@spoornr", spoor.Spoornr);
-                            cmd.Parameters.AddWithValue("@remiseid", spoor.Remiseid);
-                            cmd.Parameters.AddWithValue("@geblokkeerd", spoor.Geblokkeerd);
+                            cmd.Parameters.AddWithValue("@id", spoor.ID);
+                            cmd.Parameters.AddWithValue("@remiseid", spoor.RemiseID);
+                            cmd.Parameters.AddWithValue("@beschikbaar", spoor.Beschikbaar);
 
                             cmd.ExecuteNonQuery();
                         }
                         catch (Exception ex)
                         {
-                            System.Windows.Forms.MessageBox.Show(ex.Message);
+                            throw new DataException(ex.Message);
+                        }
+                        finally
+                        {
                             conn.Close();
                         }
                     }
@@ -256,12 +267,12 @@ namespace EyeCT4RailzMVC.Models
                     {
                         using (SqlCommand cmd = new SqlCommand())
                         {
-                            cmd.CommandText = "INSERT INTO Sector (RailsID) VALUES (@spoorid)";
+                            cmd.CommandText = "INSERT INTO Sector (Spoor_ID) VALUES (@id)";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@spoorid", spoor.Spoornr);
+                            cmd.Parameters.AddWithValue("@id", spoor.ID);
 
-                            foreach (var sector in spoor.sectoren)
+                            foreach (var sector in spoor.Sectoren)
                             {
                                 cmd.ExecuteNonQuery();
                             }
@@ -269,7 +280,10 @@ namespace EyeCT4RailzMVC.Models
                     }
                     catch (Exception ex)
                     {
-                        System.Windows.Forms.MessageBox.Show(ex.Message);
+                        throw new DataException(ex.Message);
+                    }
+                    finally
+                    {
                         conn.Close();
                     }
                 }
@@ -278,64 +292,40 @@ namespace EyeCT4RailzMVC.Models
 
         public void RemoveSectoren(Spoor spoor)
         {
-            throw new NotImplementedException();
-        }
-
-        public List<Sector> ListSectoren(Spoor spoor)
-        {
             using (SqlConnection conn = new SqlConnection(connectie))
             {
-                try
+                if (conn.State != ConnectionState.Open)
                 {
-                    if (conn.State != ConnectionState.Open)
+                    conn.Open();
+
+                    try
                     {
-                        conn.Open();
-
-                        List<Sector> sectoren = new List<Sector>();
-
                         using (SqlCommand cmd = new SqlCommand())
                         {
-                            cmd.CommandText = "SELECT * FROM Sector WHERE RailsId = @railsId";
+                            cmd.CommandText = "DELETE FROM Sector WHERE Spoor_ID = @spoorid";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@railsId", spoor.Spoornr);
+                            cmd.Parameters.AddWithValue("@spoorid", spoor.ID);
 
-                            SqlDataReader reader = cmd.ExecuteReader();
-
-                            while (reader.Read())
+                            foreach (var sector in spoor.Sectoren)
                             {
-                                int sectorId = reader.GetInt32(0);
-                                int sectorNr = reader.GetInt32(1);
-                                int railsId = reader.GetInt32(2);
-
-                                if (!reader.IsDBNull(3))
-                                {
-                                    int tramId = reader.GetInt32(3);
-                                    sectoren.Add(new Sector(sectorId, sectorNr, railsId, tramId));
-                                }
-                                else
-                                {
-                                    sectoren.Add(new Sector(sectorId, sectorNr, railsId));
-                                }
-
-
+                                cmd.ExecuteNonQuery();
                             }
                         }
-
-                        return sectoren;
                     }
-
-                }
-                catch (Exception ex)
-                {
-                    System.Windows.Forms.MessageBox.Show(ex.Message);
-                    conn.Close();
-                    return null;
+                    catch (Exception ex)
+                    {
+                        throw new DataException(ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
                 }
             }
-            return null;
         }
-        public List<Sector> getSectoren(int spoornr)
+
+        public List<Sector> getSectoren(int spoorID)
         {
             using (SqlConnection conn = new SqlConnection(connectie))
             {
@@ -349,7 +339,7 @@ namespace EyeCT4RailzMVC.Models
                             cmd.CommandText = "SELECT * FROM Sector WHERE Spoor_ID = @id";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@id", spoornr);
+                            cmd.Parameters.AddWithValue("@id", spoorID);
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
@@ -357,7 +347,7 @@ namespace EyeCT4RailzMVC.Models
                                 while (reader.Read())
                                 {
                                     int id = reader.GetInt32(0);
-                                    int spoorid = spoornr;
+                                    int spoorid = spoorID;
                                     int tramid = reader.GetInt32(2);
                                     int nummer = reader.GetInt32(3);
                                     int beschikbaar = reader.GetInt32(4);
@@ -378,8 +368,8 @@ namespace EyeCT4RailzMVC.Models
                         }
                     }
                 }
-                return null;
             }
+            return null;
         }
     }
 }

@@ -453,7 +453,6 @@ namespace EyeCT4RailzMVC.Models
                     catch (Exception ex)
                     {
                         throw new Exceptions.DataException(ex.Message);
-                        return null;
                     }
                     finally
                     {
