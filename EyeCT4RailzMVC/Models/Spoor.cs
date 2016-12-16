@@ -41,7 +41,7 @@ namespace EyeCT4RailzMVC.Models
             Sectoren = sectoren;
         }
 
-        //constructor voor uit de database, maar dan zonder ID
+        //constructor voor in de database, maar dan zonder ID (auto increment)
         public Spoor(int remiseid, int nummer, int lengte, int beschikbaar, int inuitrijspoor, List<Sector> sectoren)
         {
             RemiseID = remiseid;
