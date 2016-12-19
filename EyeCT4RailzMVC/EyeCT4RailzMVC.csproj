@@ -152,6 +152,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReparatieController.cs" />
     <Compile Include="Controllers\SchoonmaakController.cs" />
+    <Compile Include="Controllers\TramController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -218,11 +219,13 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Beheer\UserLijst.cshtml" />
+    <Content Include="Views\Beheer\CreateUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Reparatie\" />
     <Folder Include="Views\Schoonmaak\" />
+    <Folder Include="Views\Tram\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

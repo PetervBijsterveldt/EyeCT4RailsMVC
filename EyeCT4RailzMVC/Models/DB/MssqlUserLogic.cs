@@ -122,7 +122,7 @@ namespace EyeCT4RailzMVC.Models
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@naam", user.Naam);
-                            cmd.Parameters.AddWithValue("@rol", user.Rol);
+                           
                             if (user.Rol == UserType.Beheerder)
                             {
                                 cmd.Parameters.AddWithValue("@rol", 1);
