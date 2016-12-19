@@ -26,8 +26,9 @@ namespace EyeCT4RailzMVC.Controllers
         [HttpPost]
         public ActionResult CreateUser(FormCollection form)
         {
+            //User rol kunnen kiezen nog toevoegen
             string naam = form["Naam"];
-            userRepository.AddUser(new User(20, naam));
+            userRepository.AddUser(new User(naam, UserType.Beheerder));
             return RedirectToAction("UserLijst");
         }
 
