@@ -54,22 +54,26 @@ namespace EyeCT4RailzMVC.Models
 
         public void BlokkeerSpoor()
         {
-            
+
         }
 
         public void DeblokkeerSpoor()
         {
-            
+
         }
 
         public void SectorenToevoegen(int lengte)
         {
-            
+            //als i onder de lengte blijft of gelijk aan de lengte is, voegt ie steeds een nieuwe (lege) sector toe
+            for (int i = 0; i <= lengte; i++)
+            {
+                Sectoren.Add(new Sector());
+            }
         }
 
         public void SectorenVerwijderen(int lengte)
         {
-            
+            //idk?
         }
     }
 }
