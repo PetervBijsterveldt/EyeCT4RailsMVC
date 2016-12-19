@@ -9,6 +9,7 @@ namespace EyeCT4RailzMVC.Controllers
 {
     public class BeheerController : Controller
     {
+        UserRepository userRepository = new UserRepository(new MssqlUserLogic());
         // GET: Beheer
         public ActionResult Index()
         {
@@ -17,9 +18,24 @@ namespace EyeCT4RailzMVC.Controllers
 
         public ActionResult UserLijst()
         {
-            UserRepository UserRepository = new UserRepository(new MssqlUserLogic());
-            List<User> UserList = UserRepository.ListUsers();
-            return View(UserList);
+            UserRepository userRepository = new UserRepository(new MssqlUserLogic());
+            List<User> userList = userRepository.ListUsers();
+            return View(userList);
+        }
+
+        [HttpPost]
+        public ActionResult CreateUser(FormCollection form)
+        {
+            //User rol kunnen kiezen nog toevoegen
+            string naam = form["Naam"];
+            userRepository.AddUser(new User(naam, UserType.Beheerder));
+            return RedirectToAction("UserLijst");
+        }
+
+        [HttpGet]
+        public ActionResult CreateUser()
+        {
+            return View();
         }
     }
 
