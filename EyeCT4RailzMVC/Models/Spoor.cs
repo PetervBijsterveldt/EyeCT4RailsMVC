@@ -12,9 +12,9 @@ namespace EyeCT4RailzMVC.Models
         public int Nummer { get; set; }
         public List<Sector> Sectoren { get; set; }
         public int Lengte { get; set; }
-        public int RestererendeLengte { get; set; }
+        public int RestererendeLengte { get { return Sectoren.FindAll(x => x.TramID > 0).Count; } }
         public int InUitRijSpoor { get; set; }
-        public int Beschikbaar { get; set; }
+        public int Beschikbaar { get; set; } // 0 = true, 1 = false
 
         public Spoor(int nr, int lengte)
         {
@@ -54,12 +54,13 @@ namespace EyeCT4RailzMVC.Models
 
         public void BlokkeerSpoor()
         {
-
+            
+            Beschikbaar = 1;
         }
 
         public void DeblokkeerSpoor()
         {
-
+            Beschikbaar = 0;
         }
 
         public void SectorenToevoegen(int lengte)
