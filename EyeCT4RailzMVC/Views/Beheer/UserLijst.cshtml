@@ -16,15 +16,19 @@
         </th> 
     </tr>
 
-   @foreach (var item in Model)
-   {
-    <tr>
-        <th>
-            @Html.Encode(item.Naam)
-        </th>
-        <th>
-            @Html.Encode(item.Rol)
-        </th>
-    </tr>
-   }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th>
+                @Html.Encode(item.Naam)
+            </th>
+            <th>
+                @Html.Encode(item.Rol)
+            </th>
+        </tr>
+    }
 </table>
+
+<div>
+    @Html.ActionLink("Create user", "CreateUser")
+</div>
