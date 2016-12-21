@@ -220,11 +220,11 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Beheer\UserLijst.cshtml" />
     <Content Include="Views\Beheer\CreateUser.cshtml" />
+    <Content Include="Views\Schoonmaak\Overzicht.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Reparatie\" />
-    <Folder Include="Views\Schoonmaak\" />
     <Folder Include="Views\Tram\" />
   </ItemGroup>
   <ItemGroup>
