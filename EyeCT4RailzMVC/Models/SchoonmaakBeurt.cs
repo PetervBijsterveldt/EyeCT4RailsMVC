@@ -25,6 +25,15 @@ namespace EyeCT4RailzMVC.Models
             Type = type;
             MedewerkerId = medewerkerid;
         }
+        public SchoonmaakBeurt(int medewerkerid, int tramid, DateTime startdatum, DateTime einddatum, SchoonmaakType type)
+        {
+            MedewerkerId = medewerkerid;
+            TramId = tramid;
+            StartDatum = startdatum;
+            EindDatum = einddatum;
+            Type = type;
+        }
+
         public SchoonmaakBeurt(int id, string medewerkernaam, int tramid, DateTime startdatum, SchoonmaakType type, int medewerkerid)
         {
             Id = id;

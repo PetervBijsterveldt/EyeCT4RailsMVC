@@ -230,6 +230,7 @@
     <Content Include="Views\AD\Index.cshtml" />
     <Content Include="Views\Tram\Overzicht.cshtml" />
     <Content Include="Views\Schoonmaak\Schoonmaakoverzicht.cshtml" />
+    <Content Include="Views\Schoonmaak\AddSchoonmaakbeurt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -8,12 +8,12 @@
 <h2>Schoonmaakoverzicht</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Nieuwe schoonmaakbeurt", "AddSchoonmaakbeurt")
 </p>
 <table class="table">
     <tr>
         <th>
-            Medewerkernaam
+            Medewerker
         </th>
         <th>
             Tram ID
@@ -22,7 +22,7 @@
             Startdatum
         </th>
         <th>
-            Einddatum
+            Verwachte einddatum
         </th>
         <th></th>
     </tr>
@@ -42,9 +42,7 @@
             @Html.DisplayFor(modelItem => item.EindDatum)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Beëindig", "BeëindigSchoonmaak", new { schoonmaakid = item.Id }, new { onclick ="return confirm('Is de schoonmaak afgelopen?');" }) 
         </td>
     </tr>
 }

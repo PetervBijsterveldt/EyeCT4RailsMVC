@@ -13,7 +13,7 @@ namespace EyeCT4RailzMVC.Models
     {
         //connectiestring met de database
         //private readonly string connectie = "Server=RailzDB;Database=dbi344475; Database=dbi344475; Trusted_Connection=Yes;";
-        private readonly string connectie = "Server=mssql.fhict.local;Database=dbi344475;User Id=dbi344475;Password=Railz1;";
+        private readonly string connectie = "Server=mssql.fhict.local;Database=dbi344475;User Id=dbi344475;Password=Rails1;";
 
         //check of user bestaat door RFID-tag
         public User CheckForUserId(string rfid)
@@ -286,6 +286,41 @@ namespace EyeCT4RailzMVC.Models
                 }
                 return null;
             }
+        }
+
+        public int UserIDByName(string naam)
+        {
+            using (SqlConnection conn = new SqlConnection(connectie))
+            {
+                List<User> users = new List<User>();
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText = "SELECT * FROM Medewerker WHERE Naam = @naam";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@naam", naam);
+
+                            SqlDataReader reader = cmd.ExecuteReader();
+                            reader.Read();
+                            return reader.GetInt32(0);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exceptions.DataException(ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+            return 0;
         }
     }
 }
