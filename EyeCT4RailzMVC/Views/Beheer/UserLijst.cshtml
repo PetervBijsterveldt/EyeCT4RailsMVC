@@ -25,6 +25,9 @@
             <th>
                 @Html.Encode(item.Rol)
             </th>
+            <th>
+                @Html.ActionLink("Edit", "EditUser", new { id = item.ID }) 
+            </th>
         </tr>
     }
 </table>

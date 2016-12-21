@@ -33,6 +33,27 @@ namespace EyeCT4RailzMVC.Controllers
         }
 
         [HttpGet]
+        public ActionResult EditUser(int id)
+        {
+            //User rol kunnen kiezen nog toevoegen
+
+            User user = userRepository.ListUsers().Single(User => User.ID == id);
+            return View(user);
+        }
+
+
+        [HttpPost]
+        public ActionResult EditUser(User user)
+        {
+            //User rol kunnen kiezen nog toevoegen
+            
+            userRepository.EditUser(user);
+            return RedirectToAction("UserLijst");
+        }
+
+
+
+        [HttpGet]
         public ActionResult CreateUser()
         {
             return View();
