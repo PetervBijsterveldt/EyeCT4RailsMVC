@@ -45,9 +45,14 @@ namespace EyeCT4RailzMVC.Models
             return tramLogic.ListTrams();
         }
 
-        public List<SchoonmaakBeurt> ListSchoonmaakBeurten(int tramId)
+        public List<SchoonmaakBeurt> ListSchoonmaakBeurtenPerTram(int tramId)
         {
-            return tramLogic.ListSchoonmaakbeurten(tramId);
+            return tramLogic.ListSchoonmaakbeurtenPerTram(tramId);
+        }
+
+        public List<SchoonmaakBeurt> ListSchoonmaakbeurten()
+        {
+            return tramLogic.ListSchoonmaakbeurten();
         }
 
         public void AddSchoonmaakbeurt(SchoonmaakBeurt schoonmaakBeurt)
