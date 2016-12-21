@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.DirectoryServices.AccountManagement;
-using System.Linq;
-using System.Web;
+﻿using System.DirectoryServices.AccountManagement;
 using System.Web.Mvc;
 
-namespace ActiveDirectoryTests.Controllers
+namespace EyeCT4RailzMVC.Controllers
 {
     public class AdController : Controller
     {
@@ -27,7 +23,6 @@ namespace ActiveDirectoryTests.Controllers
                 using (var up = new UserPrincipal(pc))
                 {
                     up.SamAccountName = naam;
-                    up.EmailAddress = email;
                     up.SetPassword(password);
                     up.Enabled = true;
                     up.ExpirePasswordNow();

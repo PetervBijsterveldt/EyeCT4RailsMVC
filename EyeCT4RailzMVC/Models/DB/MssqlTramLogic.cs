@@ -11,8 +11,8 @@ namespace EyeCT4RailzMVC.Models
 {
     public class MssqlTramLogic : ITramServices
     {
-        private readonly string connectie =
-            "Server=mssql.fhict.local;Database=dbi344475;User Id=dbi344475;Password=Rails1";
+        //private readonly string connectie = "Server=RailzDB;Database=dbi344475; Database=dbi344475; Trusted_Connection=Yes;";
+        private readonly string connectie = "Server=mssql.fhict.local;Database=dbi344475;User Id=dbi344475;Password=Railz1;";
 
         public Tram CheckForTramId(int tramId)
         {
@@ -263,7 +263,7 @@ namespace EyeCT4RailzMVC.Models
                         using (SqlCommand cmd = new SqlCommand())
                         {
                             cmd.CommandText = "select t.ID, Nummer, omschrijving, lengte, status, ConducteurGeschikt from tram t " +
-                                              "left join tramtype tt on t.Tramtype_ID = tt.ID WHERE ID = @id";
+                                              "left join tramtype tt on t.Tramtype_ID = tt.ID";
                             cmd.Connection = conn;
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
@@ -273,36 +273,35 @@ namespace EyeCT4RailzMVC.Models
                                     int tramId = reader.GetInt32(0);
                                     int tramnr = reader.GetInt32(1);
                                     TramType type;
-                                    if (reader.GetString(2) == "11g")
+                                    if (reader.GetString(2) == "11G")
                                     {
                                         type = TramType._11G;
                                     }
-                                    else if (reader.GetString(2) == "12g")
+                                    else if (reader.GetString(2) == "12G")
                                     {
                                         type = TramType._12G;
                                     }
-                                    else if (reader.GetString(2) == "9g")
+                                    else if (reader.GetString(2) == "9G")
                                     {
                                         type = TramType._9G;
                                     }
-                                    else if (reader.GetString(2) == "10g")
+                                    else if (reader.GetString(2) == "10G")
                                     {
                                         type = TramType._10G;
                                     }
                                     else
                                     {
-                                        type =
-                                            (TramType)
-                                            Enum.Parse(typeof(TramType), reader.GetString(2).Replace(" ", ""));
+                                        type =(TramType)Enum.Parse(typeof(TramType), reader.GetString(2).Replace(" ", ""));
                                     }
                                     bool conducteurgeschikt = reader.GetBoolean(5);
                                     int lengte = reader.GetInt32(3);
 
                                     TramStatus status = (TramStatus)Enum.Parse(typeof(TramStatus), reader.GetString(4));
-                                    List<SchoonmaakBeurt> schoonmaakBeurten = ListSchoonmaakbeurtenPerTram(tramId);
-                                    List<ReparatieBeurt> reparatieBeurten = ListReparatiebeurten(tramId);
+                                    //List<SchoonmaakBeurt> schoonmaakBeurten = ListSchoonmaakbeurtenPerTram(tramId);
+                                    //List<ReparatieBeurt> reparatieBeurten = ListReparatiebeurten(tramId);
 
-                                    trams.Add(new Tram(tramId, tramnr, lengte, type, status, conducteurgeschikt, schoonmaakBeurten, reparatieBeurten));
+                                    //trams.Add(new Tram(tramId, tramnr, lengte, type, status, conducteurgeschikt, schoonmaakBeurten, reparatieBeurten));
+                                    trams.Add(new Tram(tramId, tramnr, lengte, type, status, conducteurgeschikt, new List<SchoonmaakBeurt>(), new List<ReparatieBeurt>() ));
                                 }
 
                                 return trams;
