@@ -1,0 +1,43 @@
+﻿@model List<EyeCT4RailzMVC.Models.User>
+
+@{
+    ViewBag.Title = "UserOverview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>UserOverview</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="dl-horizontal">
+            <h5>UserLijst</h5>
+
+            <table class="table">
+                <tr>
+                    <th>
+                        <h4>Naam</h4>
+                    </th>
+                    <th>
+                        <h4>Functie</h4>
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th>
+                            @Html.Encode(item.Naam)
+                        </th>
+                        <th>
+                            @Html.Encode(item.Rol)
+                        </th>
+                    </tr>
+                }
+            </table>
+        </div>
+
+    </div>
+}
