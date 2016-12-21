@@ -228,6 +228,7 @@
     <Content Include="Views\Beheer\CreateUser.cshtml" />
     <Content Include="Views\UserView\UserOverview.cshtml" />
     <Content Include="Views\AD\Index.cshtml" />
+    <Content Include="Views\Beheer\EditUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

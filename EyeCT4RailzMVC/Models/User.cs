@@ -23,6 +23,11 @@ namespace EyeCT4RailzMVC.Models
             Rol = rol;
         }
 
+        public User()
+        {
+            
+        }
+
         public void ChangeRol(UserType rol)
         {
             Rol = rol;

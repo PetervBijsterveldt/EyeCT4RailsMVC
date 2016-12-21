@@ -11,7 +11,8 @@ namespace EyeCT4RailzMVC.Models
     public class MssqlUserLogic : IUserServices
     {
         //connectiestring met de database
-        private readonly string connectie = "Server=EIGENAAR-PC;Database=EyeCT4RailzP2;Trusted_Connection=Yes;";
+        private readonly string connectie = "Server=mssql.fhict.local;Database=dbi344475;User Id=dbi344475;Password=Rails1";
+
         //check of user bestaat door RFID-tag
         public User CheckForUserId(string rfid)
         {
@@ -264,7 +265,7 @@ namespace EyeCT4RailzMVC.Models
                             SqlDataReader reader = cmd.ExecuteReader();
                             while (reader.Read())
                             {
-                                int id = reader.GetInt32(0);
+                                var id = reader.GetInt32(0);
                                 string naam = reader.GetString(1);
                                 UserType functie = (UserType) Enum.Parse(typeof(UserType), reader.GetString(2));
                                 users.Add(new User(id, naam, functie));
@@ -273,7 +274,7 @@ namespace EyeCT4RailzMVC.Models
                         }
                         catch (Exception ex)
                         {
-                            throw new Exceptions.DataException(ex.Message);
+                            //throw new Exceptions.DataException(ex.Message);
                         }
                         finally
                         {
