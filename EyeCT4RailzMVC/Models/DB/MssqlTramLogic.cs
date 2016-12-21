@@ -55,16 +55,16 @@ namespace EyeCT4RailzMVC.Models
                                 }
                                 else
                                 {
-                                    type = (TramType) Enum.Parse(typeof(TramType), reader.GetString(2).Replace(" ", ""));
+                                    type = (TramType)Enum.Parse(typeof(TramType), reader.GetString(2).Replace(" ", ""));
                                 }
                                 int lengte = reader.GetInt32(3);
-                                TramStatus status = (TramStatus) Enum.Parse(typeof(TramStatus), reader.GetString(4));
+                                TramStatus status = (TramStatus)Enum.Parse(typeof(TramStatus), reader.GetString(4));
                                 bool conducteurgeschikt = reader.GetBoolean(5);
 
-                                List<SchoonmaakBeurt> schoonmaakBeurten = ListSchoonmaakbeurten(id);
+                                List<SchoonmaakBeurt> schoonmaakBeurten = ListSchoonmaakbeurtenPerTram(id);
                                 List<ReparatieBeurt> reparatieBeurten = ListReparatiebeurten(id);
 
-                                return new Tram(id, tramnr, lengte, type, status,conducteurgeschikt, schoonmaakBeurten, reparatieBeurten);
+                                return new Tram(id, tramnr, lengte, type, status, conducteurgeschikt, schoonmaakBeurten, reparatieBeurten);
                             }
                         }
                     }
@@ -298,8 +298,8 @@ namespace EyeCT4RailzMVC.Models
                                     bool conducteurgeschikt = reader.GetBoolean(5);
                                     int lengte = reader.GetInt32(3);
 
-                                    TramStatus status = (TramStatus) Enum.Parse(typeof(TramStatus), reader.GetString(4));
-                                    List<SchoonmaakBeurt> schoonmaakBeurten = ListSchoonmaakbeurten(tramId);
+                                    TramStatus status = (TramStatus)Enum.Parse(typeof(TramStatus), reader.GetString(4));
+                                    List<SchoonmaakBeurt> schoonmaakBeurten = ListSchoonmaakbeurtenPerTram(tramId);
                                     List<ReparatieBeurt> reparatieBeurten = ListReparatiebeurten(tramId);
 
                                     trams.Add(new Tram(tramId, tramnr, lengte, type, status, conducteurgeschikt, schoonmaakBeurten, reparatieBeurten));
@@ -323,7 +323,7 @@ namespace EyeCT4RailzMVC.Models
             return null;
         }
 
-        public List<SchoonmaakBeurt> ListSchoonmaakbeurten(int tramnr)
+        public List<SchoonmaakBeurt> ListSchoonmaakbeurtenPerTram(int tramnr)
         {
             List<SchoonmaakBeurt> schoonmaakBeurten = new List<SchoonmaakBeurt>();
 
@@ -338,7 +338,8 @@ namespace EyeCT4RailzMVC.Models
                         using (SqlCommand cmd = new SqlCommand())
                         {
                             cmd.CommandText =
-                                "SELECT * FROM TRAM_ONDERHOUD WHERE Tram_ID = @id AND TypeOnderhoud IN('SchoonmaakGroot', 'SchoonmaakKlein')";
+                                "SELECT t.id, naam, tram_id, DatumTijdstip, BeschikbaarDatum, TypeOnderhoud, medewerker_id FROM tram_onderhoud t " +
+                                "left join medewerker m ON t.Medewerker_ID = m.ID;  WHERE TypeOnderhoud IN('SchoonmaakGroot', 'SchoonmaakKlein')";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@id", tramnr);
@@ -350,16 +351,17 @@ namespace EyeCT4RailzMVC.Models
                                     int schoonmaakId = reader.GetInt32(0);
                                     int tramId = reader.GetInt32(2);
                                     DateTime beginDatumEntijd = reader.GetDateTime(3);
-                                    int medewerkerId = reader.GetInt32(1);
-                                    SchoonmaakType type = (SchoonmaakType) Enum.Parse(typeof(SchoonmaakType),reader.GetString(5));
+                                    string medewerkernaam = reader.GetString(1);
+                                    SchoonmaakType type = (SchoonmaakType)Enum.Parse(typeof(SchoonmaakType), reader.GetString(5));
+                                    int medewerkerid = reader.GetInt32(6);
                                     if (!reader.IsDBNull(4))
                                     {
                                         DateTime einddatum = reader.GetDateTime(4);
-                                        schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkerId, tramId, beginDatumEntijd, einddatum, type));
+                                        schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkernaam, tramId, beginDatumEntijd, einddatum, type, medewerkerid));
                                     }
                                     else
                                     {
-                                        schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkerId, tramId, beginDatumEntijd, type));
+                                        schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkernaam, tramId, beginDatumEntijd, type, medewerkerid));
                                     }
                                 }
                                 return schoonmaakBeurten;
@@ -380,7 +382,7 @@ namespace EyeCT4RailzMVC.Models
             return null;
         }
 
-        public List<SchoonmaakBeurt> ListSchoonmaakbeurten(int tramnr, DateTime date)
+        public List<SchoonmaakBeurt> ListSchoonmaakbeurten()
         {
             List<SchoonmaakBeurt> schoonmaakBeurten = new List<SchoonmaakBeurt>();
 
@@ -395,56 +397,31 @@ namespace EyeCT4RailzMVC.Models
                         using (SqlCommand cmd = new SqlCommand())
                         {
                             cmd.CommandText =
-                                "SELECT s.*, naam FROM Schoonmaakbeurt s, Medewerker m WHERE TramID = @id AND s.MedewerkerID = m.MedewerkerID AND BeginDatumEnTijd BETWEEN @date AND @date + 1;";
+                                "SELECT t.id, naam, tram_id, DatumTijdstip, BeschikbaarDatum, TypeOnderhoud, medewerker_id FROM tram_onderhoud t " +
+                                "left join medewerker m ON t.Medewerker_ID = m.ID WHERE TypeOnderhoud IN('SchoonmaakGroot', 'SchoonmaakKlein')";
                             cmd.Connection = conn;
-
-                            cmd.Parameters.AddWithValue("@id", tramnr);
-                            cmd.Parameters.AddWithValue("@date", date.ToShortDateString());
+                            
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
-                                //while (reader.Read())
-                                //{
-                                //    int schoonmaakId = reader.GetInt32(0);
-                                //    int tramId = reader.GetInt32(1);
-                                //    string beschrijvijng = reader.GetString(2).TrimEnd(' ');
-                                //    DateTime beginDatumEntijd = reader.GetDateTime(3);
-                                //    int medewerkerId = reader.GetInt32(5);
-                                //    bool isGroteSchoonmaak = reader.GetBoolean(6);
-                                //    string naam = reader.GetString(7).TrimEnd(' ');
-
-                                //    if (!reader.IsDBNull(4))
-                                //    {
-                                //        DateTime eindDatumEnTijd = reader.GetDateTime(4);
-
-                                //        if (isGroteSchoonmaak)
-                                //        {
-                                //            schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkerId, tramId,
-                                //                beschrijvijng, beginDatumEntijd, eindDatumEnTijd, SchoonmaakType.Groot,
-                                //                naam));
-                                //        }
-                                //        else
-                                //        {
-                                //            schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkerId, tramId,
-                                //                beschrijvijng, beginDatumEntijd, eindDatumEnTijd, SchoonmaakType.Klein,
-                                //                naam));
-                                //        }
-                                //    }
-                                //    else
-                                //    {
-                                //        if (isGroteSchoonmaak)
-                                //        {
-                                //            schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkerId, tramId,
-                                //                beschrijvijng, beginDatumEntijd, SchoonmaakType.Groot, naam));
-                                //        }
-                                //        else
-                                //        {
-                                //            schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkerId, tramId,
-                                //                beschrijvijng, beginDatumEntijd, SchoonmaakType.Klein, naam));
-                                //        }
-                                //    }
-                                //}
-
+                                while (reader.Read())
+                                {
+                                    int schoonmaakId = reader.GetInt32(0);
+                                    int tramId = reader.GetInt32(2);
+                                    DateTime beginDatumEntijd = reader.GetDateTime(3);
+                                    string medewerkernaam = reader.GetString(1);
+                                    SchoonmaakType type = (SchoonmaakType)Enum.Parse(typeof(SchoonmaakType), reader.GetString(5));
+                                    int medewerkerid = reader.GetInt32(6);
+                                    if (!reader.IsDBNull(4))
+                                    {
+                                        DateTime einddatum = reader.GetDateTime(4);
+                                        schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkernaam, tramId, beginDatumEntijd, einddatum, type, medewerkerid));
+                                    }
+                                    else
+                                    {
+                                        schoonmaakBeurten.Add(new SchoonmaakBeurt(schoonmaakId, medewerkernaam, tramId, beginDatumEntijd, type, medewerkerid));
+                                    }
+                                }
                                 return schoonmaakBeurten;
                             }
 
@@ -453,7 +430,6 @@ namespace EyeCT4RailzMVC.Models
                     catch (Exception ex)
                     {
                         throw new Exceptions.DataException(ex.Message);
-                        return null;
                     }
                     finally
                     {

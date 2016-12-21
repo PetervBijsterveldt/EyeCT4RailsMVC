@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace EyeCT4RailzMVC.Models
 {
@@ -17,59 +14,59 @@ namespace EyeCT4RailzMVC.Models
         //public DateTime VerwachteDatumEnTijd { get; set; }
         public ReparatiebeurtType ReparatiebeurtType { get; set; }
        
-        public ReparatieBeurt(int Id, int TramId, int MedewerkerId, DateTime StartDatumEnTijd, DateTime EindDatumEnTijd, ReparatiebeurtType ReparatiebeurtType)
+        public ReparatieBeurt(int id, int tramId, int medewerkerId, DateTime startDatumEnTijd, DateTime eindDatumEnTijd, ReparatiebeurtType reparatiebeurtType)
         {
-            this.Id = Id;
-            this.TramId = TramId;
-            this.MedewerkerId = MedewerkerId;
+            Id = id;
+            TramId = tramId;
+            MedewerkerId = medewerkerId;
             //this.Naam = Naam;
             //this.Beschrijving = Beschrijving;
-            this.StartDatumEnTijd = StartDatumEnTijd;
-            this.EindDatumEnTijd = EindDatumEnTijd;
-            this.ReparatiebeurtType = ReparatiebeurtType;
+            StartDatumEnTijd = startDatumEnTijd;
+            EindDatumEnTijd = eindDatumEnTijd;
+            ReparatiebeurtType = reparatiebeurtType;
         }
-        public ReparatieBeurt(int Id, int TramId, int MedewerkerId, DateTime StartDatumEnTijd, ReparatiebeurtType ReparatiebeurtType)
+        public ReparatieBeurt(int id, int tramId, int medewerkerId, DateTime startDatumEnTijd, ReparatiebeurtType reparatiebeurtType)
         {
-            this.Id = Id;
-            this.TramId = TramId;
-            this.MedewerkerId = MedewerkerId;
+            Id = id;
+            TramId = tramId;
+            MedewerkerId = medewerkerId;
             //this.Naam = Naam;
             //this.Beschrijving = Beschrijving;
-            this.StartDatumEnTijd = StartDatumEnTijd;
-            this.ReparatiebeurtType = ReparatiebeurtType;
-        }
-
-        public ReparatieBeurt(int Id, int TramId, int MedewerkerId, string Naam, string Beschrijving, DateTime StartDatumEnTijd, DateTime VerwachteDatumEnTijd, ReparatiebeurtType ReparatiebeurtType)
-        {
-            this.Id = Id;
-            this.TramId = TramId;
-            this.MedewerkerId = MedewerkerId;
-            //this.Naam = Naam;
-            //this.Beschrijving = Beschrijving;
-            this.StartDatumEnTijd = StartDatumEnTijd;
-            this.ReparatiebeurtType = ReparatiebeurtType;
+            StartDatumEnTijd = startDatumEnTijd;
+            ReparatiebeurtType = reparatiebeurtType;
         }
 
-        public ReparatieBeurt( int TramId, int MedewerkerId, string Naam, string Beschrijving, DateTime StartDatumEnTijd, DateTime VerwachteDatumEnTijd, ReparatiebeurtType ReparatiebeurtType)
+        public ReparatieBeurt(int id, int tramId, int medewerkerId, string naam, string beschrijving, DateTime startDatumEnTijd, DateTime verwachteDatumEnTijd, ReparatiebeurtType reparatiebeurtType)
+        {
+            Id = id;
+            TramId = tramId;
+            MedewerkerId = medewerkerId;
+            //this.Naam = Naam;
+            //this.Beschrijving = Beschrijving;
+            StartDatumEnTijd = startDatumEnTijd;
+            ReparatiebeurtType = reparatiebeurtType;
+        }
+
+        public ReparatieBeurt( int tramId, int medewerkerId, string naam, string beschrijving, DateTime startDatumEnTijd, DateTime verwachteDatumEnTijd, ReparatiebeurtType reparatiebeurtType)
         {
             
-            this.TramId = TramId;
-            this.MedewerkerId = MedewerkerId;
+            TramId = tramId;
+            MedewerkerId = medewerkerId;
             //this.Naam = Naam;
             //this.Beschrijving = Beschrijving;
-            this.StartDatumEnTijd = StartDatumEnTijd;
-            this.ReparatiebeurtType = ReparatiebeurtType;
+            StartDatumEnTijd = startDatumEnTijd;
+            ReparatiebeurtType = reparatiebeurtType;
         }
 
-        public ReparatieBeurt( int TramId, int MedewerkerId, string Naam, string Beschrijving, DateTime StartDatumEnTijd, DateTime EindDatumEnTijd, DateTime VerwachteDatumEnTijd, ReparatiebeurtType ReparatiebeurtType)
+        public ReparatieBeurt( int tramId, int medewerkerId, string naam, string beschrijving, DateTime startDatumEnTijd, DateTime eindDatumEnTijd, DateTime verwachteDatumEnTijd, ReparatiebeurtType reparatiebeurtType)
         {
-            this.TramId = TramId;
-            this.MedewerkerId = MedewerkerId;
+            TramId = tramId;
+            MedewerkerId = medewerkerId;
             //this.Naam = Naam;
             //this.Beschrijving = Beschrijving;
-            this.StartDatumEnTijd = StartDatumEnTijd;
-            this.EindDatumEnTijd = EindDatumEnTijd;
-            this.ReparatiebeurtType = ReparatiebeurtType;
+            StartDatumEnTijd = startDatumEnTijd;
+            EindDatumEnTijd = eindDatumEnTijd;
+            ReparatiebeurtType = reparatiebeurtType;
         }
     }
 }

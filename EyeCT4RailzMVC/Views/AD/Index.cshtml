@@ -1,0 +1,18 @@
+﻿@using System.Security.Cryptography.X509Certificates
+
+@{
+    ViewBag.Title = "Test";
+}
+
+
+<h2>Index</h2>
+
+@using (Html.BeginForm()) { 
+<div class="form-horizontal">
+        <input type="text" name="naam" class="input-group"/>
+        <input type="text" name="password" class="input-group"/>
+        <input type="text" name="email" class="input-group"/>
+        <button type="submit" class="input-group" style="width: 100px; height: 30px;"></button>
+</div>
+
+}

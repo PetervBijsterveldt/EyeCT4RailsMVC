@@ -17,6 +17,6 @@ namespace EyeCT4RailzMVC.Models
         void SpoorStatusVeranderen(Spoor spoor);
         void AddSectoren(Spoor spoor);
         void RemoveSectoren(Spoor spoor);
-        List<Sector> ListSectoren(Spoor spoor);
+        List<Sector> getSectoren(int spoorID);
     }
 }

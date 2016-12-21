@@ -12,19 +12,21 @@ namespace EyeCT4RailzMVC.Models
         public int SectorNr { get; set; }
         public int RailsID { get; set; }
         public int TramID { get; set; }
+        public int Beschikbaar { get; set; }
         public List<TramType> GeblokkeerdVoor { get; set; }
 
-        public Sector(int nr)
+        public Sector()
         {
-            SectorNr = nr;
+            
         }
 
-        public Sector(int id, int nr, int railsid, int tramid)
+        public Sector(int id, int nr, int railsid, int tramid, int beschikbaar)
         {
             SectorID = id;
             SectorNr = nr;
             RailsID = railsid;
             TramID = tramid;
+            Beschikbaar = beschikbaar;
         }
 
         public Sector(int id, int nr, int railsid)

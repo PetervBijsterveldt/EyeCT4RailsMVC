@@ -8,9 +8,8 @@ namespace EyeCT4RailzMVC.Models
     public class Tram
     {
         public int TramID { get; set; }
-        public string Naam { get; set; }
-        public Spoor HuidigSpoor { get; set; }
-        public User Bestuurder { get; set; }
+        //public Spoor HuidigSpoor { get; set; }
+        //public User Bestuurder { get; set; }
         public List<SchoonmaakBeurt> SchoonmaakBeurten { get; set; }
         public List<ReparatieBeurt> ReparatieBeurten { get; set; }
         public TramType Type { get; set; }
