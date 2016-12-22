@@ -63,5 +63,10 @@ namespace EyeCT4RailzMVC.Models
             StartDatum = startdatum;
             Type = type;
         }
+
+        public SchoonmaakBeurt()
+        {
+            StartDatum = DateTime.Now;
+        }
     }
 }
