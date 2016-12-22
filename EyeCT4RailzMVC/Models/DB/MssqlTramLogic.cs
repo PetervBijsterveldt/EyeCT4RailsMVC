@@ -381,7 +381,7 @@ namespace EyeCT4RailzMVC.Models
             return null;
         }
 
-        public List<SchoonmaakBeurt> ListSchoonmaakbeurten()
+        public List<SchoonmaakBeurt> ListSchoonmaakbeurten(int afgerond)
         {
             List<SchoonmaakBeurt> schoonmaakBeurten = new List<SchoonmaakBeurt>();
 
@@ -397,9 +397,10 @@ namespace EyeCT4RailzMVC.Models
                         {
                             cmd.CommandText =
                                 "SELECT t.id, naam, tram_id, DatumTijdstip, BeschikbaarDatum, TypeOnderhoud, medewerker_id FROM tram_onderhoud t " +
-                                "left join medewerker m ON t.Medewerker_ID = m.ID WHERE TypeOnderhoud IN('SchoonmaakGroot', 'SchoonmaakKlein')";
+                                "left join medewerker m ON t.Medewerker_ID = m.ID WHERE TypeOnderhoud IN('SchoonmaakGroot', 'SchoonmaakKlein') AND Afgerond = @afgerond";
                             cmd.Connection = conn;
-                            
+
+                            cmd.Parameters.AddWithValue("@afgerond", afgerond);
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
@@ -654,7 +655,7 @@ namespace EyeCT4RailzMVC.Models
             }
         }
 
-        public void EditSchoonmaakbeurt(int schoonmaakbeeurtid)
+        public void EditOnderhoud(int id)
         {
             using (SqlConnection conn = new SqlConnection(connectie))
             {
@@ -666,44 +667,11 @@ namespace EyeCT4RailzMVC.Models
                         using (SqlCommand cmd = new SqlCommand())
                         {
                             cmd.CommandText =
-                                "UPDATE TRAM_ONDERHOUD SET BeschikbaarDatum = @eind, Afgerond = 1 WHERE ID = @schoonmaakid";
+                                "UPDATE TRAM_ONDERHOUD SET BeschikbaarDatum = @eind, Afgerond = 1 WHERE ID = @onderhoudid";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@schoonmaakid", schoonmaakbeeurtid);
+                            cmd.Parameters.AddWithValue("@onderhoudid", id);
                             cmd.Parameters.AddWithValue("@eind", DateTime.Now);
-
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exceptions.DataException(ex.Message);
-                    }
-                    finally
-                    {
-                        conn.Close();
-                    }
-                }
-            }
-        }
-
-        public void EditReparatiebeurt(ReparatieBeurt reparatieBeurt, DateTime time)
-        {
-            using (SqlConnection conn = new SqlConnection(connectie))
-            {
-                if (conn.State != ConnectionState.Open)
-                {
-                    conn.Open();
-                    try
-                    {
-                        using (SqlCommand cmd = new SqlCommand())
-                        {
-                            cmd.CommandText =
-                                "UPDATE TRAM_ONDERHOUD SET BeschikbaarDatum = @eind WHERE ID = @reparatieid";
-                            cmd.Connection = conn;
-
-                            cmd.Parameters.AddWithValue("@reparatieid", reparatieBeurt.Id);
-                            cmd.Parameters.AddWithValue("@eind", time);
 
                             cmd.ExecuteNonQuery();
                         }

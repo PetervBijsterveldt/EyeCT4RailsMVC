@@ -17,8 +17,7 @@ namespace EyeCT4RailzMVC.Models
         List<SchoonmaakBeurt> ListSchoonmaakbeurten();
         void AddSchoonmaakbeurt(SchoonmaakBeurt schoonmaakBeurt);
         void AddReparatiebeurt(ReparatieBeurt reparatieBeurt);
-        void EditSchoonmaakbeurt(SchoonmaakBeurt schoonmaakBeurt, DateTime time);
-        void EditReparatiebeurt(ReparatieBeurt reparatieBeurt, DateTime time);
+        void EditOnderhoud(int id);
         void EditTram(Tram tram);
     }
 }
