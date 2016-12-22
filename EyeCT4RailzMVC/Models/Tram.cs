@@ -19,6 +19,10 @@ namespace EyeCT4RailzMVC.Models
         public bool ConducteurGeschikt { get; set; }
 
         //constructors
+        public Tram()
+        {
+            //lege tram
+        }
         public Tram(int id, int nr, int lengte, TramType type)
         {
             TramID = id;

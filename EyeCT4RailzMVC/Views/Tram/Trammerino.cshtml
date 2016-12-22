@@ -1,0 +1,42 @@
+﻿@model EyeCT4RailzMVC.Models.Tram
+
+@{
+    ViewBag.Title = "Trammerino";
+}
+
+<h2>teram</h2>
+
+<div>
+    <h4>Tram</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Lengte)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Lengte)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TramNr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TramNr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ConducteurGeschikt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ConducteurGeschikt)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TramID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
