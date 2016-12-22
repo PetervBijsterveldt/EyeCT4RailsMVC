@@ -18,7 +18,7 @@ namespace EyeCT4RailzMVC.Controllers
             string email = form["email"];
             string password = form["password"];
 
-            using (var pc = new PrincipalContext(ContextType.Domain))
+            using (var pc = new PrincipalContext(ContextType.Machine))
             {
                 using (var up = new UserPrincipal(pc))
                 {
