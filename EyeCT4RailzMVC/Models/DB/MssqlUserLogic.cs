@@ -12,8 +12,8 @@ namespace EyeCT4RailzMVC.Models
     public class MssqlUserLogic : IUserServices
     {
         //connectiestring met de database
-        //private readonly string connectie = "Server=RailzDB;Database=dbi344475; Database=dbi344475; Trusted_Connection=Yes;";
-        private readonly string connectie = "Server=mssql.fhict.local;Database=dbi344475;User Id=dbi344475;Password=Railz1;";
+        private readonly string connectie = "Server=RailzDB;Database=dbi344475; Database=dbi344475; Trusted_Connection=Yes;";
+        //private readonly string connectie = "Server=mssql.fhict.local;Database=dbi344475;User Id=dbi344475;Password=Railz1;";
 
         //check of user bestaat door RFID-tag
         public User CheckForUserId(string rfid)

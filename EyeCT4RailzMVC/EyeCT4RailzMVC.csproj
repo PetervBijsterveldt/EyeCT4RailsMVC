@@ -156,6 +156,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReparatieController.cs" />
     <Compile Include="Controllers\SchoonmaakController.cs" />
+    <Compile Include="Controllers\SpoorController.cs" />
     <Compile Include="Controllers\TramController.cs" />
     <Compile Include="Controllers\UserViewController.cs" />
     <Compile Include="Global.asax.cs">
@@ -188,6 +189,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\spooroverzicht.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -229,6 +231,7 @@
     <Content Include="Views\UserView\UserOverview.cshtml" />
     <Content Include="Views\AD\Index.cshtml" />
     <Content Include="Views\Tram\Overzicht.cshtml" />
+    <Content Include="Views\Spoor\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
