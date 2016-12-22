@@ -7,9 +7,12 @@
 
 <h2>Schoonmaakoverzicht</h2>
 
-<p>
-    @Html.ActionLink("Nieuwe schoonmaakbeurt", "AddSchoonmaakbeurt")
-</p>
+
+
+<ul class="nav nav-tabs">
+    <li><a href="@Url.Action("Schoonmaakoverzicht", "Schoonmaak")">Schoonmaakoverzicht</a></li>
+    <li><a href="@Url.Action("HistorySchoonmaakoverzicht", "Schoonmaak")">Schoonmaakoverzicht</a></li>
+</ul>
 <table class="table">
     <tr>
         <th>
@@ -48,3 +51,7 @@
 }
 
 </table>
+
+<p>
+    @Html.ActionLink("Nieuwe schoonmaakbeurt", "AddSchoonmaakbeurt")
+</p>
