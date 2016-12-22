@@ -50,9 +50,9 @@ namespace EyeCT4RailzMVC.Models
             return tramLogic.ListSchoonmaakbeurtenPerTram(tramId);
         }
 
-        public List<SchoonmaakBeurt> ListSchoonmaakbeurten()
+        public List<SchoonmaakBeurt> ListSchoonmaakbeurten(int afgerond)
         {
-            return tramLogic.ListSchoonmaakbeurten();
+            return tramLogic.ListSchoonmaakbeurten(afgerond);
         }
 
         public void AddSchoonmaakbeurt(SchoonmaakBeurt schoonmaakBeurt)
