@@ -11,8 +11,11 @@
 {
     @Html.AntiForgeryToken()
     List<SelectListItem> selectListItems = new List<SelectListItem>();
+    UserRepository userRepo = new UserRepository(new MssqlUserLogic());
+    List<User> users = userRepo.ListUsers();
+    users.RemoveAll(user => user.Rol != UserType.Schoonmaker);
 
-    foreach (var user in Model.Users)
+        foreach (var user in users)
     {
         selectListItems.Add(new SelectListItem
         {
