@@ -291,7 +291,7 @@ namespace EyeCT4RailzMVC.Models
                                     }
                                     else
                                     {
-                                        type =(TramType)Enum.Parse(typeof(TramType), reader.GetString(2).Replace(" ", ""));
+                                        type = (TramType)Enum.Parse(typeof(TramType), reader.GetString(2).Replace(" ", ""));
                                     }
                                     bool conducteurgeschikt = reader.GetBoolean(5);
                                     int lengte = reader.GetInt32(3);
@@ -301,7 +301,7 @@ namespace EyeCT4RailzMVC.Models
                                     //List<ReparatieBeurt> reparatieBeurten = ListReparatiebeurten(tramId);
 
                                     //trams.Add(new Tram(tramId, tramnr, lengte, type, status, conducteurgeschikt, schoonmaakBeurten, reparatieBeurten));
-                                    trams.Add(new Tram(tramId, tramnr, lengte, type, status, conducteurgeschikt, new List<SchoonmaakBeurt>(), new List<ReparatieBeurt>() ));
+                                    trams.Add(new Tram(tramId, tramnr, lengte, type, status, conducteurgeschikt, new List<SchoonmaakBeurt>(), new List<ReparatieBeurt>()));
                                 }
 
                                 return trams;
@@ -338,7 +338,7 @@ namespace EyeCT4RailzMVC.Models
                         {
                             cmd.CommandText =
                                 "SELECT t.id, naam, tram_id, DatumTijdstip, BeschikbaarDatum, TypeOnderhoud, medewerker_id FROM tram_onderhoud t " +
-                                "left join medewerker m ON t.Medewerker_ID = m.ID;  WHERE TypeOnderhoud IN('SchoonmaakGroot', 'SchoonmaakKlein')";
+                                "left join medewerker m ON t.Medewerker_ID = m.ID  WHERE TypeOnderhoud IN('SchoonmaakGroot', 'SchoonmaakKlein')";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@id", tramnr);
@@ -440,7 +440,7 @@ namespace EyeCT4RailzMVC.Models
             return null;
         }
 
-        public List<ReparatieBeurt> ListReparatiebeurten(int tramnr)
+        public List<ReparatieBeurt> ListReparatiebeurtenPerTram(int tramnr)
         {
             List<ReparatieBeurt> reparatieBeurten = new List<ReparatieBeurt>();
 
@@ -472,11 +472,11 @@ namespace EyeCT4RailzMVC.Models
                                     if (!reader.IsDBNull(4))
                                     {
                                         DateTime einddatum = reader.GetDateTime(4);
-                                        reparatieBeurten.Add(new ReparatieBeurt(reparatieId, medewerkerId, tramId, beginDatumEntijd, einddatum, type));
+                                        //reparatieBeurten.Add(new ReparatieBeurt(reparatieId, medewerkerId, tramId, beginDatumEntijd, einddatum, type));
                                     }
                                     else
                                     {
-                                        reparatieBeurten.Add(new ReparatieBeurt(reparatieId, medewerkerId, tramId, beginDatumEntijd, type));
+                                        //reparatieBeurten.Add(new ReparatieBeurt(reparatieId, medewerkerId, tramId, beginDatumEntijd, type));
                                     }
                                 }
                                 return reparatieBeurten;
@@ -497,9 +497,9 @@ namespace EyeCT4RailzMVC.Models
             return null;
         }
 
-        public List<ReparatieBeurt> ListReparatiebeurten(int tramnr, DateTime date)
+        public List<ReparatieBeurt> ListReparatiebeurten(int afgerond)
         {
-            List<ReparatieBeurt> reparatieBeurten = new List<ReparatieBeurt>();
+            List<ReparatieBeurt> reparatiekBeurten = new List<ReparatieBeurt>();
 
             using (SqlConnection conn = new SqlConnection(connectie))
             {
@@ -512,59 +512,33 @@ namespace EyeCT4RailzMVC.Models
                         using (SqlCommand cmd = new SqlCommand())
                         {
                             cmd.CommandText =
-                                "SELECT r.*, Naam FROM Reparatie r, Medewerker m WHERE TramID = @id AND r.MedewerkerID = m.MedewerkerID;";
+                                "SELECT t.id, naam, tram_id, DatumTijdstip, BeschikbaarDatum, TypeOnderhoud, medewerker_id FROM tram_onderhoud t " +
+                                "left join medewerker m ON t.Medewerker_ID = m.ID WHERE TypeOnderhoud IN('ReparatieGroot', 'ReparatieKlein') AND Afgerond = @afgerond";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@id", tramnr);
+                            cmd.Parameters.AddWithValue("@afgerond", afgerond);
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
-                                //while (reader.Read())
-                                //{
-                                //    int reparatieId = reader.GetInt32(0);
-                                //    int tramId = reader.GetInt32(1);
-                                //    string beschrijvijng = reader.GetString(2).TrimEnd(' ');
-                                //    bool isGroteSchoonmaak = reader.GetBoolean(3);
-                                //    DateTime beginDatumEntijd = reader.GetDateTime(4);
-                                //    DateTime verwachteEindDatumEnTijd = reader.GetDateTime(6);
-                                //    int medewerkerId = reader.GetInt32(7);
-                                //    string naam = reader.GetString(8).TrimEnd(' ');
-
-                                //    if (!reader.IsDBNull(5))
-                                //    {
-                                //        DateTime eindDatumEnTijd = reader.GetDateTime(5);
-
-                                //        if (isGroteSchoonmaak)
-                                //        {
-                                //            reparatieBeurten.Add(new ReparatieBeurt(reparatieId, tramId, medewerkerId,
-                                //                beschrijvijng, beginDatumEntijd, eindDatumEnTijd,
-                                //                verwachteEindDatumEnTijd, ReparatiebeurtType.Groot, naam));
-                                //        }
-                                //        else
-                                //        {
-                                //            reparatieBeurten.Add(new ReparatieBeurt(reparatieId, tramId, medewerkerId,
-                                //                beschrijvijng, beginDatumEntijd, eindDatumEnTijd,
-                                //                verwachteEindDatumEnTijd, ReparatiebeurtType.Klein, naam));
-                                //        }
-                                //    }
-                                //    else
-                                //    {
-                                //        if (isGroteSchoonmaak)
-                                //        {
-                                //            reparatieBeurten.Add(new ReparatieBeurt(reparatieId, tramId, medewerkerId,
-                                //                beschrijvijng, beginDatumEntijd, verwachteEindDatumEnTijd,
-                                //                ReparatiebeurtType.ReparatieGroot, naam));
-                                //        }
-                                //        else
-                                //        {
-                                //            reparatieBeurten.Add(new ReparatieBeurt(reparatieId, tramId, medewerkerId,
-                                //                beschrijvijng, beginDatumEntijd, verwachteEindDatumEnTijd,
-                                //                ReparatiebeurtType.Klein, naam));
-                                //        }
-                                //    }
-                                //}
-
-                                return reparatieBeurten;
+                                while (reader.Read())
+                                {
+                                    int reparatieid = reader.GetInt32(0);
+                                    int tramId = reader.GetInt32(2);
+                                    DateTime beginDatumEntijd = reader.GetDateTime(3);
+                                    string medewerkernaam = reader.GetString(1);
+                                    ReparatiebeurtType type = (ReparatiebeurtType)Enum.Parse(typeof(ReparatiebeurtType), reader.GetString(5));
+                                    int medewerkerid = reader.GetInt32(6);
+                                    if (!reader.IsDBNull(4))
+                                    {
+                                        DateTime einddatum = reader.GetDateTime(4);
+                                        reparatiekBeurten.Add(new ReparatieBeurt(reparatieid, medewerkernaam, tramId, beginDatumEntijd, einddatum, type, medewerkerid));
+                                    }
+                                    else
+                                    {
+                                        reparatiekBeurten.Add(new ReparatieBeurt(reparatieid, medewerkernaam, tramId, beginDatumEntijd, type, medewerkerid));
+                                    }
+                                }
+                                return reparatiekBeurten;
                             }
 
                         }

@@ -15,6 +15,8 @@ namespace EyeCT4RailzMVC.Models
         List<Tram> ListTrams();
         List<SchoonmaakBeurt> ListSchoonmaakbeurtenPerTram(int tramId);
         List<SchoonmaakBeurt> ListSchoonmaakbeurten(int afgerond);
+        List<ReparatieBeurt> ListReparatiebeurtenPerTram(int tramnr);
+        List<ReparatieBeurt> ListReparatiebeurten(int afgerond);
         void AddSchoonmaakbeurt(SchoonmaakBeurt schoonmaakBeurt);
         void AddReparatiebeurt(ReparatieBeurt reparatieBeurt);
         void EditOnderhoud(int id);

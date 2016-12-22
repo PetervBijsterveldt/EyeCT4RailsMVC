@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using EyeCT4RailzMVC.Models;
+using System.Text.RegularExpressions;
 
 namespace EyeCT4RailzMVC.Controllers
 {
@@ -15,7 +16,7 @@ namespace EyeCT4RailzMVC.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles = @"Beheerders")]
         public ActionResult UserLijst()
         {
             UserRepository userRepository = new UserRepository(new MssqlUserLogic());
