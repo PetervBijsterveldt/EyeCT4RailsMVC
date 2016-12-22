@@ -36,10 +36,10 @@
             @Html.DisplayFor(modelItem => item.TramId)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.StartDatum)
+            @Html.Encode(item.StartDatum.ToShortDateString())
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.EindDatum)
+            @Html.Encode(item.EindDatum.ToShortDateString())
         </td>
         <td>
             @Html.ActionLink("Beëindig", "BeëindigSchoonmaak", new { schoonmaakid = item.Id }, new { onclick ="return confirm('Is de schoonmaak afgelopen?');" }) 
