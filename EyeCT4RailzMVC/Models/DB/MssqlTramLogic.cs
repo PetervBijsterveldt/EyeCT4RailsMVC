@@ -611,7 +611,7 @@ namespace EyeCT4RailzMVC.Models
                             cmd.Parameters.AddWithValue("@tramid", reparatieBeurt.TramId);
                             cmd.Parameters.AddWithValue("@begin", reparatieBeurt.StartDatumEnTijd);
                             cmd.Parameters.AddWithValue("@medewerkerid", reparatieBeurt.MedewerkerId);
-                            cmd.Parameters.AddWithValue("@eind", reparatieBeurt.EindDatumEnTijd);
+                            cmd.Parameters.AddWithValue("@eind", reparatieBeurt.EindDatum);
                             cmd.Parameters.AddWithValue("@onderhoud", reparatieBeurt.ReparatiebeurtType);
 
                             cmd.ExecuteNonQuery();
