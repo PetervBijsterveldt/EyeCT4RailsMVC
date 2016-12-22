@@ -593,14 +593,13 @@ namespace EyeCT4RailzMVC.Models
                         using (SqlCommand cmd = new SqlCommand())
                         {
                             cmd.CommandText =
-                                "INSERT INTO TRAM_ONDERHOUD (medewerker_id, tram_id, datumtijdstip, beschikbaardatum, typeonderhoud)" +
-                                "VALUES (@medewerkerid, @tramid, @begin, @eind, @onderhoud)";
+                                "EXECUTE InsertSchoonmaakbeurtMetNaam @medewerkernaam, @tramid, @begin, @eind, @onderhoud";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@tramid", schoonmaakBeurt.TramId);
                             cmd.Parameters.AddWithValue("@begin", schoonmaakBeurt.StartDatum);
                             cmd.Parameters.AddWithValue("@eind", schoonmaakBeurt.EindDatum);
-                            cmd.Parameters.AddWithValue("@medewerkerid", schoonmaakBeurt.MedewerkerId);
+                            cmd.Parameters.AddWithValue("@medewerkernaam", schoonmaakBeurt.Medewerkernaam);
                             cmd.Parameters.AddWithValue("@onderhoud", schoonmaakBeurt.Type);
 
                             cmd.ExecuteNonQuery();
