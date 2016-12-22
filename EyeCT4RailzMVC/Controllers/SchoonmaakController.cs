@@ -17,9 +17,16 @@ namespace EyeCT4RailzMVC.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult Schoonmaakoverzicht()
         {
-            List<SchoonmaakBeurt> schoonmaakBeurten = tramRepository.ListSchoonmaakbeurten(); 
+            List<SchoonmaakBeurt> schoonmaakBeurten = tramRepository.ListSchoonmaakbeurten(0); 
+            return View(schoonmaakBeurten);
+        }
+
+        public ActionResult HistorySchoonmaakoverzicht()
+        {
+            List<SchoonmaakBeurt> schoonmaakBeurten = tramRepository.ListSchoonmaakbeurten(1);
             return View(schoonmaakBeurten);
         }
 
@@ -32,19 +39,21 @@ namespace EyeCT4RailzMVC.Controllers
         [HttpPost]
         public ActionResult AddSchoonmaakbeurt(FormCollection form)
         {
-            string naam = form["Medewerkernaam"];
-            int medewerkerid = userRepository.UserIDByName(naam);
-            int tramid = Convert.ToInt32(form["TramId"]);
-            DateTime startdatum = DateTime.Now;
-            DateTime einddatum = Convert.ToDateTime(form["EindDatum"]);
-            SchoonmaakType type = (SchoonmaakType) Enum.Parse(typeof(SchoonmaakType), form["Type"]);
-            SchoonmaakBeurt beurt = new SchoonmaakBeurt(medewerkerid, tramid, startdatum, einddatum, type);
+            SchoonmaakBeurt beurt = new SchoonmaakBeurt();
+            beurt.Medewerkernaam = form["Medewerkernaam"];
+            beurt.TramId = Convert.ToInt32(form["TramId"]);
+            beurt.EindDatum = Convert.ToDateTime(form["EindDatum"]);
+            beurt.Type = (SchoonmaakType) Enum.Parse(typeof(SchoonmaakType), form["Type"]);
+            
             tramRepository.AddSchoonmaakbeurt(beurt);
             return RedirectToAction("Schoonmaakoverzicht");
         }
 
-        public ActionResult BeëindigSchoonmaak()
+        
+        public ActionResult BeëindigSchoonmaak(int schoonmaakid)
         {
+            tramRepository.EditOnderhoud(schoonmaakid);
+
             return RedirectToAction("Schoonmaakoverzicht");
         }
     }
