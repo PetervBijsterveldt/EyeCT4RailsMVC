@@ -654,7 +654,7 @@ namespace EyeCT4RailzMVC.Models
             }
         }
 
-        public void EditSchoonmaakbeurt(SchoonmaakBeurt schoonmaakBeurt, DateTime time)
+        public void EditSchoonmaakbeurt(int schoonmaakbeeurtid)
         {
             using (SqlConnection conn = new SqlConnection(connectie))
             {
@@ -666,11 +666,11 @@ namespace EyeCT4RailzMVC.Models
                         using (SqlCommand cmd = new SqlCommand())
                         {
                             cmd.CommandText =
-                                "UPDATE TRAM_ONDERHOUD SET BeschikbaarDatum = @eind WHERE ID = @schoonmaakid";
+                                "UPDATE TRAM_ONDERHOUD SET BeschikbaarDatum = @eind, Afgerond = 1 WHERE ID = @schoonmaakid";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@schoonmaakid", schoonmaakBeurt.Id);
-                            cmd.Parameters.AddWithValue("@eind", time);
+                            cmd.Parameters.AddWithValue("@schoonmaakid", schoonmaakbeeurtid);
+                            cmd.Parameters.AddWithValue("@eind", DateTime.Now);
 
                             cmd.ExecuteNonQuery();
                         }
