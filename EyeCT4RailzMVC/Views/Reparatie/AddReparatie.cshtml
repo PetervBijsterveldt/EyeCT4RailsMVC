@@ -1,4 +1,5 @@
-﻿@model EyeCT4RailzMVC.Models.ReparatieBeurt
+﻿@using EyeCT4RailzMVC.Models
+@model EyeCT4RailzMVC.Models.ReparatieBeurt
 
 @{
     ViewBag.Title = "AddReparatie";
@@ -11,8 +12,11 @@
 {
     @Html.AntiForgeryToken()
     List<SelectListItem> selectListItems = new List<SelectListItem>();
+    UserRepository userRepo = new UserRepository(new MssqlUserLogic());
+    List<User> users = userRepo.ListUsers();
+    users.RemoveAll(user => user.Rol != UserType.Technicus);
 
-    foreach (var user in Model.Users)
+    foreach (var user in users)
     {
         selectListItems.Add(new SelectListItem
         {
