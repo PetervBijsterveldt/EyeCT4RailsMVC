@@ -600,7 +600,7 @@ namespace EyeCT4RailzMVC.Models
                             cmd.Parameters.AddWithValue("@begin", schoonmaakBeurt.StartDatum);
                             cmd.Parameters.AddWithValue("@eind", schoonmaakBeurt.EindDatum);
                             cmd.Parameters.AddWithValue("@medewerkernaam", schoonmaakBeurt.Medewerkernaam);
-                            cmd.Parameters.AddWithValue("@onderhoud", schoonmaakBeurt.Type);
+                            cmd.Parameters.AddWithValue("@onderhoud", schoonmaakBeurt.Type.ToString());
 
                             cmd.ExecuteNonQuery();
                         }
