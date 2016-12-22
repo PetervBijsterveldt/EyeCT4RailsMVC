@@ -44,5 +44,10 @@ namespace EyeCT4RailzMVC.Models
         {
             return userLogic.ListUsers();
         }
+
+        public int UserIDByName(string naam)
+        {
+            return userLogic.UserIDByName(naam);
+        }
     }
 }

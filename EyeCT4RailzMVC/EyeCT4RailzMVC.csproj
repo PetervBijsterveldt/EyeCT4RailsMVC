@@ -231,12 +231,15 @@
     <Content Include="Views\UserView\UserOverview.cshtml" />
     <Content Include="Views\AD\Index.cshtml" />
     <Content Include="Views\Tram\Overzicht.cshtml" />
+    <Content Include="Views\Schoonmaak\Schoonmaakoverzicht.cshtml" />
+    <Content Include="Views\Schoonmaak\AddSchoonmaakbeurt.cshtml" />
+    <Content Include="Views\Beheer\EditUser.cshtml" />
+    <Content Include="Views\Schoonmaak\HistorySchoonmaakoverzicht.cshtml" />
     <Content Include="Views\Spoor\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Reparatie\" />
-    <Folder Include="Views\Schoonmaak\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<EyeCT4RailzMVC.Models.SchoonmaakBeurt>
+@{
+    ViewBag.Title = "HistorySchoonmaakoverzicht";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Schoonmaakoverzicht History</h2>
+
+<ul class="nav nav-tabs">
+    <li><a href="@Url.Action("Schoonmaakoverzicht", "Schoonmaak")">Schoonmaakoverzicht</a></li>
+    <li><a href="@Url.Action("HistorySchoonmaakoverzicht", "Schoonmaak")">Schoonmaakoverzicht</a></li>
+</ul>
+<table class="table">
+    <tr>
+        <th>
+            Medewerker
+        </th>
+        <th>
+            Tram ID
+        </th>
+        <th>
+            Startdatum
+        </th>
+        <th>
+            Einddatum
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Medewerkernaam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TramId)
+            </td>
+            <td>
+                @Html.Encode(item.StartDatum.ToShortDateString())
+            </td>
+            <td>
+                @Html.Encode(item.EindDatum.ToShortDateString())
+            </td>
+        </tr>
+    }
+</table>

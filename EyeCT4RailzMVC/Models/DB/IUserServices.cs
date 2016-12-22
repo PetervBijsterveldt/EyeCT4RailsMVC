@@ -15,5 +15,6 @@ namespace EyeCT4RailzMVC.Models
         void RemoveUser(User user);
         void EditUser(User user);
         List<User> ListUsers();
+        int UserIDByName(string naam);
     }
 }
