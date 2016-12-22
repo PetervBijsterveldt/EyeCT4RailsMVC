@@ -64,5 +64,17 @@ namespace EyeCT4RailzMVC.Models
             Status = status;
             Type = type;
         }
+        public override string ToString()
+        {
+            if (Type == TramType.DubbelKopCombino)
+            {
+                return $"DKC {Environment.NewLine} { TramNr }";
+            }
+            else if (Type == TramType.Opleidingtram)
+            {
+                return $"Edu {Environment.NewLine} { TramNr }";
+            }
+            return $"{Type.ToString()} {Environment.NewLine}{TramNr}";
+        }
     }
 }
