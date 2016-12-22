@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -44,11 +45,20 @@ namespace EyeCT4RailzMVC.Controllers
 
 
         [HttpPost]
-        public ActionResult EditUser(User user)
+        public ActionResult EditUser(User original, User edit)
         {
             //User rol kunnen kiezen nog toevoegen
-            
-            userRepository.EditUser(user);
+           // PrincipalContext insPrincipalContext = new PrincipalContext(ContextType.Domain, "EyeCT4Railz",
+              //  "DC=EyeCT4Railz dc=local");
+           // PrincipalSearcher insPrincipalSearcher = new PrincipalSearcher();
+           // UserPrincipal up = new UserPrincipal(insPrincipalContext);
+           // up.Name = original.Naam;
+            //insPrincipalSearcher.QueryFilter = up;
+           // Principal p = insPrincipalSearcher.FindOne();
+           // UserPrincipal userPrincipal =(UserPrincipal) p;
+
+           // userPrincipal.Name = edit.Naam;
+          
             return RedirectToAction("UserLijst");
         }
 
