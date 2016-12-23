@@ -17,9 +17,16 @@ namespace EyeCT4RailzMVC.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult Schoonmaakoverzicht()
         {
-            List<SchoonmaakBeurt> schoonmaakBeurten = tramRepository.ListSchoonmaakbeurten(); 
+            List<SchoonmaakBeurt> schoonmaakBeurten = tramRepository.ListSchoonmaakbeurten(0); 
+            return View(schoonmaakBeurten);
+        }
+
+        public ActionResult HistorySchoonmaakoverzicht()
+        {
+            List<SchoonmaakBeurt> schoonmaakBeurten = tramRepository.ListSchoonmaakbeurten(1);
             return View(schoonmaakBeurten);
         }
 
@@ -42,8 +49,11 @@ namespace EyeCT4RailzMVC.Controllers
             return RedirectToAction("Schoonmaakoverzicht");
         }
 
-        public ActionResult BeëindigSchoonmaak()
+        
+        public ActionResult BeëindigSchoonmaak(int schoonmaakid)
         {
+            tramRepository.EditOnderhoud(schoonmaakid);
+
             return RedirectToAction("Schoonmaakoverzicht");
         }
     }

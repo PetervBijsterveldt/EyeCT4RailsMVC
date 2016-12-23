@@ -14,6 +14,7 @@ namespace EyeCT4RailzMVC.Models
         public DateTime StartDatum { get; set; }
         public DateTime EindDatum { get; set; }
         public SchoonmaakType Type { get; set; }
+        public List<User> Users { get; set; }
 
         public SchoonmaakBeurt(int id, string medewerkernaam, int tramid, DateTime startdatum, DateTime einddatum, SchoonmaakType type, int medewerkerid)
         {
@@ -24,6 +25,8 @@ namespace EyeCT4RailzMVC.Models
             EindDatum = einddatum;
             Type = type;
             MedewerkerId = medewerkerid;
+            UserRepository UserRepo = new UserRepository(new MssqlUserLogic());
+            Users = UserRepo.ListUsers();
         }
         public SchoonmaakBeurt(int medewerkerid, int tramid, DateTime startdatum, DateTime einddatum, SchoonmaakType type)
         {
@@ -32,6 +35,8 @@ namespace EyeCT4RailzMVC.Models
             StartDatum = startdatum;
             EindDatum = einddatum;
             Type = type;
+            UserRepository UserRepo = new UserRepository(new MssqlUserLogic());
+            Users = UserRepo.ListUsers();
         }
 
         public SchoonmaakBeurt(int id, string medewerkernaam, int tramid, DateTime startdatum, SchoonmaakType type, int medewerkerid)
@@ -42,6 +47,8 @@ namespace EyeCT4RailzMVC.Models
             StartDatum = startdatum;
             Type = type;
             MedewerkerId = medewerkerid;
+            UserRepository UserRepo = new UserRepository(new MssqlUserLogic());
+            Users = UserRepo.ListUsers();
         }
         public SchoonmaakBeurt(string medewerkernaam, DateTime startdatum, DateTime einddatum, SchoonmaakType type)
         {
@@ -49,12 +56,16 @@ namespace EyeCT4RailzMVC.Models
             StartDatum = startdatum;
             EindDatum = einddatum;
             Type = type;
+            UserRepository UserRepo = new UserRepository(new MssqlUserLogic());
+            Users = UserRepo.ListUsers();
         }
         public SchoonmaakBeurt(string medewerkernaam, DateTime startdatum, SchoonmaakType type)
         {
             Medewerkernaam = medewerkernaam;
             StartDatum = startdatum;
             Type = type;
+            UserRepository UserRepo = new UserRepository(new MssqlUserLogic());
+            Users = UserRepo.ListUsers();
         }
         public SchoonmaakBeurt(int id, string medewerkernaam, DateTime startdatum, SchoonmaakType type)
         {
@@ -62,11 +73,15 @@ namespace EyeCT4RailzMVC.Models
             Medewerkernaam = medewerkernaam;
             StartDatum = startdatum;
             Type = type;
+            UserRepository UserRepo = new UserRepository(new MssqlUserLogic());
+            Users = UserRepo.ListUsers();
         }
 
         public SchoonmaakBeurt()
         {
             StartDatum = DateTime.Now;
+            UserRepository UserRepo = new UserRepository(new MssqlUserLogic());
+            Users = UserRepo.ListUsers();
         }
     }
 }

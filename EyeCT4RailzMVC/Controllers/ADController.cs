@@ -15,8 +15,9 @@ namespace EyeCT4RailzMVC.Controllers
         public ActionResult Index(FormCollection form)
         {
             string naam = form["naam"];
-            string email = form["email"];
+            string memberof = form["email"];
             string password = form["password"];
+
 
             using (var pc = new PrincipalContext(ContextType.Domain))
             {
@@ -25,10 +26,19 @@ namespace EyeCT4RailzMVC.Controllers
                     up.SamAccountName = naam;
                     up.SetPassword(password);
                     up.Enabled = true;
+            
                     up.ExpirePasswordNow();
                     up.Save();
                 }
             }
+
+
+            PrincipalContext principalContext = new PrincipalContext(ContextType.Domain);
+            UserPrincipal userPrincipal = new UserPrincipal(principalContext);
+            GroupPrincipal groupPrincipal = new GroupPrincipal(principalContext);
+            userPrincipal.Name = naam;
+            groupPrincipal.Members.Add(userPrincipal);
+            
 
             return RedirectToAction("Index");
         }

@@ -14,11 +14,12 @@ namespace EyeCT4RailzMVC.Models
         void TramInrijden(Tram tram, Spoor spoor);
         List<Tram> ListTrams();
         List<SchoonmaakBeurt> ListSchoonmaakbeurtenPerTram(int tramId);
-        List<SchoonmaakBeurt> ListSchoonmaakbeurten();
+        List<SchoonmaakBeurt> ListSchoonmaakbeurten(int afgerond);
+        List<ReparatieBeurt> ListReparatiebeurtenPerTram(int tramnr);
+        List<ReparatieBeurt> ListReparatiebeurten(int afgerond);
         void AddSchoonmaakbeurt(SchoonmaakBeurt schoonmaakBeurt);
         void AddReparatiebeurt(ReparatieBeurt reparatieBeurt);
-        void EditSchoonmaakbeurt(SchoonmaakBeurt schoonmaakBeurt, DateTime time);
-        void EditReparatiebeurt(ReparatieBeurt reparatieBeurt, DateTime time);
+        void EditOnderhoud(int id);
         void EditTram(Tram tram);
     }
 }
