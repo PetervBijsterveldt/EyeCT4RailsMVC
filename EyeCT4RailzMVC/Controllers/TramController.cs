@@ -16,17 +16,17 @@ namespace EyeCT4RailzMVC.Controllers
             List<Tram> trams = tramRepository.ListTrams();
             return View(trams);
         }
-
-        //public ActionResult Trammerino(Tram tram)
-        //{
-        //    return View();
-        //}
+        [HttpGet]
+        public ActionResult Trammerino(Tram tram)
+        {
+            return View(tram);
+        }
 
         // Select Tram
         [HttpPost]
-        public ActionResult Overzicht(FormCollection Form)
+        public ActionResult Overzicht(Tram tram)
         {
-            return RedirectToAction("Trammerino", Form["Overzicht"]);
+            return RedirectToAction("Trammerino", tram);
         }
     }
 }

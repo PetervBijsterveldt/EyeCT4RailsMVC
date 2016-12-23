@@ -10,29 +10,36 @@
 
 <h2>Tram Overzicht</h2>
 
+<script type="text/javascript">
+    function Clickerino() {
+        alert("je moeder");
+    }
+</script>
+
 <div style="width: 100%; height: 100%;">
     @for (int i = 0; i < Model.Count; i++)
     {
         switch (Model[i].Status)
         {
             case TramStatus.Remise:
-                <button type="submit" class="btntram" style="width: 66px; float: left; margin-left: 10px; margin-top: 10px; height: 66px; text-align: center; background-color: rgb(112,173,71);">@Model[i].ToString()</button>
+                <button type="submit" onclick="location.href='@Url.Action("Trammerino", "Tram", Model[i])'" class="btntram" style="width: 66px; float: left; margin-left: 10px; margin-top: 10px; height: 66px; text-align: center; background-color: rgb(112,173,71);">@Model[i].ToString()</button>
                 break;
             case TramStatus.Dienst:
-                <button type="submit" class="btntram" style="width: 66px; float: left; margin-left: 10px; margin-top: 10px; height: 66px; text-align: center; background-color: rgb(0,176,240);">@Model[i].ToString()</button>
+                <button type="submit" onclick="location.href='@Url.Action("Trammerino", "Tram", Model[i])'" class="btntram" style="width: 66px; float: left; margin-left: 10px; margin-top: 10px; height: 66px; text-align: center; background-color: rgb(0,176,240);">@Model[i].ToString()</button>
                 break;
             case TramStatus.Onderhoud:
-                <button type="submit" class="btntram" style="width: 66px; float: left; margin-left: 10px; margin-top: 10px; height: 66px; text-align: center; background-color: rgb(255,0,0);">@Model[i].ToString()</button>
+                <button type="submit" onclick="location.href='@Url.Action("Trammerino", "Tram", Model[i])'" class="btntram" style="width: 66px; float: left; margin-left: 10px; margin-top: 10px; height: 66px; text-align: center; background-color: rgb(255,0,0);">@Model[i].ToString()</button>
                 break;
             case TramStatus.Schoonmaak:
-                <button type="submit" class="btntram" style="width: 66px; float: left; margin-left: 10px; margin-top: 10px; height: 66px; text-align: center; background-color: rgb(255,255,0);">@Model[i].ToString()</button>
+                <button type="submit" onclick="location.href='@Url.Action("Trammerino", "Tram", Model[i])'" class="btntram" style="width: 66px; float: left; margin-left: 10px; margin-top: 10px; height: 66px; text-align: center; background-color: rgb(255,255,0);">@Model[i].ToString()</button>
                 break;
             case TramStatus.SchoonmaakNodig:
-                <button type="submit" class="btntram" style="width: 66px; float: left; margin-left: 10px; margin-top: 10px; height: 66px; text-align: center; background-color: rgb(127,96,0);">@Model[i].ToString()</button>
+                <button type="submit" onclick="location.href='@Url.Action("Trammerino", "Tram", Model[i])'" class="btntram" style="width: 66px; float: left; margin-left: 10px; margin-top: 10px; height: 66px; text-align: center; background-color: rgb(127,96,0);">@Model[i].ToString()</button>
                 break;
             case TramStatus.ServiceNodig:
-                <button type="submit" class="btntram" style="width: 66px; float: left; margin-left: 10px; margin-top: 10px; height: 66px; text-align: center; background-color: rgb(237,125,49);">@Model[i].ToString()</button>
+                <button type="submit" onclick="location.href='@Url.Action("Trammerino", "Tram", Model[i])'" class="btntram" style="width: 66px; float: left; margin-left: 10px; margin-top: 10px; height: 66px; text-align: center; background-color: rgb(237,125,49);">@Model[i].ToString()</button>
                 break;
         }
     }
+
 </div>
