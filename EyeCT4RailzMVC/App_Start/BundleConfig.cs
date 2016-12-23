@@ -19,7 +19,7 @@ namespace EyeCT4RailzMVC
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include( 
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
