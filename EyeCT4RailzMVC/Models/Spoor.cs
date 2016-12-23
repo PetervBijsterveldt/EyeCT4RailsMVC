@@ -13,8 +13,8 @@ namespace EyeCT4RailzMVC.Models
         public List<Sector> Sectoren { get; set; }
         public int Lengte { get; set; }
         public int RestererendeLengte { get { return Sectoren.FindAll(x => x.TramID > 0).Count; } }
-        public int InUitRijSpoor { get; set; }
-        public int Beschikbaar { get; set; } // 0 = true, 1 = false
+        public bool InUitRijSpoor { get; set; }
+        public bool Beschikbaar { get; set; }
 
         public Spoor(int nr, int lengte)
         {
@@ -30,7 +30,7 @@ namespace EyeCT4RailzMVC.Models
         }
 
         //constructor voor uit de database
-        public Spoor(int id, int remiseid, int nummer, int lengte, int beschikbaar, int inuitrijspoor, List<Sector> sectoren)
+        public Spoor(int id, int remiseid, int nummer, int lengte, bool beschikbaar, bool inuitrijspoor, List<Sector> sectoren)
         {
             ID = id;
             RemiseID = remiseid;
@@ -42,7 +42,7 @@ namespace EyeCT4RailzMVC.Models
         }
 
         //constructor voor in de database, maar dan zonder ID (auto increment)
-        public Spoor(int remiseid, int nummer, int lengte, int beschikbaar, int inuitrijspoor, List<Sector> sectoren)
+        public Spoor(int remiseid, int nummer, int lengte, bool beschikbaar, bool inuitrijspoor, List<Sector> sectoren)
         {
             RemiseID = remiseid;
             Nummer = nummer;
@@ -54,13 +54,13 @@ namespace EyeCT4RailzMVC.Models
 
         public void BlokkeerSpoor()
         {
-            
-            Beschikbaar = 1;
+
+            Beschikbaar = false;
         }
 
         public void DeblokkeerSpoor()
         {
-            Beschikbaar = 0;
+            Beschikbaar = true;
         }
 
         public void SectorenToevoegen(int lengte)

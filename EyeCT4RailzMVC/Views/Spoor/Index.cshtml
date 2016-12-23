@@ -7,15 +7,47 @@
 
 <h2>Index</h2>
 
-@Html.BeginForm()
+<style>
+    .spoordiv {
+        border-left: 3px solid black;
+        border-right: 3px solid black;
+        padding-left: 4px;
+        margin-left: 20px;
+        margin-top: 20px;
+        width: 64px;
+        float: left;
+    }
+
+    .sectordiv {
+        border: 1px solid green;
+        background-color: lawngreen;
+        width: 50px;
+        height: 50px;
+        margin-top: 4px;
+        float: left;
+    }
+</style>
+
+<div style="width: @CalculateDivWidht(); position: absolute; left: 15px;">
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        string spoorHeight = $"{Model[i].Sectoren.Count * 54 + 30}px";
+        <div class="spoordiv" style="height: @spoorHeight">
+            @for (int j = 0; j < Model[i].Sectoren.Count; j++)
+            {
+                <div class="sectordiv"></div>
+            }
+            <p style="text-align: center; font-size: 18px; ">@Model[i].Nummer</p>
+        </div>
+    }
+</div>
+
+@functions
 {
-@for (int i = 0; i < Model.Count; i++)
-{
-    <div class="spoordiv">
-        @for (int j = 0; j < Model[i].Sectoren.Count; j++)
-        {
-            <div class="sectordiv"></div>
-        } 
-    </div>
-}
+    string CalculateDivWidht()
+    {
+        return $"{Model.Count * 84 + 30}px";
+    }
+
+
 }

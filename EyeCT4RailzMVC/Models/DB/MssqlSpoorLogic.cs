@@ -35,8 +35,8 @@ namespace EyeCT4RailzMVC.Models
                                 int remiseid = reader.GetInt32(1);
                                 int nummer = reader.GetInt32(2);
                                 int lengte = reader.GetInt32(3);
-                                int beschikbaar = reader.GetInt32(4);
-                                int inuitrijspoor = reader.GetInt32(5);
+                                bool beschikbaar = reader.GetBoolean(4);
+                                bool inuitrijspoor = reader.GetBoolean(5);
                                 List<Sector> sectoren = getSectoren(id);
 
                                 return new Spoor(id, remiseid, nummer, lengte, beschikbaar, inuitrijspoor, sectoren);
@@ -141,7 +141,7 @@ namespace EyeCT4RailzMVC.Models
                     {
                         try
                         {
-                            cmd.CommandText = "SELECT ID, Remise_ID, Nummer, Lengte, Beschikbaar, InUitRijspoor FROM Rails";
+                            cmd.CommandText = "SELECT * FROM SPOOR";
                             cmd.Connection = conn;
 
                             SqlDataReader reader = cmd.ExecuteReader();
@@ -151,8 +151,8 @@ namespace EyeCT4RailzMVC.Models
                                 int remiseid = reader.GetInt32(1);
                                 int nummer = reader.GetInt32(2);
                                 int lengte = reader.GetInt32(3);
-                                int beschikbaar = reader.GetInt32(4);
-                                int inuitrijspoor = reader.GetInt32(5);
+                                bool beschikbaar = reader.GetBoolean(4);
+                                bool inuitrijspoor = reader.GetBoolean(5);
                                 List<Sector> sectoren = getSectoren(id);
 
                                 sporen.Add(new Spoor(id, remiseid, nummer, lengte, beschikbaar, inuitrijspoor, sectoren));
@@ -161,7 +161,7 @@ namespace EyeCT4RailzMVC.Models
                         }
                         catch (Exception exc)
                         {
-                            throw new DataException(exc.Message);
+                            throw new Exceptions.DataException(exc.Message);
                         }
                         finally
                         {
@@ -199,8 +199,8 @@ namespace EyeCT4RailzMVC.Models
                                 int remiseid = reader.GetInt32(1);
                                 int nummer = reader.GetInt32(2);
                                 int lengte = reader.GetInt32(3);
-                                int beschikbaar = reader.GetInt32(4);
-                                int inuitrijspoor = reader.GetInt32(5);
+                                bool beschikbaar = reader.GetBoolean(4);
+                                bool inuitrijspoor = reader.GetBoolean(5);
                                 List<Sector> sectoren = getSectoren(spoor.ID);
 
                                 return new Spoor(id, remiseid, nummer, lengte, beschikbaar, inuitrijspoor, sectoren);
@@ -324,7 +324,7 @@ namespace EyeCT4RailzMVC.Models
             }
         }
 
-        public List<Sector> getSectoren(int spoorID)
+        public List<Sector> getSectoren(int spoorId)
         {
             using (SqlConnection conn = new SqlConnection(connectie))
             {
@@ -338,7 +338,7 @@ namespace EyeCT4RailzMVC.Models
                             cmd.CommandText = "SELECT * FROM Sector WHERE Spoor_ID = @id";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@id", spoorID);
+                            cmd.Parameters.AddWithValue("@id", spoorId);
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
@@ -346,11 +346,11 @@ namespace EyeCT4RailzMVC.Models
                                 while (reader.Read())
                                 {
                                     int id = reader.GetInt32(0);
-                                    int spoorid = spoorID;
+                                    int spoorid = spoorId;
                                     int tramid = reader.GetInt32(2);
                                     int nummer = reader.GetInt32(3);
-                                    int beschikbaar = reader.GetInt32(4);
-                                    int blokkade = reader.GetInt32(5);
+                                    bool beschikbaar = reader.GetBoolean(4);
+                                    bool blokkade = reader.GetBoolean(5);
 
                                     sectoren.Add(new Sector(id, nummer, spoorid, tramid, beschikbaar));
                                 }
