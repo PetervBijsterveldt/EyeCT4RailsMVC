@@ -1,0 +1,55 @@
+﻿@model IEnumerable<EyeCT4RailzMVC.Models.ReparatieBeurt>
+
+@{
+    ViewBag.Title = "Reparatieoverzicht";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Reparatieoverzicht</h2>
+
+<ul class="nav nav-tabs">
+    <li><a href="@Url.Action("Reparatieoverzicht", "Reparatie")">Reparatieoverzicht</a></li>
+    <li><a href="@Url.Action("HistoryReparatieoverzicht", "Reparatie")">History</a></li>
+</ul>
+
+<table class="table">
+    <tr>
+        <th>
+            Medewerker
+        </th>
+        <th>
+            Tram ID
+        </th>
+        <th>
+            Startdatum
+        </th>
+        <th>
+            Verwachte einddatum
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Medewerkernaam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TramId)
+            </td>
+            <td>
+                @Html.Encode(item.StartDatumEnTijd.ToShortDateString())
+            </td>
+            <td>
+                @Html.Encode(item.EindDatum.ToShortDateString())
+            </td>
+            <td>
+                @Html.ActionLink("Beëindig", "BeëindigReparatie", new { reparatieid = item.Id }, new { onclick = "return confirm('Is de reparatie afgelopen?');" }) 
+            </td>
+        </tr>
+    }
+
+</table>
+<p>
+    @Html.ActionLink("Nieuwe reparatie", "AddReparatie")
+</p>

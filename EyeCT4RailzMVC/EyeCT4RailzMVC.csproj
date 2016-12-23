@@ -19,7 +19,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
@@ -239,10 +239,12 @@
     <Content Include="Views\Beheer\EditUser.cshtml" />
     <Content Include="Views\Schoonmaak\HistorySchoonmaakoverzicht.cshtml" />
     <Content Include="Views\Spoor\Index.cshtml" />
+    <Content Include="Views\Reparatie\Reparatieoverzicht.cshtml" />
+    <Content Include="Views\Reparatie\HistoryReparatieoverzicht.cshtml" />
+    <Content Include="Views\Reparatie\AddReparatie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Reparatie\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>

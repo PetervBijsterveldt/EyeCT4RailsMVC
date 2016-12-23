@@ -1,14 +1,17 @@
-﻿@model IEnumerable<EyeCT4RailzMVC.Models.SchoonmaakBeurt>
+﻿@model IEnumerable<EyeCT4RailzMVC.Models.ReparatieBeurt>
+
 @{
-    ViewBag.Title = "HistorySchoonmaakoverzicht";
+    ViewBag.Title = "HistoryReparatieoverzicht";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Schoonmaakoverzicht History</h2>
+
+<h2>Reparatieoverzicht History</h2>
 
 <ul class="nav nav-tabs">
-    <li><a href="@Url.Action("Schoonmaakoverzicht", "Schoonmaak")">Schoonmaakoverzicht</a></li>
-    <li><a href="@Url.Action("HistorySchoonmaakoverzicht", "Schoonmaak")">History</a></li>
+    <li><a href="@Url.Action("Reparatieoverzicht", "Reparatie")">Reparatieoverzicht</a></li>
+    <li><a href="@Url.Action("HistoryReparatieoverzicht", "Reparatie")">History</a></li>
 </ul>
+
 <table class="table">
     <tr>
         <th>
@@ -23,7 +26,9 @@
         <th>
             Einddatum
         </th>
+        <th></th>
     </tr>
+
     @foreach (var item in Model)
     {
         <tr>
@@ -34,11 +39,15 @@
                 @Html.DisplayFor(modelItem => item.TramId)
             </td>
             <td>
-                @Html.Encode(item.StartDatum.ToShortDateString())
+                @Html.Encode(item.StartDatumEnTijd.ToShortDateString())
             </td>
             <td>
                 @Html.Encode(item.EindDatum.ToShortDateString())
             </td>
+            <td>
+                @Html.ActionLink("Beëindig", "BeëindigReparatie", new { reparatieid = item.Id }, new { onclick = "return confirm('Is de reparatie afgelopen?');" })
+            </td>
         </tr>
     }
+
 </table>
