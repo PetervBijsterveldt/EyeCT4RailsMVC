@@ -38,7 +38,7 @@ namespace EyeCT4RailzMVC.Controllers
         public ActionResult AddReparatie(FormCollection form)
         {
             ReparatieBeurt beurt = new ReparatieBeurt();
-            beurt.Medewerkernaam = form["Medewerkernaam"];
+            beurt.Medewerkernaam = form["Medewerker"];
             beurt.TramId = Convert.ToInt32(form["TramId"]);
             beurt.EindDatum = Convert.ToDateTime(form["EindDatum"]);
             beurt.ReparatiebeurtType = (ReparatiebeurtType)Enum.Parse(typeof(ReparatiebeurtType), form["ReparatiebeurtType"]);
@@ -49,6 +49,8 @@ namespace EyeCT4RailzMVC.Controllers
 
         public ActionResult BeëindigReparatie(int reparatieid)
         {
+            tramRepository.EditOnderhoud(reparatieid);
+
             return RedirectToAction("Reparatieoverzicht");
         }
     }

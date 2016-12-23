@@ -40,7 +40,7 @@ namespace EyeCT4RailzMVC.Controllers
         public ActionResult AddSchoonmaakbeurt(FormCollection form)
         {
             SchoonmaakBeurt beurt = new SchoonmaakBeurt();
-            beurt.Medewerkernaam = form["Medewerkernaam"];
+            beurt.Medewerkernaam = form["Medewerker"];
             beurt.TramId = Convert.ToInt32(form["TramId"]);
             beurt.EindDatum = Convert.ToDateTime(form["EindDatum"]);
             beurt.Type = (SchoonmaakType) Enum.Parse(typeof(SchoonmaakType), form["Type"]);
