@@ -30,7 +30,8 @@
                 @Html.Encode(item.Rol)
             </th>
             <th>
-                @Html.ActionLink("Edit", "EditUser", new { id = item.ID }) 
+                @Html.ActionLink("Edit", "EditUser", new { id = item.ID }) |
+                @Html.ActionLink("Verwijder", "RemoveUser", new { naam = item.Naam }, new { onclick = "return confirm('Weet je zeker dat je de User wilt verwijderen?');" })
             </th>
         </tr>
     }

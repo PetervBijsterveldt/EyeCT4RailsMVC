@@ -12,7 +12,7 @@ namespace EyeCT4RailzMVC.Models
         User CheckForUserId(string userId);
         User CheckForUser(User user);
         void AddUser(User user);
-        void RemoveUser(User user);
+        void RemoveUser(string naam);
         void EditUser(User user);
         List<User> ListUsers();
         int UserIDByName(string naam);

@@ -43,6 +43,12 @@ namespace EyeCT4RailzMVC.Controllers
             return View(user);
         }
 
+        public ActionResult RemoveUser(string naam)
+        {
+            userRepository.RemoveUser(naam);
+            return RedirectToAction("UserLijst");
+        }
+
 
         [HttpPost]
         public ActionResult EditUser(User original, User edit)
