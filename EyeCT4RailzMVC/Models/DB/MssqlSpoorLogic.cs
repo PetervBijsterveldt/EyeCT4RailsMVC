@@ -11,7 +11,9 @@ namespace EyeCT4RailzMVC.Models
     public class MssqlSpoorLogic : ISpoorServices
     {
         //private readonly string connectie = "Server=RailzDB;Database=dbi344475; Database=dbi344475; Trusted_Connection=Yes;";
-        private readonly string connectie = "Server=mssql.fhict.local;Database=dbi344475;User Id=dbi344475;Password=Rails1;";
+        private readonly string connectie =
+            "Server=mssql.fhict.local;Database=dbi344475;User Id=dbi344475;Password=Rails1;";
+
         public Spoor CheckForSpoorId(int spoorId)
         {
             using (SqlConnection conn = new SqlConnection(connectie))
@@ -232,7 +234,7 @@ namespace EyeCT4RailzMVC.Models
                         try
                         {
                             cmd.CommandText =
-                                "UPDATE Rails SET Beschikbaar = @beschikbaar WHERE ID = @id AND Remise_ID = @remiseid";
+                                "UPDATE Spoor SET Beschikbaar = @beschikbaar WHERE ID = @id AND Remise_ID = @remiseid";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@id", spoor.ID);
@@ -369,6 +371,42 @@ namespace EyeCT4RailzMVC.Models
                 }
             }
             return null;
+        }
+
+        public void EditSpoor(Spoor spoor)
+        {
+            using (SqlConnection connection = new SqlConnection(connectie))
+            {
+                if (connection.State != ConnectionState.Open) connection.Open();
+
+                using (SqlCommand command = new SqlCommand())
+                {
+                    try
+                    {
+                        command.CommandText = "UPDATE Spoor " +
+                                              "SET RemiseID = @remiseId, Nummer = @nummer, Lengte = @lengte, Beschikbaar = @beschikbaar, InUitRijspoor = @inuitrijSpoor " +
+                                              "WHERE ID = @id";
+                        command.Connection = connection;
+
+                        command.Parameters.AddWithValue("@remiseId", spoor.RemiseID);
+                        command.Parameters.AddWithValue("@nummer", spoor.Nummer);
+                        command.Parameters.AddWithValue("@lengte", spoor.Lengte);
+                        command.Parameters.AddWithValue("@beschikbaar", spoor.Beschikbaar);
+                        command.Parameters.AddWithValue("@inuitrijSpoor", spoor.InUitRijSpoor);
+                        command.Parameters.AddWithValue("@id", spoor.ID);
+
+                        command.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exceptions.DataException(ex.Message);
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
+                }
+            }
         }
     }
 }

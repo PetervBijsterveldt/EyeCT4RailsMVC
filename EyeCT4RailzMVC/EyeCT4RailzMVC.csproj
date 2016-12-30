@@ -243,6 +243,7 @@
     <Content Include="Views\Reparatie\Reparatieoverzicht.cshtml" />
     <Content Include="Views\Reparatie\HistoryReparatieoverzicht.cshtml" />
     <Content Include="Views\Reparatie\AddReparatie.cshtml" />
+    <Content Include="Views\Spoor\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

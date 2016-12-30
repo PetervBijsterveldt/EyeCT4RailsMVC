@@ -44,5 +44,10 @@ namespace EyeCT4RailzMVC.Models
         {
             spoorLogic.SpoorStatusVeranderen(spoor);
         }
+
+        public void EditSpoor(Spoor spoor)
+        {
+            spoorLogic.EditSpoor(spoor);
+        }
     }
 }

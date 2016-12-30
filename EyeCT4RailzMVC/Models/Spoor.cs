@@ -16,6 +16,11 @@ namespace EyeCT4RailzMVC.Models
         public bool InUitRijSpoor { get; set; }
         public bool Beschikbaar { get; set; }
 
+        public Spoor()
+        {
+            
+        }
+
         public Spoor(int nr, int lengte)
         {
             ID = nr;

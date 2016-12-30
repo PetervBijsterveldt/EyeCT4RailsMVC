@@ -1,4 +1,7 @@
-﻿@model List<EyeCT4RailzMVC.Models.Spoor>
+﻿@using System.Security.Policy
+@using System.Web.UI.WebControls
+@using EyeCT4RailzMVC.Models
+@model List<EyeCT4RailzMVC.Models.Spoor>
 
 @{
     ViewBag.Title = "Index";
@@ -26,18 +29,28 @@
         margin-top: 4px;
         float: left;
     }
+
+    .blokkeerbtn {
+        width: 64px;
+        height: 30px;
+        margin-left: -7px;
+        padding-left: 1px;
+        font-size: 11px;
+    }
 </style>
+
 
 <div style="width: @CalculateDivWidht(); position: absolute; left: 15px;">
     @for (int i = 0; i < Model.Count; i++)
     {
-        string spoorHeight = $"{Model[i].Sectoren.Count * 54 + 30}px";
-        <div class="spoordiv" style="height: @spoorHeight">
+        <div class="spoordiv" style="height: @CalculateSpoorHeight(Model[i])">
             @for (int j = 0; j < Model[i].Sectoren.Count; j++)
-            {
+                {
                 <div class="sectordiv"></div>
             }
-            <p style="text-align: center; font-size: 18px; ">@Model[i].Nummer</p>
+            <p style="text-align: center; font-size: 18px;">@Model[i].Nummer</p>
+
+            <button type="submit" class="blokkeerbtn" onclick="location.href='@Url.Action("Edit", "Spoor", Model[i])'">Wijzig</button>
         </div>
     }
 </div>
@@ -49,5 +62,8 @@
         return $"{Model.Count * 84 + 30}px";
     }
 
-
-}
+    string CalculateSpoorHeight(Spoor spoor)
+    {
+        return $"{spoor.Sectoren.Count * 54 + 30}px";
+    }
+    }
