@@ -163,7 +163,7 @@ namespace EyeCT4RailzMVC.Models
         }
 
         //verwijder een user uit de database
-        public void RemoveUser(User user)
+        public void RemoveUser(string naam)
         {
             using (SqlConnection conn = new SqlConnection(connectie))
             {
@@ -177,7 +177,7 @@ namespace EyeCT4RailzMVC.Models
                             cmd.CommandText = "DELETE FROM Medewerker WHERE Naam = @naam";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@naam", user.Naam);
+                            cmd.Parameters.AddWithValue("@naam", naam);
 
                             cmd.ExecuteNonQuery();
                         }

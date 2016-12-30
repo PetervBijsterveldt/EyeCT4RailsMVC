@@ -30,9 +30,9 @@ namespace EyeCT4RailzMVC.Models
             userLogic.AddUser(user);
         }
 
-        public void RemoveUser(User user)
+        public void RemoveUser(string naam)
         {
-            userLogic.RemoveUser(user);
+            userLogic.RemoveUser(naam);
         }
 
         public void EditUser(User user)
