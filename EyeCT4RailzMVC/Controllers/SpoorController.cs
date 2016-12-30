@@ -24,7 +24,7 @@ namespace EyeCT4RailzMVC.Controllers
             SpoorRepository spoorRepository = new SpoorRepository(new MssqlSpoorLogic());
             spoorRepository.EditSpoor(spoor);
 
-            return View(spoorRepository.ListSporen());
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

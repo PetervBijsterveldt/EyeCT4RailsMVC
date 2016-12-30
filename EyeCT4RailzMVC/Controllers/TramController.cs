@@ -9,13 +9,16 @@ namespace EyeCT4RailzMVC.Controllers
 {
     public class TramController : Controller
     {
+        private TramRepository tramRepository = new TramRepository(new MssqlTramLogic());
+
         // GET: Tram
+        [HttpGet]
         public ActionResult Overzicht()
         {
-            TramRepository tramRepository = new TramRepository(new MssqlTramLogic());
             List<Tram> trams = tramRepository.ListTrams();
             return View(trams);
         }
+
         [HttpGet]
         public ActionResult Trammerino(Tram tram)
         {
@@ -27,6 +30,13 @@ namespace EyeCT4RailzMVC.Controllers
         public ActionResult Overzicht(Tram tram)
         {
             return RedirectToAction("Trammerino", tram);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Tram tram)
+        {
+            tramRepository.EditTram(tram);
+            return RedirectToAction("Overzicht");
         }
     }
 }

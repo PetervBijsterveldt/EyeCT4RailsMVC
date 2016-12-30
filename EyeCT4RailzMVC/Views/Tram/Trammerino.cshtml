@@ -4,46 +4,61 @@
     ViewBag.Title = "Trammerino";
 }
 
-<h2>teram</h2>
+<h2>Tram</h2>
 
-<div>
-    <h4>Tram</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Lengte)
-        </dt>
+@using (Html.BeginForm("Edit", "Tram", Model))
+{
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Lengte)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Lengte)
-        </dd>
+            <dd>
+                @Html.EditorFor(model => model.Lengte, new { htmlAttributes = new { @class = "form-control" } })
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TramNr)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.TramNr)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.TramNr)
-        </dd>
+            <dd>
+                @Html.EditorFor(model => model.TramNr, new { htmlAttributes = new { @class = "form-control" } })
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ConducteurGeschikt)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.ConducteurGeschikt)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ConducteurGeschikt)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
+            <dd>
+                @Html.EditorFor(model => model.ConducteurGeschikt, new { htmlAttributes = new { @class = "form-control" } })
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
+            <dd>
+                @Html.DropDownListFor(model => model.Status, new List<SelectListItem>
+                {
+                    new SelectListItem {Text= "Dienst", Value = "Dienst" },
+                    new SelectListItem {Text= "Remise", Value = "Remise" },
+                    new SelectListItem {Text= "Schoonmaak", Value = "Schoonmaak" },
+                    new SelectListItem {Text= "Onderhoud", Value = "Onderhoud" },
+                    new SelectListItem {Text= "Service Nodig", Value = "ServiceNodig" },
+                    new SelectListItem {Text= "Schoonmaak Nodig", Value = "SchoonmaakNodig" }
+                }, new { @class = "form-control" })
+            </dd>
+            <br />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
 
-    </dl>
-</div>
+        </dl>
+    </div>
+}
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.TramID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Terug naar overzicht", "Overzicht")
 </p>

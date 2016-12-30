@@ -94,10 +94,10 @@ namespace EyeCT4RailzMVC.Models
                         using (SqlCommand cmd = new SqlCommand())
                         {
                             cmd.CommandText =
-                                "UPDATE Tram SET Nummer = @tramnr, TypeTram = @type, Lengte = @lengte, [Status] = @status WHERE ID = @tramid";
+                                "UPDATE Tram SET Nummer = @tramnr, TypeTram = @type, Lengte = @lengte, Status = @status WHERE ID = @tramid";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@tramnr", tram.TramNr);
+                            cmd.Parameters.AddWithValue("@tramid", tram.TramID);
 
                             if (tram.Type == TramType._11G)
                             {
