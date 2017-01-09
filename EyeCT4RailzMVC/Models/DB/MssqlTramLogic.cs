@@ -161,7 +161,7 @@ namespace EyeCT4RailzMVC.Models
                         {
                             cmd.CommandText =
                                 //Typetram is nr uit ander tabel
-                                "INSERT INTO Tram (Nummer, TypeTram, Lengte, Status, ConducteurGeschikt) VALUES (@nr, @type, @lengte, @status, @conducteur)";
+                                "INSERT INTO Tram (Nummer, TramType_ID, Lengte, Status, ConducteurGeschikt) VALUES (@nr, @type, @lengte, @status, @conducteur)";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@nr", tram.TramNr);

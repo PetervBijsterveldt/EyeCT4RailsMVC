@@ -17,7 +17,7 @@ namespace EyeCT4RailzMVC.Controllers
         {
             return View();
         }
-        [Authorize(Roles = @"Beheerders")]
+        [Authorize(Roles = @"Beheerder")]
         public ActionResult UserLijst()
         {
             UserRepository userRepository = new UserRepository(new MssqlUserLogic());
@@ -31,6 +31,7 @@ namespace EyeCT4RailzMVC.Controllers
             //User rol kunnen kiezen nog toevoegen
             string naam = form["Naam"];
             userRepository.AddUser(new User(naam, UserType.Beheerder));
+            
             return RedirectToAction("UserLijst");
         }
 
@@ -54,17 +55,17 @@ namespace EyeCT4RailzMVC.Controllers
         public ActionResult EditUser(User original, User edit)
         {
             //User rol kunnen kiezen nog toevoegen
-           // PrincipalContext insPrincipalContext = new PrincipalContext(ContextType.Domain, "EyeCT4Railz",
-              //  "DC=EyeCT4Railz dc=local");
-           // PrincipalSearcher insPrincipalSearcher = new PrincipalSearcher();
-           // UserPrincipal up = new UserPrincipal(insPrincipalContext);
-           // up.Name = original.Naam;
+            // PrincipalContext insPrincipalContext = new PrincipalContext(ContextType.Domain, "EyeCT4Railz",
+            //  "DC=EyeCT4Railz dc=local");
+            // PrincipalSearcher insPrincipalSearcher = new PrincipalSearcher();
+            // UserPrincipal up = new UserPrincipal(insPrincipalContext);
+            // up.Name = original.Naam;
             //insPrincipalSearcher.QueryFilter = up;
-           // Principal p = insPrincipalSearcher.FindOne();
-           // UserPrincipal userPrincipal =(UserPrincipal) p;
+            // Principal p = insPrincipalSearcher.FindOne();
+            // UserPrincipal userPrincipal =(UserPrincipal) p;
 
-           // userPrincipal.Name = edit.Naam;
-          
+            // userPrincipal.Name = edit.Naam;
+
             return RedirectToAction("UserLijst");
         }
 

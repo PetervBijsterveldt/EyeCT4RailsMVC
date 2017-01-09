@@ -38,5 +38,18 @@ namespace EyeCT4RailzMVC.Controllers
             tramRepository.EditTram(tram);
             return RedirectToAction("Overzicht");
         }
-    }
+
+        [HttpGet]
+        public ActionResult AddTram()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddTram(Tram tram)
+        {
+            tramRepository.AddTram(tram);
+            return RedirectToAction("Overzicht");
+        }
+}
 }

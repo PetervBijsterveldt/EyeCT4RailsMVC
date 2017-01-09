@@ -19,7 +19,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
@@ -244,6 +244,7 @@
     <Content Include="Views\Reparatie\HistoryReparatieoverzicht.cshtml" />
     <Content Include="Views\Reparatie\AddReparatie.cshtml" />
     <Content Include="Views\Spoor\Edit.cshtml" />
+    <Content Include="Views\Tram\AddTram.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
