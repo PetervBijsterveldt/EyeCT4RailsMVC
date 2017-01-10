@@ -22,6 +22,21 @@ namespace EyeCT4RailzMVC.Controllers
             return View(reparatieBeurten);
         }
 
+        public ActionResult Taken()
+        {
+            //id voor medewerkerid
+            int id = 1;
+            List<ReparatieBeurt> reparatieBeurten = new List<ReparatieBeurt>();
+            foreach (var item in tramRepository.ListReparatiebeurten(0))
+            {
+                if (item.MedewerkerId == id)
+                {
+                    reparatieBeurten.Add(item);
+                }
+            }
+            return View(reparatieBeurten);
+        }
+
         public ActionResult HistoryReparatieoverzicht()
         {
             List<ReparatieBeurt> reparatieBeurten = tramRepository.ListReparatiebeurten(1);
