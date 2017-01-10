@@ -15,8 +15,15 @@ namespace EyeCT4RailzMVC.Controllers
         [HttpGet]
         public ActionResult Overzicht()
         {
-            List<Tram> trams = tramRepository.ListTrams();
-            return View(trams);
+            try
+            {
+                List<Tram> trams = tramRepository.ListTrams();
+                return View(trams);
+            }
+            catch (Exception ex)
+            {
+                return View("Index", "Error", ex);
+            }
         }
 
         [HttpGet]
@@ -51,5 +58,19 @@ namespace EyeCT4RailzMVC.Controllers
             tramRepository.AddTram(tram);
             return RedirectToAction("Overzicht");
         }
-}
+
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            Exception ex = filterContext.Exception;
+            filterContext.ExceptionHandled = true;
+
+            var model = new HandleErrorInfo(filterContext.Exception, "Controller", "Action");
+
+            filterContext.Result = new ViewResult()
+            {
+                ViewName = "Error",
+                ViewData = new ViewDataDictionary(model)
+            };
+        }
+    }
 }
