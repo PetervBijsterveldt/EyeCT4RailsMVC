@@ -20,9 +20,9 @@ namespace EyeCT4RailzMVC.Controllers
                 List<Tram> trams = tramRepository.ListTrams();
                 return View(trams);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return View("Index", "Error", ex);
+                return View("Index", "Error");
             }
         }
 

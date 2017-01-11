@@ -11,7 +11,6 @@ namespace EyeCT4RailzMVC.Tests.ModelTests
         private Tram tram_2;
         private Tram tram_3;
         private Tram tram_4;
-        private Tram tram_5;
 
         private TramType type_1;
         private TramType type_2;
@@ -23,10 +22,9 @@ namespace EyeCT4RailzMVC.Tests.ModelTests
         [TestInitialize]
         public void TestInitialize()
         {
-            //bij Vervuild, Defect en Beschikbaar: 0 = nee, 1 = ja;
-            tram_1 = new Tram(0, 0, type_1, 10, 10, "Dienst", 0, 0, true, 0);
-            tram_2 = new Tram(1, 0, type_2, 11, 15, "Onderhoud", 0, 1, false, 0);
-            tram_3 = new Tram(2, 0, type_3, 12, 5, "Remise", 0, 0, true, 1);
+            tram_1 = new Tram(0, 0, type_1, 10, 10, "Dienst", /* vervuild */ false, /* defect */ false, /* bestuurder geschikt */ true, /* beschikbaar */ false);
+            tram_2 = new Tram(1, 0, type_2, 11, 15, "Onderhoud", false, true, false, false);
+            tram_3 = new Tram(2, 0, type_3, 12, 5, "Remise", false, false, true, true);
             tram_4 = tram_3;
 
             type_1 = TramType.Combino;
