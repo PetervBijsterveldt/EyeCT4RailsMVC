@@ -244,6 +244,10 @@
     <Content Include="Views\Reparatie\HistoryReparatieoverzicht.cshtml" />
     <Content Include="Views\Reparatie\AddReparatie.cshtml" />
     <Content Include="Views\Spoor\Edit.cshtml" />
+    <Content Include="Views\Tram\AddTram.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Schoonmaak\Taken.cshtml" />
+    <Content Include="Views\Reparatie\Taken.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

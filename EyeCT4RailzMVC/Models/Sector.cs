@@ -8,7 +8,7 @@ namespace EyeCT4RailzMVC.Models
 {
     public class Sector
     {
-        public int SectorID { get; set; }
+        public int ID { get; set; }
         public int SectorNr { get; set; }
         public int RailsID { get; set; }
         public int TramID { get; set; }
@@ -22,7 +22,7 @@ namespace EyeCT4RailzMVC.Models
 
         public Sector(int id, int nr, int railsid, int tramid, bool beschikbaar)
         {
-            SectorID = id;
+            ID = id;
             SectorNr = nr;
             RailsID = railsid;
             TramID = tramid;
@@ -31,7 +31,7 @@ namespace EyeCT4RailzMVC.Models
 
         public Sector(int id, int nr, int railsid)
         {
-            SectorID = id;
+            ID = id;
             SectorNr = nr;
             RailsID = railsid;
         }

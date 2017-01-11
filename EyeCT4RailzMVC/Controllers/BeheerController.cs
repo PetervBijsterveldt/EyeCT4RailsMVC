@@ -17,7 +17,7 @@ namespace EyeCT4RailzMVC.Controllers
         {
             return View();
         }
-        [Authorize(Roles = @"Beheerders")]
+        
         public ActionResult UserLijst()
         {
             UserRepository userRepository = new UserRepository(new MssqlUserLogic());
@@ -28,9 +28,10 @@ namespace EyeCT4RailzMVC.Controllers
         [HttpPost]
         public ActionResult CreateUser(FormCollection form)
         {
-            //User rol kunnen kiezen nog toevoegen
             string naam = form["Naam"];
-            userRepository.AddUser(new User(naam, UserType.Beheerder));
+            UserType rol = (UserType) Enum.Parse(typeof(UserType),form["Rol"]);
+            userRepository.AddUser(new User(naam, rol));
+            
             return RedirectToAction("UserLijst");
         }
 
@@ -54,17 +55,18 @@ namespace EyeCT4RailzMVC.Controllers
         public ActionResult EditUser(User original, User edit)
         {
             //User rol kunnen kiezen nog toevoegen
-           // PrincipalContext insPrincipalContext = new PrincipalContext(ContextType.Domain, "EyeCT4Railz",
-              //  "DC=EyeCT4Railz dc=local");
-           // PrincipalSearcher insPrincipalSearcher = new PrincipalSearcher();
-           // UserPrincipal up = new UserPrincipal(insPrincipalContext);
-           // up.Name = original.Naam;
+            // PrincipalContext insPrincipalContext = new PrincipalContext(ContextType.Domain, "EyeCT4Railz",
+            //  "DC=EyeCT4Railz dc=local");
+            // PrincipalSearcher insPrincipalSearcher = new PrincipalSearcher();
+            // UserPrincipal up = new UserPrincipal(insPrincipalContext);
+            // up.Name = original.Naam;
             //insPrincipalSearcher.QueryFilter = up;
-           // Principal p = insPrincipalSearcher.FindOne();
-           // UserPrincipal userPrincipal =(UserPrincipal) p;
+            // Principal p = insPrincipalSearcher.FindOne();
+            // UserPrincipal userPrincipal =(UserPrincipal) p;
 
-           // userPrincipal.Name = edit.Naam;
-          
+            // userPrincipal.Name = edit.Naam;
+            
+            userRepository.EditUser(edit);
             return RedirectToAction("UserLijst");
         }
 

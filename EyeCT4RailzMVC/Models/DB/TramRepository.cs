@@ -37,7 +37,7 @@ namespace EyeCT4RailzMVC.Models
 
         public void TramInrijden(Tram tram, Spoor spoor)
         {
-            tramLogic.TramInrijden(tram, spoor);
+            tramLogic.TramVerplaatsen(tram, spoor);
         }
 
         public List<Tram> ListTrams()

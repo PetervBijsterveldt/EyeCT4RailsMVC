@@ -24,6 +24,21 @@ namespace EyeCT4RailzMVC.Controllers
             return View(schoonmaakBeurten);
         }
 
+        public ActionResult Taken()
+        {
+            //id voor medewerkerid
+            int id = 1;
+            List<SchoonmaakBeurt> schoonmaakBeurten = new List<SchoonmaakBeurt>();
+            foreach (var item in tramRepository.ListSchoonmaakbeurten(0))
+            {
+                if (item.MedewerkerId == id)
+                {
+                    schoonmaakBeurten.Add(item);
+                }
+            }
+            return View(schoonmaakBeurten);
+        }
+
         public ActionResult HistorySchoonmaakoverzicht()
         {
             List<SchoonmaakBeurt> schoonmaakBeurten = tramRepository.ListSchoonmaakbeurten(1);
