@@ -219,7 +219,7 @@ namespace EyeCT4RailzMVC.Models
             }
         }
 
-        public void TramInrijden(Tram tram, Spoor spoor)
+        public void TramVerplaatsen(Tram tram, Spoor spoor)
         {
             using (SqlConnection conn = new SqlConnection(connectie))
             {
@@ -231,31 +231,8 @@ namespace EyeCT4RailzMVC.Models
                     {
                         using (SqlCommand cmd = new SqlCommand())
                         {
-                            foreach (Sector S in spoor.Sectoren)
-                            {
-                                cmd.CommandText = "INSERT INTO Sector (ID, Spoor_ID, Tram_ID, Nummer, Beschikbaar, Blokkade) VALUES (@id, @spoorid, @tramid, @nummer, @beschikbaar, @blokkade);";
-
-                                cmd.Connection = conn;
-
-                                cmd.Parameters.AddWithValue("@id", S.ID);
-                                cmd.Parameters.AddWithValue("@spoorid", spoor.ID);
-                                cmd.Parameters.AddWithValue("@tramid", tram.ID);
-                                cmd.Parameters.AddWithValue("@nummer", S.SectorNr);
-                                cmd.Parameters.AddWithValue("@beschikbaar", S.Beschikbaar);
-                                foreach (TramType T in S.GeblokkeerdVoor)
-                                {
-                                    if (tram.Type == T)
-                                    {
-                                        cmd.Parameters.AddWithValue("@blokkade", true);
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        cmd.Parameters.AddWithValue("@blokkade", false);
-                                    }
-                                }
-                                cmd.ExecuteNonQuery();
-                            }
+                            TramInrijden(conn, cmd, spoor, tram);
+                            TramUitrijden(conn, cmd, spoor, tram);
                         }
                     }
                     catch (Exception ex)
@@ -694,6 +671,61 @@ namespace EyeCT4RailzMVC.Models
             bool beschikbaar = reader.GetBoolean(9);
 
             return new Tram(id, Rid, type, nr, lengte, status, vervuild, defect, conducteur, beschikbaar);
+        }
+        private void TramInrijden(SqlConnection conn, SqlCommand cmd, Spoor spoor, Tram tram)
+        {
+            foreach (Sector S in spoor.Sectoren)
+            {
+                cmd.CommandText = "INSERT INTO Sector (ID, Spoor_ID, Tram_ID, Nummer, Beschikbaar, Blokkade) VALUES (@id, @spoorid, @tramid, @nummer, @beschikbaar, @blokkade);";
+
+                cmd.Connection = conn;
+
+                cmd.Parameters.AddWithValue("@id", S.ID);
+                cmd.Parameters.AddWithValue("@spoorid", spoor.ID);
+                cmd.Parameters.AddWithValue("@tramid", tram.ID);
+                cmd.Parameters.AddWithValue("@nummer", S.SectorNr);
+                cmd.Parameters.AddWithValue("@beschikbaar", false);
+                foreach (TramType T in S.GeblokkeerdVoor)
+                {
+                    if (tram.Type == T)
+                    {
+                        cmd.Parameters.AddWithValue("@blokkade", true);
+                        break;
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@blokkade", false);
+                    }
+                }
+                cmd.ExecuteNonQuery();
+            }
+        }
+        private void TramUitrijden(SqlConnection conn, SqlCommand cmd, Spoor spoor, Tram tram)
+        {
+            foreach (Sector S in spoor.Sectoren)
+            {
+                cmd.CommandText = "DELETE FROM Sector (ID, Spoor_ID, Tram_ID, Nummer, Beschikbaar, Blokkade) VALUES (@id, @spoorid, @tramid, @nummer, @beschikbaar, @blokkade)";
+                cmd.Connection = conn;
+
+                cmd.Parameters.AddWithValue("@id", S.ID);
+                cmd.Parameters.AddWithValue("@spoorid", spoor.ID);
+                cmd.Parameters.AddWithValue("@tramid", tram.ID);
+                cmd.Parameters.AddWithValue("@nummer", S.SectorNr);
+                cmd.Parameters.AddWithValue("@beschikbaar", true);
+                foreach (TramType T in S.GeblokkeerdVoor)
+                {
+                    if (tram.Type == T)
+                    {
+                        cmd.Parameters.AddWithValue("@blokkade", true);
+                        break;
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@blokkade", false);
+                    }
+                }
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }
