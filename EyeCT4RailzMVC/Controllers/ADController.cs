@@ -43,11 +43,6 @@ namespace EyeCT4RailzMVC.Controllers
 
             return RedirectToAction("Index");
         }
-        public ActionResult LogOff()
-        {
-            FormsAuthentication.SignOut();
-
-            return RedirectToAction("Index", "Home");
-        }
+        
     }
 }
