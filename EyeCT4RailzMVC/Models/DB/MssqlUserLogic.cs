@@ -12,8 +12,11 @@ namespace EyeCT4RailzMVC.Models
     public class MssqlUserLogic : IUserServices
     {
         //connectiestring met de database
-        //private readonly string connectie = "Server=RailzDB;Database=dbi344475; Database=dbi344475; Trusted_Connection=Yes;";
+#if DEBUG
+        private readonly string connectie = "Server=RailzDB;Database=dbi344475; Database=dbi344475; Trusted_Connection=Yes;";
+#else
         private readonly string connectie = "Server=mssql.fhict.local;Database=dbi344475;User Id=dbi344475;Password=Rails1;";
+#endif
 
         //check of user bestaat door RFID-tag
         public User CheckForUserId(string rfid)
@@ -43,7 +46,7 @@ namespace EyeCT4RailzMVC.Models
                             //voor iedere kolom die hij leest, geeft hij de waarde van die kolom aan de volgende int en strings
                             int id = reader.GetInt32(0);
                             string naam = reader.GetString(1);
-                            UserType rol = (UserType) Enum.Parse(typeof(UserType), reader.GetString(2));
+                            UserType rol = (UserType)Enum.Parse(typeof(UserType), reader.GetString(2));
 
                             conn.Close();
                             return new User(id, naam, rol);
@@ -87,7 +90,7 @@ namespace EyeCT4RailzMVC.Models
 
                                 int id = reader.GetInt32(0);
                                 string naam = reader.GetString(1);
-                                UserType rol = (UserType) Enum.Parse(typeof(UserType), reader.GetString(2));
+                                UserType rol = (UserType)Enum.Parse(typeof(UserType), reader.GetString(2));
 
                                 conn.Close();
                                 return new User(id, naam, rol);
@@ -125,7 +128,7 @@ namespace EyeCT4RailzMVC.Models
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@naam", user.Naam);
-                           
+
                             if (user.Rol == UserType.Beheerder)
                             {
                                 cmd.Parameters.AddWithValue("@rol", 1);
@@ -269,7 +272,7 @@ namespace EyeCT4RailzMVC.Models
                             {
                                 int id = reader.GetInt32(0);
                                 string naam = reader.GetString(1);
-                                UserType functie = (UserType) Enum.Parse(typeof(UserType), reader.GetString(2));
+                                UserType functie = (UserType)Enum.Parse(typeof(UserType), reader.GetString(2));
                                 users.Add(new User(id, naam, functie));
                             }
                             return users;
