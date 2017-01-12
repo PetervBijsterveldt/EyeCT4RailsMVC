@@ -13,7 +13,7 @@ namespace EyeCT4RailzMVC.Models
         //private readonly string connectie = "Server=RailzDB;Database=dbi344475; Database=dbi344475; Trusted_Connection=Yes;";
         private readonly string connectie =
             "Server=mssql.fhict.local;Database=dbi344475;User Id=dbi344475;Password=Rails1;";
-
+        //checked
         public Spoor CheckForSpoorId(int spoorId)
         {
             using (SqlConnection conn = new SqlConnection(connectie))
@@ -59,6 +59,7 @@ namespace EyeCT4RailzMVC.Models
             }
         }
 
+        //checked
         public void AddSpoor(Spoor spoor)
         {
             using (SqlConnection conn = new SqlConnection(connectie))
@@ -99,6 +100,8 @@ namespace EyeCT4RailzMVC.Models
             }
         }
 
+
+        //checked
         public void RemoveSpoor(Spoor spoor)
         {
             using (SqlConnection conn = new SqlConnection(connectie))
@@ -110,11 +113,43 @@ namespace EyeCT4RailzMVC.Models
                     {
                         try
                         {
-                            cmd.CommandText = "DELETE FROM Rails WHERE RemiseID = @remiseid AND RailsNR = @ID";
+                            cmd.CommandText = "DELETE FROM Spoor WHERE ID = @spoorId";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@spoornr", spoor.ID);
-                            cmd.Parameters.AddWithValue("@remiseid", spoor.RemiseID);
+                            
+
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new DataException(ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+        }
+
+        public void RemoveSpoor(int id)
+        {
+            using (SqlConnection conn = new SqlConnection(connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText = "DELETE FROM Spoor WHERE ID = @spoorId";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@spoornr", id);
+
 
                             cmd.ExecuteNonQuery();
                         }
@@ -187,11 +222,11 @@ namespace EyeCT4RailzMVC.Models
                         try
                         {
                             cmd.CommandText =
-                                "SELECT ID, Remise_ID, Nummer, Lengte, Beschikbaar, InUitRijspoor FROM Rails WHERE ID = @id AND RemiseID = @remiseid";
+                                "SELECT * FROM Rails WHERE ID = @id";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@id", spoor.ID);
-                            cmd.Parameters.AddWithValue("@remiseid", spoor.RemiseID);
+                           
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
@@ -234,7 +269,7 @@ namespace EyeCT4RailzMVC.Models
                         try
                         {
                             cmd.CommandText =
-                                "UPDATE Spoor SET Beschikbaar = @beschikbaar WHERE ID = @id AND Remise_ID = @remiseid";
+                                "UPDATE Spoor SET Beschikbaar = @beschikbaar WHERE ID = @id";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@id", spoor.ID);
@@ -268,10 +303,11 @@ namespace EyeCT4RailzMVC.Models
                     {
                         using (SqlCommand cmd = new SqlCommand())
                         {
-                            cmd.CommandText = "INSERT INTO Sector (Spoor_ID) VALUES (@id)";
+                            cmd.CommandText = "INSERT INTO Sector (Spoor_ID, tramID, nummer, Beschikbaar, blokkade) VALUES (@id, 0, @nummer, false, false )";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@id", spoor.ID);
+                            cmd.Parameters.AddWithValue("@nummer", spoor.Sectoren.Count + 1);
 
                             foreach (var sector in spoor.Sectoren)
                             {
