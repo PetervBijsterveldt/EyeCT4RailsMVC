@@ -32,5 +32,21 @@ namespace EyeCT4RailzMVC.Controllers
         {
             return View(spoor);
         }
+
+        [HttpGet]
+        public ActionResult TramVerplaatsen(int id)
+        {
+            TramRepository tramRepository = new TramRepository(new MssqlTramLogic());
+            Tram tram = tramRepository.CheckForTramId(id);
+            return View(tram);
+        }
+
+        [HttpPost]
+        public ActionResult TramVerplaatsen(Tram tram, FormCollection form)
+        {
+            SpoorRepository spoorRepository = new SpoorRepository(new MssqlSpoorLogic());
+            Spoor spoor = spoorRepository.CheckForSpoorId(Convert.ToInt32(form["spoorid"]));
+            return RedirectToAction("Index");
+        }
     }
 }

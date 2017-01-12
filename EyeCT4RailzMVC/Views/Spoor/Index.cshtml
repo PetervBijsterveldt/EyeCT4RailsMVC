@@ -63,7 +63,7 @@
                 }
                 else
                 {
-                    <div class="sectordiv sectorbezet">@GetTramName(Model[i].Sectoren[j].TramID)</div>
+                    <div class="sectordiv sectorbezet" onclick="location.href='@Url.Action("TramVerplaatsen", "Spoor", new {id = Model[i].Sectoren[j].TramID})'">@GetTramName(Model[i].Sectoren[j].TramID)</div>
                 }
             }
             <p style="text-align: center; font-size: 18px;">@Model[i].Nummer</p>
