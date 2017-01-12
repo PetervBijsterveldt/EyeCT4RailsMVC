@@ -7,17 +7,24 @@ using System.Web.Mvc;
 using EyeCT4RailzMVC.Models;
 using System.Text.RegularExpressions;
 
+
 namespace EyeCT4RailzMVC.Controllers
 {
+   
     public class BeheerController : Controller
     {
         UserRepository userRepository = new UserRepository(new MssqlUserLogic());
         // GET: Beheer
+
+       
         public ActionResult Index()
         {
             return View();
         }
-        
+
+#if !DEBUG
+        [Authorize(Roles = "Beheerder")]
+#endif
         public ActionResult UserLijst()
         {
             UserRepository userRepository = new UserRepository(new MssqlUserLogic());

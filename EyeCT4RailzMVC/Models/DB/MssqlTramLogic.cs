@@ -11,8 +11,11 @@ namespace EyeCT4RailzMVC.Models
 {
     public class MssqlTramLogic : ITramServices
     {
-        //private readonly string connectie = "Server=RailzDB;Database=dbi344475; Database=dbi344475; Trusted_Connection=Yes;";
+#if !DEBUG
+        private readonly string connectie = "Server=RailzDB;Database=dbi344475; Database=dbi344475; Trusted_Connection=Yes;";
+#else
         private readonly string connectie = "Server=mssql.fhict.local;Database=dbi344475;User Id=dbi344475;Password=Rails1;";
+#endif
 
         public Tram CheckForTramId(int tramId)
         {
@@ -695,27 +698,13 @@ namespace EyeCT4RailzMVC.Models
         {
             foreach (Sector S in spoor.Sectoren)
             {
-                cmd.CommandText = "INSERT INTO Sector (ID, Spoor_ID, Tram_ID, Nummer, Beschikbaar, Blokkade) VALUES (@id, @spoorid, @tramid, @nummer, @beschikbaar, @blokkade);";
+                cmd.CommandText = "UDPATE Sector SET Tram_ID = @tramid WHERE ID = @sectorid;";
 
                 cmd.Connection = conn;
 
-                cmd.Parameters.AddWithValue("@id", S.ID);
-                cmd.Parameters.AddWithValue("@spoorid", spoor.ID);
                 cmd.Parameters.AddWithValue("@tramid", tram.ID);
-                cmd.Parameters.AddWithValue("@nummer", S.SectorNr);
-                cmd.Parameters.AddWithValue("@beschikbaar", false);
-                foreach (TramType T in S.GeblokkeerdVoor)
-                {
-                    if (tram.Type == T)
-                    {
-                        cmd.Parameters.AddWithValue("@blokkade", true);
-                        break;
-                    }
-                    else
-                    {
-                        cmd.Parameters.AddWithValue("@blokkade", false);
-                    }
-                }
+                cmd.Parameters.AddWithValue("@sectorid", S.ID);
+
                 cmd.ExecuteNonQuery();
             }
         }
@@ -723,26 +712,13 @@ namespace EyeCT4RailzMVC.Models
         {
             foreach (Sector S in spoor.Sectoren)
             {
-                cmd.CommandText = "DELETE FROM Sector (ID, Spoor_ID, Tram_ID, Nummer, Beschikbaar, Blokkade) VALUES (@id, @spoorid, @tramid, @nummer, @beschikbaar, @blokkade)";
+                cmd.CommandText = "UPDATE Sector SET Tram_ID = 0 WHERE Tram_ID = @tramid AND ID = @sectorid";
+
                 cmd.Connection = conn;
 
-                cmd.Parameters.AddWithValue("@id", S.ID);
-                cmd.Parameters.AddWithValue("@spoorid", spoor.ID);
                 cmd.Parameters.AddWithValue("@tramid", tram.ID);
-                cmd.Parameters.AddWithValue("@nummer", S.SectorNr);
-                cmd.Parameters.AddWithValue("@beschikbaar", true);
-                foreach (TramType T in S.GeblokkeerdVoor)
-                {
-                    if (tram.Type == T)
-                    {
-                        cmd.Parameters.AddWithValue("@blokkade", true);
-                        break;
-                    }
-                    else
-                    {
-                        cmd.Parameters.AddWithValue("@blokkade", false);
-                    }
-                }
+                cmd.Parameters.AddWithValue("@sectorid", S.ID);
+
                 cmd.ExecuteNonQuery();
             }
         }
