@@ -12,6 +12,9 @@ namespace EyeCT4RailzMVC.Controllers
         private TramRepository tramRepository = new TramRepository(new MssqlTramLogic());
 
         // GET: Tram
+#if !DEBUG
+        [Authorize(Roles = "Beheerder, Wagenparkbeheerder")]
+#endif
         [HttpGet]
         public ActionResult Overzicht()
         {
@@ -26,6 +29,7 @@ namespace EyeCT4RailzMVC.Controllers
             }
         }
 
+        
         [HttpGet]
         public ActionResult Trammerino(Tram tram)
         {
@@ -59,6 +63,18 @@ namespace EyeCT4RailzMVC.Controllers
             return RedirectToAction("Overzicht");
         }
 
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            Exception ex = filterContext.Exception;
+            filterContext.ExceptionHandled = true;
 
+            var model = new HandleErrorInfo(filterContext.Exception, "Controller", "Action");
+
+            filterContext.Result = new ViewResult()
+            {
+                ViewName = "Error",
+                ViewData = new ViewDataDictionary(model)
+            };
+        }
     }
 }

@@ -13,11 +13,11 @@ namespace EyeCT4RailzMVC.Controllers
             return View();
         }
 
-      
+        [Authorize(Users = @"eyect4railz\Administrator, CONTOSO\Keith, CONTOSO\Mike")]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-            
+
             return View();
         }
 
@@ -27,5 +27,6 @@ namespace EyeCT4RailzMVC.Controllers
 
             return View();
         }
+       
     }
 }

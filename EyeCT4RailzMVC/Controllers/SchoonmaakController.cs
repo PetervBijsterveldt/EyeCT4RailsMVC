@@ -7,6 +7,8 @@ using EyeCT4RailzMVC.Models;
 
 namespace EyeCT4RailzMVC.Controllers
 {
+
+    [Authorize(Roles = "Schoonmaker")]
     public class SchoonmaakController : Controller
     {
         TramRepository tramRepository = new TramRepository(new MssqlTramLogic());
@@ -17,6 +19,7 @@ namespace EyeCT4RailzMVC.Controllers
             return View();
         }
 
+        
         [HttpGet]
         public ActionResult Schoonmaakoverzicht()
         {
