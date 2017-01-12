@@ -20,17 +20,25 @@ namespace EyeCT4RailzMVC.Controllers
         }
 
 #if !DEBUG
-        [Authorize(Roles = "Technicus")]
+        [Authorize(Roles = "Technicus, Beheerder")]
 #endif
         public ActionResult Reparatieoverzicht()
         {
-            List<ReparatieBeurt> reparatieBeurten = tramRepository.ListReparatiebeurten(0);
-            return View(reparatieBeurten);
+            if (User.IsInRole("Technicus"))
+            {
+                return RedirectToAction("Taken");
+            }
+            else
+            {
+                List<ReparatieBeurt> reparatieBeurten = tramRepository.ListReparatiebeurten(0);
+                return View(reparatieBeurten);
+            }
         }
 
         public ActionResult Taken()
         {
-            string naam = User.Identity.Name;
+            string[] namen = User.Identity.Name.Split('\\');
+            string naam = namen[1];
             List<ReparatieBeurt> reparatieBeurten = new List<ReparatieBeurt>();
             foreach (var item in tramRepository.ListReparatiebeurten(0))
             {

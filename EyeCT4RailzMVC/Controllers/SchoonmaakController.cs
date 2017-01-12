@@ -7,8 +7,9 @@ using EyeCT4RailzMVC.Models;
 
 namespace EyeCT4RailzMVC.Controllers
 {
-
+#if !DEBUG
     [Authorize(Roles = "Schoonmaker, Beheerder")]
+#endif
     public class SchoonmaakController : Controller
     {
         TramRepository tramRepository = new TramRepository(new MssqlTramLogic());

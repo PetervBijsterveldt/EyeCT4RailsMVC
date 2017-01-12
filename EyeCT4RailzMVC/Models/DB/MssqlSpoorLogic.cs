@@ -117,7 +117,7 @@ namespace EyeCT4RailzMVC.Models
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@spoornr", spoor.ID);
-                            
+
 
                             cmd.ExecuteNonQuery();
                         }
@@ -222,26 +222,24 @@ namespace EyeCT4RailzMVC.Models
                         try
                         {
                             cmd.CommandText =
-                                "SELECT * FROM Rails WHERE ID = @id";
+                                "SELECT * FROM Spoor WHERE ID = @id";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@id", spoor.ID);
-                           
+                            
+                            SqlDataReader reader = cmd.ExecuteReader();
 
-                            using (SqlDataReader reader = cmd.ExecuteReader())
-                            {
-                                reader.Read();
+                            reader.Read();
 
-                                int id = reader.GetInt32(0);
-                                int remiseid = reader.GetInt32(1);
-                                int nummer = reader.GetInt32(2);
-                                int lengte = reader.GetInt32(3);
-                                bool beschikbaar = reader.GetBoolean(4);
-                                bool inuitrijspoor = reader.GetBoolean(5);
-                                List<Sector> sectoren = getSectoren(spoor.ID);
+                            int id = reader.GetInt32(0);
+                            int remiseid = reader.GetInt32(1);
+                            int nummer = reader.GetInt32(2);
+                            int lengte = reader.GetInt32(3);
+                            bool beschikbaar = reader.GetBoolean(4);
+                            bool inuitrijspoor = reader.GetBoolean(5);
+                            List<Sector> sectoren = getSectoren(spoor.ID);
 
-                                return new Spoor(id, remiseid, nummer, lengte, beschikbaar, inuitrijspoor, sectoren);
-                            }
+                            return new Spoor(id, remiseid, nummer, lengte, beschikbaar, inuitrijspoor, sectoren);
                         }
                         catch (Exception ex)
                         {
@@ -303,16 +301,21 @@ namespace EyeCT4RailzMVC.Models
                     {
                         using (SqlCommand cmd = new SqlCommand())
                         {
-                            cmd.CommandText = "INSERT INTO Sector (Spoor_ID, tramID, nummer, Beschikbaar, blokkade) VALUES (@id, 0, @nummer, false, false )";
+                            cmd.CommandText = "INSERT INTO Sector (Spoor_ID, tram_ID, nummer, Beschikbaar, blokkade) VALUES (@id, 0, @nummer, @beschikbaar, @blokkade)";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@id", spoor.ID);
-                            cmd.Parameters.AddWithValue("@nummer", spoor.Sectoren.Count + 1);
-
-                            foreach (var sector in spoor.Sectoren)
+                            cmd.Parameters.AddWithValue("@beschikbaar", "False");
+                            cmd.Parameters.AddWithValue("@blokkade", "False");
+                            for (int i = 1; i < hoeveelheid + 1; i++)
                             {
+                                cmd.Parameters.AddWithValue("@nummer", spoor.Sectoren.Count + i);
                                 cmd.ExecuteNonQuery();
                             }
+                            //foreach (var sector in spoor.Sectoren)
+                            //{
+                            //    cmd.ExecuteNonQuery();
+                            //}
                         }
                     }
                     catch (Exception ex)
@@ -339,15 +342,18 @@ namespace EyeCT4RailzMVC.Models
                     {
                         using (SqlCommand cmd = new SqlCommand())
                         {
-                            cmd.CommandText = "DELETE FROM Sector WHERE Spoor_ID = @spoorid";
+                            cmd.CommandText = "DELETE FROM Sector WHERE Spoor_ID = @spoorid AND nummer = @nummer";
                             cmd.Connection = conn;
-
                             cmd.Parameters.AddWithValue("@spoorid", spoor.ID);
-
-                            foreach (var sector in spoor.Sectoren)
+                            for (int i = spoor.Lengte - hoeveelheid + 1; i < spoor.Lengte + 1; i++)
                             {
+                                cmd.Parameters.AddWithValue("@nummer", i);
                                 cmd.ExecuteNonQuery();
                             }
+                            //foreach (var sector in spoor.Sectoren)
+                            //{
+                            //    cmd.ExecuteNonQuery();
+                            //}
                         }
                     }
                     catch (Exception ex)
