@@ -256,7 +256,7 @@ namespace EyeCT4RailzMVC.Models
                     {
                         using (SqlCommand cmd = new SqlCommand())
                         {
-                            cmd.CommandText = "SELECT T.ID, T.Remise_ID, T.Tramtype_ID, T.Nummer, T.Lengte, T.Status, T.Vervuild, T.Defect, T.ConducteurGeschikt, T.Beschikbaar FROM Tram T " +
+                            cmd.CommandText = "SELECT T.ID, T.Remise_ID_Standplaats, T.Tramtype_ID, T.Nummer, T.Lengte, T.Status, T.Vervuild, T.Defect, T.ConducteurGeschikt, T.Beschikbaar FROM Tram T " +
                                               "LEFT JOIN  TramType TT on T.Tramtype_ID = TT.ID";
                             cmd.Connection = conn;
 
@@ -627,9 +627,16 @@ namespace EyeCT4RailzMVC.Models
         //deze is als methode geschreven omdat hij vaker dan 1x gebruikt wordt.
         private Tram ReturnTram(SqlDataReader reader)
         {
-            reader.Read();
             int id = reader.GetInt32(0);
-            int Rid = reader.GetInt32(1);
+            int Rid;
+            if (!reader.IsDBNull(1))
+            {
+                Rid = reader.GetInt32(1);
+            }
+            else
+            {
+                Rid = -1;
+            }
             TramType type;
 
             switch (reader.GetInt32(2))
@@ -669,7 +676,15 @@ namespace EyeCT4RailzMVC.Models
 
             int nr = reader.GetInt32(3);
             int lengte = reader.GetInt32(4);
-            string status = reader.GetString(5);
+            TramStatus status;
+            if (!reader.IsDBNull(5))
+            {
+                status = (TramStatus)Enum.Parse(typeof(TramStatus), reader.GetString(5));
+            }
+            else
+            {
+                status = TramStatus.Remise;
+            }
             bool vervuild = reader.GetBoolean(6);
             bool defect = reader.GetBoolean(7);
             bool conducteur = reader.GetBoolean(8);
