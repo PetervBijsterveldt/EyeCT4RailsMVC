@@ -19,6 +19,7 @@ namespace EyeCT4RailzMVC.Models
         public bool Beschikbaar { get; set; }
         public List<SchoonmaakBeurt> SchoonmaakBeurten { get; set; }
         public List<ReparatieBeurt> ReparatieBeurten { get; set; }
+        public int BestuurderId { get; set; }
 
 
 
@@ -40,7 +41,7 @@ namespace EyeCT4RailzMVC.Models
             Lengte = lengte;
             Type = type;
         }
-        public Tram(int id, int Rid, TramType type, int nr, int lengte, string status, bool vervuild, bool defect, bool geschikt, bool beschikbaar)
+        public Tram(int id, int Rid, TramType type, int nr, int lengte, string status, bool vervuild, bool defect, bool geschikt, bool beschikbaar, int bestuurderId)
         {
             ID = id;
             RemiseID = Rid;
@@ -54,8 +55,9 @@ namespace EyeCT4RailzMVC.Models
             Beschikbaar = beschikbaar;
             SchoonmaakBeurten = new List<SchoonmaakBeurt>();
             ReparatieBeurten = new List<ReparatieBeurt>();
+            BestuurderId = bestuurderId;
         }
-        public Tram(int id, int nr, int lengte, TramType type, string status, bool conducteurgeschikt, List<SchoonmaakBeurt> schoonmaakbeurten, List<ReparatieBeurt> reparatiebeurten)
+        public Tram(int id, int nr, int lengte, TramType type, string status, bool conducteurgeschikt, List<SchoonmaakBeurt> schoonmaakbeurten, List<ReparatieBeurt> reparatiebeurten, int bestuurderId)
         {
             ID = id;
             TramNr = nr;
@@ -64,6 +66,7 @@ namespace EyeCT4RailzMVC.Models
             Status = status;
             SchoonmaakBeurten = schoonmaakbeurten;
             ReparatieBeurten = reparatiebeurten;
+            BestuurderId = bestuurderId;
 
         }
 

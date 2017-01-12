@@ -19,7 +19,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
@@ -153,6 +153,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ADController.cs" />
     <Compile Include="Controllers\BeheerController.cs" />
+    <Compile Include="Controllers\BestuurderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReparatieController.cs" />
     <Compile Include="Controllers\SchoonmaakController.cs" />
@@ -249,6 +250,7 @@
     <Content Include="Views\Schoonmaak\Taken.cshtml" />
     <Content Include="Views\Reparatie\Taken.cshtml" />
     <Content Include="Views\Spoor\TramVerplaatsen.cshtml" />
+    <Content Include="Views\Bestuurder\BestuurdersOverzicht.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
