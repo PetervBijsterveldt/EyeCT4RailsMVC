@@ -36,7 +36,8 @@ namespace EyeCT4RailzMVC.Controllers
 
         public ActionResult Taken()
         {
-            string naam = User.Identity.Name;
+            string[] namen = User.Identity.Name.Split('\\');
+            string naam = namen[1];
             List<SchoonmaakBeurt> schoonmaakBeurten = new List<SchoonmaakBeurt>();
             foreach (var item in tramRepository.ListSchoonmaakbeurten(0))
             {
