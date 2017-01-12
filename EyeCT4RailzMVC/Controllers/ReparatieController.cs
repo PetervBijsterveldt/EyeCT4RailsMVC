@@ -13,13 +13,15 @@ namespace EyeCT4RailzMVC.Controllers
         TramRepository tramRepository = new TramRepository(new MssqlTramLogic());
         // GET: Reparatie
 
-        [Authorize(Roles = "Technicus")]
+        
         public ActionResult Index()
         {
             return View();
         }
 
-        
+#if !DEBUG
+        [Authorize(Roles = "Technicus")]
+#endif
         public ActionResult Reparatieoverzicht()
         {
             List<ReparatieBeurt> reparatieBeurten = tramRepository.ListReparatiebeurten(0);
@@ -28,12 +30,11 @@ namespace EyeCT4RailzMVC.Controllers
 
         public ActionResult Taken()
         {
-            //id voor medewerkerid
-            int id = 1;
+            string naam = User.Identity.Name;
             List<ReparatieBeurt> reparatieBeurten = new List<ReparatieBeurt>();
             foreach (var item in tramRepository.ListReparatiebeurten(0))
             {
-                if (item.MedewerkerId == id)
+                if (item.Medewerkernaam == naam)
                 {
                     reparatieBeurten.Add(item);
                 }

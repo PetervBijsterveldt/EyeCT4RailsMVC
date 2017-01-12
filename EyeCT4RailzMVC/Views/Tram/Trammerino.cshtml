@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Trammerino";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Tram</h2>
@@ -26,18 +27,9 @@
             <dd>
                 @Html.EditorFor(model => model.TramNr, new { htmlAttributes = new { @class = "form-control" } })
             </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.ConducteurGeschikt)
-            </dt>
-
-            <dd>
-                @Html.EditorFor(model => model.ConducteurGeschikt, new { htmlAttributes = new { @class = "form-control" } })
-            </dd>
             <dt>
                 @Html.DisplayNameFor(model => model.Status)
             </dt>
-
             <dd>
                 @Html.DropDownListFor(model => model.Status, new List<SelectListItem>
                 {
@@ -49,14 +41,37 @@
                     new SelectListItem {Text= "Schoonmaak Nodig", Value = "SchoonmaakNodig" }
                 }, new { @class = "form-control" })
             </dd>
-            <br />
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default" />
-                </div>
-            </div>
+            <dt>
+                @Html.DisplayNameFor(model => model.ConducteurGeschikt)
+            </dt>
 
+            <dd>
+                @Html.EditorFor(model => model.ConducteurGeschikt, new { htmlAttributes = new { @class = "form-control" } })
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Beschikbaar)
+            </dt>
+            <dd>
+                @Html.EditorFor(model => model.Beschikbaar, new { htmlAttributes = new { @class = "form-control" } })
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Vervuild)
+            </dt>
+            <dd>
+                @Html.EditorFor(model => model.Vervuild, new { htmlAttributes = new { @class = "form-control" } })
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Defect)
+            </dt>
+            <dd>
+                @Html.EditorFor(model => model.Defect, new { htmlAttributes = new { @class = "form-control" } })
+            </dd>
         </dl>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
     </div>
 }
 <p>
