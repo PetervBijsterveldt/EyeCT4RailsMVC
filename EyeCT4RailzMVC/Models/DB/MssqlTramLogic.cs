@@ -11,7 +11,7 @@ namespace EyeCT4RailzMVC.Models
 {
     public class MssqlTramLogic : ITramServices
     {
-#if DEBUG
+#if !DEBUG
         private readonly string connectie = "Server=RailzDB;Database=dbi344475; Database=dbi344475; Trusted_Connection=Yes;";
 #else
         private readonly string connectie = "Server=mssql.fhict.local;Database=dbi344475;User Id=dbi344475;Password=Rails1;";
