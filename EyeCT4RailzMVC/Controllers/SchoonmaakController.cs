@@ -8,7 +8,7 @@ using EyeCT4RailzMVC.Models;
 namespace EyeCT4RailzMVC.Controllers
 {
 
-    //[Authorize(Roles = "Schoonmaker")]
+    [Authorize(Roles = "Schoonmaker")]
     public class SchoonmaakController : Controller
     {
         TramRepository tramRepository = new TramRepository(new MssqlTramLogic());
@@ -23,6 +23,10 @@ namespace EyeCT4RailzMVC.Controllers
         [HttpGet]
         public ActionResult Schoonmaakoverzicht()
         {
+            if (User.IsInRole("Schoonmaker"))
+            {
+                return RedirectToAction("Taken");
+            }
             List<SchoonmaakBeurt> schoonmaakBeurten = tramRepository.ListSchoonmaakbeurten(0); 
             return View(schoonmaakBeurten);
         }
