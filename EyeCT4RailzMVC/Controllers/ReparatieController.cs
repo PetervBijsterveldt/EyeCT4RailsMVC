@@ -30,12 +30,11 @@ namespace EyeCT4RailzMVC.Controllers
 
         public ActionResult Taken()
         {
-            //id voor medewerkerid
-            int id = 1;
+            string naam = User.Identity.Name;
             List<ReparatieBeurt> reparatieBeurten = new List<ReparatieBeurt>();
             foreach (var item in tramRepository.ListReparatiebeurten(0))
             {
-                if (item.MedewerkerId == id)
+                if (item.Medewerkernaam == naam)
                 {
                     reparatieBeurten.Add(item);
                 }

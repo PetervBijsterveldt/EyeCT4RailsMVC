@@ -26,6 +26,18 @@ namespace EyeCT4RailzMVC.Controllers
         public ActionResult Index(Spoor spoor)
         {
             SpoorRepository spoorRepository = new SpoorRepository(new MssqlSpoorLogic());
+            Spoor oudeSpoor = spoorRepository.CheckForSpoor(spoor);
+            int difference = spoor.Lengte - oudeSpoor.Lengte;
+            int hoeveelheid = Math.Abs(difference);
+            if (difference > 0)
+            {
+                //sectoren komen erbij
+            }
+            else if (difference < 0)
+            {
+                //sectoren gaan eraf
+                //spoorRepository.
+            }
             spoorRepository.EditSpoor(spoor);
 
             return RedirectToAction("Index");

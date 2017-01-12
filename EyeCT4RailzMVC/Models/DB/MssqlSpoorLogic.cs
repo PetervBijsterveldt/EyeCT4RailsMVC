@@ -291,7 +291,7 @@ namespace EyeCT4RailzMVC.Models
             }
         }
 
-        public void AddSectoren(Spoor spoor)
+        public void AddSectoren(Spoor spoor, int hoeveelheid)
         {
             using (SqlConnection conn = new SqlConnection(connectie))
             {
@@ -327,7 +327,7 @@ namespace EyeCT4RailzMVC.Models
             }
         }
 
-        public void RemoveSectoren(Spoor spoor)
+        public void RemoveSectoren(Spoor spoor, int hoeveelheid)
         {
             using (SqlConnection conn = new SqlConnection(connectie))
             {
@@ -421,7 +421,7 @@ namespace EyeCT4RailzMVC.Models
                     try
                     {
                         command.CommandText = "UPDATE Spoor " +
-                                              "SET RemiseID = @remiseId, Nummer = @nummer, Lengte = @lengte, Beschikbaar = @beschikbaar, InUitRijspoor = @inuitrijSpoor " +
+                                              "SET Remise_ID = @remiseId, Nummer = @nummer, Lengte = @lengte, Beschikbaar = @beschikbaar, InUitRijspoor = @inuitrijSpoor " +
                                               "WHERE ID = @id";
                         command.Connection = connection;
 

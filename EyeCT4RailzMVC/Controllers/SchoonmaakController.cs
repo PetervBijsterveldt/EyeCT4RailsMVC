@@ -8,7 +8,7 @@ using EyeCT4RailzMVC.Models;
 namespace EyeCT4RailzMVC.Controllers
 {
 
-    [Authorize(Roles = "Schoonmaker")]
+    [Authorize(Roles = "Schoonmaker, Beheerder")]
     public class SchoonmaakController : Controller
     {
         TramRepository tramRepository = new TramRepository(new MssqlTramLogic());
@@ -23,18 +23,25 @@ namespace EyeCT4RailzMVC.Controllers
         [HttpGet]
         public ActionResult Schoonmaakoverzicht()
         {
-            List<SchoonmaakBeurt> schoonmaakBeurten = tramRepository.ListSchoonmaakbeurten(0); 
-            return View(schoonmaakBeurten);
+            if (User.IsInRole("Schoonmaker"))
+            {
+                return RedirectToAction("Taken");
+            }
+            else
+            {
+                List<SchoonmaakBeurt> schoonmaakBeurten = tramRepository.ListSchoonmaakbeurten(0);
+                return View(schoonmaakBeurten);
+            }
         }
 
         public ActionResult Taken()
         {
-            //id voor medewerkerid
-            int id = 1;
+            string[] namen = User.Identity.Name.Split('\\');
+            string naam = namen[1];
             List<SchoonmaakBeurt> schoonmaakBeurten = new List<SchoonmaakBeurt>();
             foreach (var item in tramRepository.ListSchoonmaakbeurten(0))
             {
-                if (item.MedewerkerId == id)
+                if (item.Medewerkernaam == naam)
                 {
                     schoonmaakBeurten.Add(item);
                 }

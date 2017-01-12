@@ -45,6 +45,20 @@ namespace EyeCT4RailzMVC.Models
             spoorLogic.SpoorStatusVeranderen(spoor);
         }
 
+        public void AddSectoren(Spoor spoor, int hoeveelheid)
+        {
+            spoorLogic.AddSectoren(spoor, hoeveelheid);
+        }
+
+        public void RemoveSectoren(Spoor spoor, int hoeveelheid)
+        {
+            spoorLogic.RemoveSectoren(spoor, hoeveelheid);
+        }
+
+        public List<Sector> getSectoren(int spoorID)
+        {
+            return spoorLogic.getSectoren(spoorID);
+        }
         public void EditSpoor(Spoor spoor)
         {
             spoorLogic.EditSpoor(spoor);
