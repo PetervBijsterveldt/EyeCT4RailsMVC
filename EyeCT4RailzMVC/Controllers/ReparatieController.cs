@@ -7,15 +7,19 @@ using EyeCT4RailzMVC.Models;
 
 namespace EyeCT4RailzMVC.Controllers
 {
+
     public class ReparatieController : Controller
     {
         TramRepository tramRepository = new TramRepository(new MssqlTramLogic());
         // GET: Reparatie
+
+        [Authorize(Roles = "Technicus")]
         public ActionResult Index()
         {
             return View();
         }
 
+        
         public ActionResult Reparatieoverzicht()
         {
             List<ReparatieBeurt> reparatieBeurten = tramRepository.ListReparatiebeurten(0);

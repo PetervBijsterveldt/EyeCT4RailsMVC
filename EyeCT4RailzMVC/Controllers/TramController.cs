@@ -12,6 +12,7 @@ namespace EyeCT4RailzMVC.Controllers
         private TramRepository tramRepository = new TramRepository(new MssqlTramLogic());
 
         // GET: Tram
+        [Authorize(Roles = "Beheerder, Wagenparkbeheerder")]
         [HttpGet]
         public ActionResult Overzicht()
         {
@@ -26,6 +27,7 @@ namespace EyeCT4RailzMVC.Controllers
             }
         }
 
+        
         [HttpGet]
         public ActionResult Trammerino(Tram tram)
         {
