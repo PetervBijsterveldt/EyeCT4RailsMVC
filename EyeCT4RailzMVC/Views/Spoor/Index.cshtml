@@ -30,6 +30,17 @@
         float: left;
     }
 
+    .sectorbezet {
+        border: 1px solid red;
+        background-color: orangered;
+        color: black;
+        text-align: center;
+        vertical-align: middle;
+        word-wrap: break-word;
+        font-size: 10px;
+        padding-top: 10px;
+    }
+
     .blokkeerbtn {
         width: 64px;
         height: 30px;
@@ -40,13 +51,20 @@
 </style>
 
 
-<div style="width: @CalculateDivWidht(); position: absolute; left: 15px;">
+<div style="width: @CalculateDivWidth(); position: absolute; left: 15px;">
     @for (int i = 0; i < Model.Count; i++)
     {
         <div class="spoordiv" style="height: @CalculateSpoorHeight(Model[i])">
             @for (int j = 0; j < Model[i].Sectoren.Count; j++)
             {
-                <div class="sectordiv"></div>
+                if (Model[i].Sectoren[j].TramID == 0)
+                {
+                    <div class="sectordiv"></div>
+                }
+                else
+                {
+                    <div class="sectordiv sectorbezet">@GetTramName(Model[i].Sectoren[j].TramID)</div>
+                }
             }
             <p style="text-align: center; font-size: 18px;">@Model[i].Nummer</p>
 
@@ -57,7 +75,7 @@
 
 @functions
 {
-    string CalculateDivWidht()
+    string CalculateDivWidth()
     {
         return $"{Model.Count * 84 + 30}px";
     }
@@ -66,4 +84,18 @@
     {
         return $"{spoor.Sectoren.Count * 54 + 30}px";
     }
+
+    string GetTramName(int tramid)
+    {
+        TramRepository tramRepository = new TramRepository(new MssqlTramLogic());
+        Tram tram = tramRepository.CheckForTramId(tramid);
+        if (tram.Type != TramType.DubbelKopCombino)
+        {
+            return $"{tram.Type} \n {tram.TramNr}";
+        }
+        else
+        {
+            return $"DKC \n {tram.TramNr}";
+        }
     }
+}

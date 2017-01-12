@@ -26,9 +26,9 @@ namespace EyeCT4RailzMVC.Models
                     {
                         using (SqlCommand cmd = new SqlCommand())
                         {
-                            cmd.CommandText = "SELECT T.ID, T.Remise_ID, T.Tramtype_ID, T.Nummer, T.Lengte, T.Status, T.Vervuild, T.Defect, T.ConducteurGeschikt, T.Beschikbaar FROM Tram T " +
-                                              "LEFT JOIN TramType TT ON TT.ID = T.TramType_ID " + 
-                                              "LEFT JOIN Remist R ON R.ID = T.Remise_ID" + 
+                            cmd.CommandText = "SELECT * FROM Tram T " +
+                                              "LEFT JOIN TramType TT ON TT.ID = T.TramType_ID " +
+                                              "LEFT JOIN Remise R ON R.ID = T.Remise_ID_Standplaats " +
                                               "WHERE T.ID = @ID";
                             cmd.Connection = conn;
 
@@ -36,7 +36,7 @@ namespace EyeCT4RailzMVC.Models
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
-                                ReturnTram(reader);
+                                return ReturnTram(reader);
                             }
                         }
                     }
@@ -627,51 +627,70 @@ namespace EyeCT4RailzMVC.Models
         //deze is als methode geschreven omdat hij vaker dan 1x gebruikt wordt.
         private Tram ReturnTram(SqlDataReader reader)
         {
+            reader.Read();
             int id = reader.GetInt32(0);
             int Rid = reader.GetInt32(1);
             TramType type;
-            if (reader.GetString(2) == "11g")
+
+            switch (reader.GetInt32(2))
             {
-                type = TramType._11G;
+                case 1:
+                    type = TramType.Combino;
+                    break;
+
+                case 2:
+                    type = TramType._11G;
+                    break;
+
+                case 3:
+                    type = TramType.DubbelKopCombino;
+                    break;
+
+                case 4:
+                    type = TramType._12G;
+                    break;
+
+                case 5:
+                    type = TramType.Opleidingtram;
+                    break;
+
+                case 6:
+                    type = TramType._9G;
+                    break;
+
+                case 7:
+                    type = TramType._10G;
+                    break;
+
+                default:
+                    type = TramType.Combino;
+                    break;
             }
-            else if (reader.GetString(2) == "12g")
-            {
-                type = TramType._12G;
-            }
-            else if (reader.GetString(2) == "9g")
-            {
-                type = TramType._9G;
-            }
-            else if (reader.GetString(2) == "10g")
-            {
-                type = TramType._10G;
-            }
-            else
-            {
-                type = (TramType)Enum.Parse(typeof(TramType), reader.GetString(2).Replace(" ", ""));
-            }
+
             int nr = reader.GetInt32(3);
             int lengte = reader.GetInt32(4);
             string status = reader.GetString(5);
             bool vervuild = reader.GetBoolean(6);
             bool defect = reader.GetBoolean(7);
-            bool conducteur;
-            if (reader.GetInt32(8) == 0)
-            {
-                conducteur = false; //bestuurder mag niet rijden
-            }
-            else if (reader.GetInt32(8) == 1)
-            {
-                conducteur = true; //bestuurder mag wel rijden
-            }
-            else
-            {
-                conducteur = false;
-            }
+            bool conducteur = reader.GetBoolean(8);
+            /* if (reader.GetInt32(8) == 0)
+             {
+                 conducteur = false; //bestuurder mag niet rijden
+             }
+             else if (reader.GetInt32(8) == 1)
+             {
+                 conducteur = true; //bestuurder mag wel rijden
+             }
+             else
+             {
+                 conducteur = false;
+             }*/
             bool beschikbaar = reader.GetBoolean(9);
 
             return new Tram(id, Rid, type, nr, lengte, status, vervuild, defect, conducteur, beschikbaar);
         }
+
+
         private void TramInrijden(SqlConnection conn, SqlCommand cmd, Spoor spoor, Tram tram)
         {
             foreach (Sector S in spoor.Sectoren)
