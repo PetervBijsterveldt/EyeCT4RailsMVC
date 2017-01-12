@@ -1,0 +1,42 @@
+﻿@model List< EyeCT4RailzMVC.Models.User>
+
+@{
+    ViewBag.Title = "UserLijst";
+}
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#">Users</a></li>
+    <li><a href="#">Twee</a></li>
+    <li><a href="#">Drie</a></li>
+</ul>
+<h2>Lijst users</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            <h4>Naam</h4>
+        </th>
+        <th>
+            <h4>Functie</h4>
+        </th> 
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th>
+                @Html.Encode(item.Naam)
+            </th>
+            <th>
+                @Html.Encode(item.Rol)
+            </th>
+            <th>
+                @Html.ActionLink("Edit", "EditUser", new { id = item.ID }) |
+                @Html.ActionLink("Verwijder", "RemoveUser", new { naam = item.Naam }, new { onclick = "return confirm('Weet je zeker dat je de User wilt verwijderen?');" })
+            </th>
+        </tr>
+    }
+</table>
+
+<div>
+    @Html.ActionLink("Create user", "CreateUser")
+</div>

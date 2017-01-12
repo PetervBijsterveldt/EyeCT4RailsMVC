@@ -1,0 +1,101 @@
+﻿@using System.Security.Policy
+@using System.Web.UI.WebControls
+@using EyeCT4RailzMVC.Models
+@model List<EyeCT4RailzMVC.Models.Spoor>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<style>
+    .spoordiv {
+        border-left: 3px solid black;
+        border-right: 3px solid black;
+        padding-left: 4px;
+        margin-left: 20px;
+        margin-top: 20px;
+        width: 64px;
+        float: left;
+    }
+
+    .sectordiv {
+        border: 1px solid green;
+        background-color: lawngreen;
+        width: 50px;
+        height: 50px;
+        margin-top: 4px;
+        float: left;
+    }
+
+    .sectorbezet {
+        border: 1px solid red;
+        background-color: orangered;
+        color: black;
+        text-align: center;
+        vertical-align: middle;
+        word-wrap: break-word;
+        font-size: 10px;
+        padding-top: 10px;
+    }
+
+    .blokkeerbtn {
+        width: 64px;
+        height: 30px;
+        margin-left: -7px;
+        padding-left: 1px;
+        font-size: 11px;
+    }
+</style>
+
+
+<div style="width: @CalculateDivWidth(); position: absolute; left: 15px;">
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="spoordiv" style="height: @CalculateSpoorHeight(Model[i])">
+            @for (int j = 0; j < Model[i].Sectoren.Count; j++)
+            {
+                if (Model[i].Sectoren[j].TramID == 0)
+                {
+                    <div class="sectordiv"></div>
+                }
+                else
+                {
+                    <div class="sectordiv sectorbezet" onclick="location.href='@Url.Action("TramVerplaatsen", "Spoor", new {id = Model[i].Sectoren[j].TramID})'">@GetTramName(Model[i].Sectoren[j].TramID)</div>
+                }
+            }
+            <p style="text-align: center; font-size: 18px;">@Model[i].Nummer</p>
+
+            <button type="submit" class="blokkeerbtn" onclick="location.href='@Url.Action("Edit", "Spoor", Model[i])'">Wijzig</button>
+        </div>
+    }
+</div>
+
+@functions
+{
+    string CalculateDivWidth()
+    {
+        return $"{Model.Count * 84 + 30}px";
+    }
+
+    string CalculateSpoorHeight(Spoor spoor)
+    {
+        return $"{spoor.Sectoren.Count * 54 + 30}px";
+    }
+
+    string GetTramName(int tramid)
+    {
+        TramRepository tramRepository = new TramRepository(new MssqlTramLogic());
+        Tram tram = tramRepository.CheckForTramId(tramid);
+        if (tram.Type != TramType.DubbelKopCombino)
+        {
+            return $"{tram.Type} \n {tram.TramNr}";
+        }
+        else
+        {
+            return $"DKC \n {tram.TramNr}";
+        }
+    }
+}

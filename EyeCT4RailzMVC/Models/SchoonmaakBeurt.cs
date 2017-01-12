@@ -8,49 +8,80 @@ namespace EyeCT4RailzMVC.Models
     public class SchoonmaakBeurt
     {
         public int Id { get; set; } 
+        public string Medewerkernaam { get; set; }
         public int MedewerkerId { get; set; }
-        public string Naam { get; set; }
         public int TramId { get; set; }
-        public string Beschrijving { get; set; }
         public DateTime StartDatum { get; set; }
         public DateTime EindDatum { get; set; }
         public SchoonmaakType Type { get; set; }
+        public List<User> Users { get; set; }
 
-        public SchoonmaakBeurt(int id, int medewerkerid, string naam, int tramid, string beschrijving, DateTime startdatum, DateTime einddatum, SchoonmaakType type)
+        public SchoonmaakBeurt(int id, string medewerkernaam, int tramid, DateTime startdatum, DateTime einddatum, SchoonmaakType type, int medewerkerid)
         {
             Id = id;
-            MedewerkerId = medewerkerid;
-            Naam = naam;
-            Beschrijving = beschrijving;
+            Medewerkernaam = medewerkernaam;
+            TramId = tramid;
             StartDatum = startdatum;
             EindDatum = einddatum;
             Type = type;
+            MedewerkerId = medewerkerid;
+            UserRepository UserRepo = new UserRepository(new MssqlUserLogic());
+            Users = UserRepo.ListUsers();
         }
-        public SchoonmaakBeurt(int medewerkerid, string naam, int tramid, string beschrijving, DateTime startdatum, DateTime einddatum, SchoonmaakType type)
+        public SchoonmaakBeurt(int medewerkerid, int tramid, DateTime startdatum, DateTime einddatum, SchoonmaakType type)
         {
             MedewerkerId = medewerkerid;
-            Naam = naam;
-            Beschrijving = beschrijving;
+            TramId = tramid;
             StartDatum = startdatum;
             EindDatum = einddatum;
             Type = type;
+            UserRepository UserRepo = new UserRepository(new MssqlUserLogic());
+            Users = UserRepo.ListUsers();
         }
-        public SchoonmaakBeurt(int medewerkerid, string naam, int tramid, string beschrijving, DateTime startdatum, SchoonmaakType type)
-        {
-            MedewerkerId = medewerkerid;
-            Naam = naam;
-            Beschrijving = beschrijving;
-            StartDatum = startdatum;
-            Type = type;
-        }
-        public SchoonmaakBeurt(int id, int medewerkerid, string naam, int tramid, string beschrijving, DateTime startdatum, SchoonmaakType type)
+
+        public SchoonmaakBeurt(int id, string medewerkernaam, int tramid, DateTime startdatum, SchoonmaakType type, int medewerkerid)
         {
             Id = id;
-            MedewerkerId = medewerkerid;
-            Naam = naam;
-            Beschrijving = beschrijving;
+            Medewerkernaam = medewerkernaam;
+            TramId = tramid;
             StartDatum = startdatum;
             Type = type;
+            MedewerkerId = medewerkerid;
+            UserRepository UserRepo = new UserRepository(new MssqlUserLogic());
+            Users = UserRepo.ListUsers();
+        }
+        public SchoonmaakBeurt(string medewerkernaam, DateTime startdatum, DateTime einddatum, SchoonmaakType type)
+        {
+            Medewerkernaam = medewerkernaam;
+            StartDatum = startdatum;
+            EindDatum = einddatum;
+            Type = type;
+            UserRepository UserRepo = new UserRepository(new MssqlUserLogic());
+            Users = UserRepo.ListUsers();
+        }
+        public SchoonmaakBeurt(string medewerkernaam, DateTime startdatum, SchoonmaakType type)
+        {
+            Medewerkernaam = medewerkernaam;
+            StartDatum = startdatum;
+            Type = type;
+            UserRepository UserRepo = new UserRepository(new MssqlUserLogic());
+            Users = UserRepo.ListUsers();
+        }
+        public SchoonmaakBeurt(int id, string medewerkernaam, DateTime startdatum, SchoonmaakType type)
+        {
+            Id = id;
+            Medewerkernaam = medewerkernaam;
+            StartDatum = startdatum;
+            Type = type;
+            UserRepository UserRepo = new UserRepository(new MssqlUserLogic());
+            Users = UserRepo.ListUsers();
+        }
+
+        public SchoonmaakBeurt()
+        {
+            StartDatum = DateTime.Now;
+            UserRepository UserRepo = new UserRepository(new MssqlUserLogic());
+            Users = UserRepo.ListUsers();
         }
     }
 }

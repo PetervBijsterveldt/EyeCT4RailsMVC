@@ -1,0 +1,57 @@
+﻿@model IEnumerable<EyeCT4RailzMVC.Models.SchoonmaakBeurt>
+
+@{
+    ViewBag.Title = "Schoonmaakoverzicht";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Schoonmaakoverzicht</h2>
+
+
+
+<ul class="nav nav-tabs">
+    <li><a href="@Url.Action("Schoonmaakoverzicht", "Schoonmaak")">Schoonmaakoverzicht</a></li>
+    <li><a href="@Url.Action("HistorySchoonmaakoverzicht", "Schoonmaak")">History</a></li>
+</ul>
+<table class="table">
+    <tr>
+        <th>
+            Medewerker
+        </th>
+        <th>
+            Tram ID
+        </th>
+        <th>
+            Startdatum
+        </th>
+        <th>
+            Verwachte einddatum
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Medewerkernaam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TramId)
+        </td>
+        <td>
+            @Html.Encode(item.StartDatum.ToShortDateString())
+        </td>
+        <td>
+            @Html.Encode(item.EindDatum.ToShortDateString())
+        </td>
+        <td>
+            @Html.ActionLink("Beëindig", "BeëindigSchoonmaak", new { schoonmaakid = item.Id }, new { onclick ="return confirm('Is de schoonmaak afgelopen?');" }) 
+        </td>
+    </tr>
+}
+
+</table>
+
+<p>
+    @Html.ActionLink("Nieuwe schoonmaakbeurt", "AddSchoonmaakbeurt")
+</p>

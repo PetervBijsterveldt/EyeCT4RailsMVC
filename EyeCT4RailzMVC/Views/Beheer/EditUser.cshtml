@@ -1,0 +1,51 @@
+﻿@model EyeCT4RailzMVC.Models.User
+
+@{
+    ViewBag.Title = "EditUser";
+}
+
+<h2>Wijzig User</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Naam, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Naam, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Naam, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Rol, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Rol, new List<SelectListItem>
+                {
+                    new SelectListItem {Text= "Beheerder", Value = "Beheerder" },
+                    new SelectListItem {Text= "Wagenparkbeheerder", Value = "Wagenparkbeheerder" },
+                    new SelectListItem {Text= "Bestuurder", Value = "Bestuurder" },
+                    new SelectListItem {Text= "Schoonmaker", Value = "Schoonmaker" },
+                    new SelectListItem {Text= "Technicus", Value = "Technicus" }
+                }, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Rol, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Terug naar overzicht", "UserLijst")
+</div>

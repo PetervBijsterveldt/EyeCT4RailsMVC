@@ -8,53 +8,78 @@ namespace EyeCT4RailzMVC.Models
     public class Spoor
     {
         public int RemiseID { get; set; }
-        public int SpoorNR { get; set; }
+        public int ID { get; set; }
+        public int Nummer { get; set; }
         public List<Sector> Sectoren { get; set; }
         public int Lengte { get; set; }
-        public int RestererendeLengte { get; set; }
-        public bool Geblokkeerd { get; set; }
+        public int RestererendeLengte { get { return Sectoren.FindAll(x => x.TramID > 0).Count; } }
+        public bool InUitRijSpoor { get; set; }
+        public bool Beschikbaar { get; set; }
+
+        public Spoor()
+        {
+            
+        }
 
         public Spoor(int nr, int lengte)
         {
-            SpoorNR = nr;
+            ID = nr;
             Lengte = lengte;
         }
 
-        public Spoor(int nr, int lengte, int remiseid, bool geblokkeerd)
+        public Spoor(int nr, int lengte, int remiseid)
         {
-            SpoorNR = nr;
+            ID = nr;
             Lengte = lengte;
             RemiseID = remiseid;
-            Geblokkeerd = geblokkeerd;
         }
 
-        public Spoor(int nr, int lengte, int remiseid, bool geblokkeerd, List<Sector> sectoren)
+        //constructor voor uit de database
+        public Spoor(int id, int remiseid, int nummer, int lengte, bool beschikbaar, bool inuitrijspoor, List<Sector> sectoren)
         {
-            SpoorNR = nr;
-            Lengte = lengte;
+            ID = id;
             RemiseID = remiseid;
-            Geblokkeerd = geblokkeerd;
+            Nummer = nummer;
+            Lengte = lengte;
+            Beschikbaar = beschikbaar;
+            InUitRijSpoor = inuitrijspoor;
+            Sectoren = sectoren;
+        }
+
+        //constructor voor in de database, maar dan zonder ID (auto increment)
+        public Spoor(int remiseid, int nummer, int lengte, bool beschikbaar, bool inuitrijspoor, List<Sector> sectoren)
+        {
+            RemiseID = remiseid;
+            Nummer = nummer;
+            Lengte = lengte;
+            Beschikbaar = beschikbaar;
+            InUitRijSpoor = inuitrijspoor;
             Sectoren = sectoren;
         }
 
         public void BlokkeerSpoor()
         {
-            
+
+            Beschikbaar = false;
         }
 
         public void DeblokkeerSpoor()
         {
-            
+            Beschikbaar = true;
         }
 
         public void SectorenToevoegen(int lengte)
         {
-            
+            //als i onder de lengte blijft of gelijk aan de lengte is, voegt ie steeds een nieuwe (lege) sector toe
+            for (int i = 0; i <= lengte; i++)
+            {
+                Sectoren.Add(new Sector());
+            }
         }
 
         public void SectorenVerwijderen(int lengte)
         {
-            
+            //idk?
         }
     }
 }

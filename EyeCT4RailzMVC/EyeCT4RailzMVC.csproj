@@ -79,6 +79,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.DirectoryServices.Protocols" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -148,11 +151,27 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\ADController.cs" />
+    <Compile Include="Controllers\BeheerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ReparatieController.cs" />
+    <Compile Include="Controllers\SchoonmaakController.cs" />
+    <Compile Include="Controllers\SpoorController.cs" />
+    <Compile Include="Controllers\TramController.cs" />
+    <Compile Include="Controllers\UserViewController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DB\ISpoorServices.cs" />
+    <Compile Include="Models\DB\ITramServices.cs" />
+    <Compile Include="Models\DB\IUserServices.cs" />
+    <Compile Include="Models\DB\MssqlSpoorLogic.cs" />
+    <Compile Include="Models\DB\MssqlTramLogic.cs" />
+    <Compile Include="Models\DB\MssqlUserLogic.cs" />
+    <Compile Include="Models\DB\SpoorRepository.cs" />
+    <Compile Include="Models\DB\TramRepository.cs" />
+    <Compile Include="Models\DB\UserRepository.cs" />
+    <Compile Include="Models\Exceptions\DataException.cs" />
     <Compile Include="Models\Remise.cs" />
     <Compile Include="Models\ReparatieBeurt.cs" />
     <Compile Include="Models\ReparatiebeurtType.cs" />
@@ -168,8 +187,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-simplex.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\spooroverzicht.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -179,7 +200,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Properties\PublishProfiles\Eyect4railz.pubxml" />
+    <None Include="Properties\PublishProfiles\rails.pubxml" />
+    <None Include="Properties\PublishProfiles\Railz.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -206,10 +228,31 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Beheer\UserLijst.cshtml" />
+    <Content Include="Views\Beheer\CreateUser.cshtml" />
+    <Content Include="Views\UserView\UserOverview.cshtml" />
+    <Content Include="Views\AD\Index.cshtml" />
+    <Content Include="Views\Tram\Overzicht.cshtml" />
+    <Content Include="Views\Schoonmaak\Schoonmaakoverzicht.cshtml" />
+    <Content Include="Views\Schoonmaak\AddSchoonmaakbeurt.cshtml" />
+    <Content Include="Views\Tram\Trammerino.cshtml" />
+    <Content Include="Views\Beheer\EditUser.cshtml" />
+    <Content Include="Views\Beheer\EditUser.cshtml" />
+    <Content Include="Views\Schoonmaak\HistorySchoonmaakoverzicht.cshtml" />
+    <Content Include="Views\Spoor\Index.cshtml" />
+    <Content Include="Views\Reparatie\Reparatieoverzicht.cshtml" />
+    <Content Include="Views\Reparatie\HistoryReparatieoverzicht.cshtml" />
+    <Content Include="Views\Reparatie\AddReparatie.cshtml" />
+    <Content Include="Views\Spoor\Edit.cshtml" />
+    <Content Include="Views\Tram\AddTram.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Schoonmaak\Taken.cshtml" />
+    <Content Include="Views\Reparatie\Taken.cshtml" />
+    <Content Include="Views\Spoor\TramVerplaatsen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Error\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

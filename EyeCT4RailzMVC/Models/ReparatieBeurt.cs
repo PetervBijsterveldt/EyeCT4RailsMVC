@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace EyeCT4RailzMVC.Models
 {
@@ -10,56 +8,41 @@ namespace EyeCT4RailzMVC.Models
         public int Id { get; set; }
         public int TramId { get; set; }
         public int MedewerkerId { get; set; }
-        public string Naam { get; set; }
-        public string Beschrijving { get; set; }
+        public string Medewerkernaam { get; set; }
         public DateTime StartDatumEnTijd { get; set; }
-        public DateTime EindDatumEnTijd { get; set; }
-        public DateTime VerwachteDatumEnTijd { get; set; }
+        public DateTime EindDatum { get; set; }
         public ReparatiebeurtType ReparatiebeurtType { get; set; }
-       
-        public ReparatieBeurt(int Id, int TramId, int MedewerkerId, string Naam, string Beschrijving, DateTime StartDatumEnTijd, DateTime EindDatumEnTijd, DateTime VerwachteDatumEnTijd, ReparatiebeurtType ReparatiebeurtType)
+        public List<User> Users { get; set; }
+
+        public ReparatieBeurt(int id, string medewerkernaam, int tramId, DateTime startDatumEnTijd, DateTime eindDatumEnTijd, ReparatiebeurtType reparatiebeurtType, int medewerkerid)
         {
-            this.Id = Id;
-            this.TramId = TramId;
-            this.MedewerkerId = MedewerkerId;
-            this.Naam = Naam;
-            this.Beschrijving = Beschrijving;
-            this.StartDatumEnTijd = StartDatumEnTijd;
-            this.EindDatumEnTijd = EindDatumEnTijd;
-            this.ReparatiebeurtType = ReparatiebeurtType;
+            Id = id;
+            TramId = tramId;
+            Medewerkernaam = medewerkernaam;
+            MedewerkerId = medewerkerid;
+            StartDatumEnTijd = startDatumEnTijd;
+            EindDatum = eindDatumEnTijd;
+            ReparatiebeurtType = reparatiebeurtType;
+            UserRepository UserRepo = new UserRepository(new MssqlUserLogic());
+            Users = UserRepo.ListUsers();
+        }
+        public ReparatieBeurt(int id, string medewerkernaam, int tramId, DateTime startDatumEnTijd, ReparatiebeurtType reparatiebeurtType, int medewerkerid)
+        {
+            Id = id;
+            TramId = tramId;
+            Medewerkernaam = medewerkernaam;
+            MedewerkerId = medewerkerid;
+            StartDatumEnTijd = startDatumEnTijd;
+            ReparatiebeurtType = reparatiebeurtType;
+            UserRepository UserRepo = new UserRepository(new MssqlUserLogic());
+            Users = UserRepo.ListUsers();
         }
 
-        public ReparatieBeurt(int Id, int TramId, int MedewerkerId, string Naam, string Beschrijving, DateTime StartDatumEnTijd, DateTime VerwachteDatumEnTijd, ReparatiebeurtType ReparatiebeurtType)
+        public ReparatieBeurt()
         {
-            this.Id = Id;
-            this.TramId = TramId;
-            this.MedewerkerId = MedewerkerId;
-            this.Naam = Naam;
-            this.Beschrijving = Beschrijving;
-            this.StartDatumEnTijd = StartDatumEnTijd;
-            this.ReparatiebeurtType = ReparatiebeurtType;
-        }
-
-        public ReparatieBeurt( int TramId, int MedewerkerId, string Naam, string Beschrijving, DateTime StartDatumEnTijd, DateTime VerwachteDatumEnTijd, ReparatiebeurtType ReparatiebeurtType)
-        {
-            
-            this.TramId = TramId;
-            this.MedewerkerId = MedewerkerId;
-            this.Naam = Naam;
-            this.Beschrijving = Beschrijving;
-            this.StartDatumEnTijd = StartDatumEnTijd;
-            this.ReparatiebeurtType = ReparatiebeurtType;
-        }
-
-        public ReparatieBeurt( int TramId, int MedewerkerId, string Naam, string Beschrijving, DateTime StartDatumEnTijd, DateTime EindDatumEnTijd, DateTime VerwachteDatumEnTijd, ReparatiebeurtType ReparatiebeurtType)
-        {
-            this.TramId = TramId;
-            this.MedewerkerId = MedewerkerId;
-            this.Naam = Naam;
-            this.Beschrijving = Beschrijving;
-            this.StartDatumEnTijd = StartDatumEnTijd;
-            this.EindDatumEnTijd = EindDatumEnTijd;
-            this.ReparatiebeurtType = ReparatiebeurtType;
+            StartDatumEnTijd = DateTime.Now;
+            UserRepository UserRepo = new UserRepository(new MssqlUserLogic());
+            Users = UserRepo.ListUsers();
         }
     }
 }
