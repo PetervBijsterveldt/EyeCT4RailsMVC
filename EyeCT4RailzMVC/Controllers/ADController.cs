@@ -1,5 +1,6 @@
 ﻿using System.DirectoryServices.AccountManagement;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace EyeCT4RailzMVC.Controllers
 {
@@ -41,6 +42,12 @@ namespace EyeCT4RailzMVC.Controllers
             
 
             return RedirectToAction("Index");
+        }
+        public ActionResult LogOff()
+        {
+            FormsAuthentication.SignOut();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
