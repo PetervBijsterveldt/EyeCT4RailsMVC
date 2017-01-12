@@ -27,8 +27,11 @@ namespace EyeCT4RailzMVC.Controllers
             {
                 return RedirectToAction("Taken");
             }
-            List<SchoonmaakBeurt> schoonmaakBeurten = tramRepository.ListSchoonmaakbeurten(0); 
-            return View(schoonmaakBeurten);
+            else
+            {
+                List<SchoonmaakBeurt> schoonmaakBeurten = tramRepository.ListSchoonmaakbeurten(0);
+                return View(schoonmaakBeurten);
+            }
         }
 
         public ActionResult Taken()
