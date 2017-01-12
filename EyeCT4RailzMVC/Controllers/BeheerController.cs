@@ -22,7 +22,9 @@ namespace EyeCT4RailzMVC.Controllers
             return View();
         }
 
+#if !DEBUG
         [Authorize(Roles = "Beheerder")]
+#endif
         public ActionResult UserLijst()
         {
             UserRepository userRepository = new UserRepository(new MssqlUserLogic());

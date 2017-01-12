@@ -11,7 +11,9 @@ namespace EyeCT4RailzMVC.Controllers
     {
         // GET: Spoor
         [HttpGet]
+#if !DEBUG
         [Authorize(Roles = "Beheerder, Wagenparkbeheerder")]
+#endif
         public ActionResult Index()
         {
             SpoorRepository spoorRepository = new SpoorRepository(new MssqlSpoorLogic());

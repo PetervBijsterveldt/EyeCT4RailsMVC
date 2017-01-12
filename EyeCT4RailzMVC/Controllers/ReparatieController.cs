@@ -19,7 +19,9 @@ namespace EyeCT4RailzMVC.Controllers
             return View();
         }
 
+#if !DEBUG
         [Authorize(Roles = "Technicus")]
+#endif
         public ActionResult Reparatieoverzicht()
         {
             List<ReparatieBeurt> reparatieBeurten = tramRepository.ListReparatiebeurten(0);
