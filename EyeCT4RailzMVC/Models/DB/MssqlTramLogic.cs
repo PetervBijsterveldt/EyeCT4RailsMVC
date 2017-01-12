@@ -105,7 +105,6 @@ namespace EyeCT4RailzMVC.Models
 
                             cmd.Parameters.AddWithValue("@lengte", tram.Lengte);
                             cmd.Parameters.AddWithValue("@status", tram.Status);
-                            cmd.Parameters.AddWithValue("@tramid", tram.ID);
 
                             cmd.ExecuteNonQuery();
                         }
