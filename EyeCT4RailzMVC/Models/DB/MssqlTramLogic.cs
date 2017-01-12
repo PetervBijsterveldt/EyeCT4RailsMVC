@@ -39,6 +39,7 @@ namespace EyeCT4RailzMVC.Models
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
+                                reader.Read();
                                 return ReturnTram(reader);
                             }
                         }
