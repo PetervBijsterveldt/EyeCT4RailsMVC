@@ -13,13 +13,13 @@ namespace EyeCT4RailzMVC.Controllers
         TramRepository tramRepository = new TramRepository(new MssqlTramLogic());
         // GET: Reparatie
 
-        [Authorize(Roles = "Technicus")]
+        
         public ActionResult Index()
         {
             return View();
         }
 
-        
+        [Authorize(Roles = "Technicus")]
         public ActionResult Reparatieoverzicht()
         {
             List<ReparatieBeurt> reparatieBeurten = tramRepository.ListReparatiebeurten(0);

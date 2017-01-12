@@ -16,13 +16,13 @@ namespace EyeCT4RailzMVC.Controllers
         UserRepository userRepository = new UserRepository(new MssqlUserLogic());
         // GET: Beheer
 
-        [Authorize(Roles = "Beheerder")]
+       
         public ActionResult Index()
         {
             return View();
         }
 
-        
+        [Authorize(Roles = "Beheerder")]
         public ActionResult UserLijst()
         {
             UserRepository userRepository = new UserRepository(new MssqlUserLogic());
