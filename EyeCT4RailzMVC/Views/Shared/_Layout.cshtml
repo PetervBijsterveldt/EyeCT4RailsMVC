@@ -27,8 +27,21 @@
                     <li>@Html.ActionLink("Schoonmaak", "Schoonmaakoverzicht", "Schoonmaak")</li>
                     <li>@Html.ActionLink("Reparatie", "Reparatieoverzicht", "Reparatie")</li>
                     <li>@Html.ActionLink("Beheer", "UserLijst", "Beheer")</li>
+                    <
                     
                 </ul>
+                <script>
+                    function LogOut() {
+                        try {
+                            document.execCommand("ClearAuthenticationCache");
+                        } catch (e) {
+
+                        }
+                        window.replace("http://192.168.20.45/home/index");
+                       
+                    }
+                </script>
+                <button type="submit" class="blokkeerbtn" onclick="LogOut()">Log Out</button>
                 <p class="nav navbar-text navbar-right">Hello, @User.Identity.Name!</p>
             </div>
 
