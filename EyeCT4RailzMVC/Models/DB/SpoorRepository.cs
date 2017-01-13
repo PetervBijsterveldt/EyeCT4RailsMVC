@@ -30,9 +30,9 @@ namespace EyeCT4RailzMVC.Models
             spoorLogic.RemoveSpoor(spoor);
         }
 
-        public void SpoorSectoren(Spoor spoor)
+        public void SpoorSectoren(Spoor spoor, int spoorid)
         {
-            spoorLogic.SpoorSectoren(spoor);
+            spoorLogic.SpoorSectoren(spoor, spoorid);
         }
 
         public List<Spoor> ListSporen()
@@ -58,6 +58,11 @@ namespace EyeCT4RailzMVC.Models
         public void RemoveSectoren(Spoor spoor, int hoeveelheid)
         {
             spoorLogic.RemoveSectoren(spoor, hoeveelheid);
+        }
+
+        public void RemoveAllSectoren(Spoor spoor)
+        {
+            spoorLogic.RemoveAllSectoren(spoor);
         }
 
         public List<Sector> getSectoren(int spoorID)
