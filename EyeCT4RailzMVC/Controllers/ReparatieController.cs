@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using EyeCT4RailzMVC.Models;
@@ -70,6 +71,16 @@ namespace EyeCT4RailzMVC.Controllers
             beurt.TramId = Convert.ToInt32(form["TramId"]);
             beurt.EindDatum = Convert.ToDateTime(form["EindDatum"]);
             beurt.ReparatiebeurtType = (ReparatiebeurtType)Enum.Parse(typeof(ReparatiebeurtType), form["ReparatiebeurtType"]);
+
+            MailMessage mail = new MailMessage("beheer@EyeCT4Rails.com", beurt.Medewerkernaam + "@eyect4rails.com");
+            SmtpClient client = new SmtpClient();
+            client.Port = 25;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Host = "smtp.google.com";
+            mail.Subject = "Nieuwe werkzaamheden zijn beschikbaar";
+            mail.Body = "Kijk op de website voor nieuwe taken";
+            client.Send(mail);
 
             tramRepository.AddReparatiebeurt(beurt);
             return RedirectToAction("Reparatieoverzicht");

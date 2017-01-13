@@ -72,7 +72,7 @@ namespace EyeCT4RailzMVC.Controllers
             beurt.EindDatum = Convert.ToDateTime(form["EindDatum"]);
             beurt.Type = (SchoonmaakType) Enum.Parse(typeof(SchoonmaakType), form["Type"]);
 
-            MailMessage mail = new MailMessage("admin@EyeCT4Rails.com", beurt.Medewerkernaam + "@mail.com");
+            MailMessage mail = new MailMessage("beheer@EyeCT4Rails.com", beurt.Medewerkernaam + "@eyect4rails.com");
             SmtpClient client = new SmtpClient();
             client.Port = 25;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
