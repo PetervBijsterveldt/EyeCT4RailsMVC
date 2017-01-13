@@ -73,11 +73,9 @@ namespace EyeCT4RailzMVC.Models
                         try
                         {
                             cmd.CommandText =
-                                "INSERT INTO Spoor (ID, Remise_ID, Nummer, Lengte, Beschikbaar, InUitRijSpoor) VALUES (@id, @remiseid, @nummer, @lengte, @beschikbaar, @inuitrijspoor)";
+                                "INSERT INTO Spoor (Remise_ID, Nummer, Lengte, Beschikbaar, InUitRijSpoor) VALUES (@remiseid, @nummer, @lengte, @beschikbaar, @inuitrijspoor)";
                             cmd.Connection = conn;
 
-                            //er moet dus nog wat shit worden toegevoegd aan spoor, anders werkt het allemaal niet
-                            cmd.Parameters.AddWithValue("@id", spoor.ID);
                             cmd.Parameters.AddWithValue("@remiseid", spoor.RemiseID);
                             cmd.Parameters.AddWithValue("@nummer", spoor.Nummer);
                             cmd.Parameters.AddWithValue("lengte", spoor.Lengte);
@@ -166,6 +164,44 @@ namespace EyeCT4RailzMVC.Models
             }
         }
 
+        public void SpoorSectoren(Spoor spoor)
+        {
+            using (SqlConnection conn = new SqlConnection(connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                    try
+                    {
+                        for (int i = 0; i < spoor.Lengte; i++)
+                        {
+                            using (SqlCommand cmd = new SqlCommand())
+                            {
+
+                                cmd.CommandText = "INSERT INTO Sector (Spoor_ID, tram_ID, nummer, Beschikbaar, blokkade) VALUES (@id, 0, @nummer, @beschikbaar, @blokkade)";
+                                cmd.Connection = conn;
+
+                                cmd.Parameters.AddWithValue("@spoor_ID", spoor.ID);
+                                cmd.Parameters.AddWithValue("@nummer", i + 1);
+                                cmd.Parameters.AddWithValue("@beschikbaar", "False");
+                                cmd.Parameters.AddWithValue("@blokkade", "False");
+
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new DataException(ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+        }
+
         public List<Spoor> ListSporen()
         {
             using (SqlConnection conn = new SqlConnection(connectie))
@@ -226,7 +262,7 @@ namespace EyeCT4RailzMVC.Models
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@id", spoor.ID);
-                            
+
                             SqlDataReader reader = cmd.ExecuteReader();
 
                             reader.Read();
@@ -299,17 +335,18 @@ namespace EyeCT4RailzMVC.Models
 
                     try
                     {
-                        using (SqlCommand cmd = new SqlCommand())
+                        for (int i = 0; i < hoeveelheid; i++)
                         {
-                            cmd.CommandText = "INSERT INTO Sector (Spoor_ID, tram_ID, nummer, Beschikbaar, blokkade) VALUES (@id, 0, @nummer, @beschikbaar, @blokkade)";
-                            cmd.Connection = conn;
-
-                            cmd.Parameters.AddWithValue("@id", spoor.ID);
-                            cmd.Parameters.AddWithValue("@beschikbaar", "False");
-                            cmd.Parameters.AddWithValue("@blokkade", "False");
-                            for (int i = 1; i < hoeveelheid + 1; i++)
+                            using (SqlCommand cmd = new SqlCommand())
                             {
-                                cmd.Parameters.AddWithValue("@nummer", spoor.Sectoren.Count + i);
+                                cmd.CommandText = "INSERT INTO Sector (Spoor_ID, tram_ID, nummer, Beschikbaar, blokkade) VALUES (@id, 0, @nummer, @beschikbaar, @blokkade)";
+                                cmd.Connection = conn;
+
+                                cmd.Parameters.AddWithValue("@id", spoor.ID);
+                                cmd.Parameters.AddWithValue("@beschikbaar", "False");
+                                cmd.Parameters.AddWithValue("@blokkade", "False");
+
+                                cmd.Parameters.AddWithValue("@nummer", spoor.Sectoren.Count + i + 1);
                                 cmd.ExecuteNonQuery();
                             }
                             //foreach (var sector in spoor.Sectoren)

@@ -47,14 +47,13 @@ namespace EyeCT4RailzMVC.Models
         }
 
         //constructor voor in de database, maar dan zonder ID (auto increment)
-        public Spoor(int remiseid, int nummer, int lengte, bool beschikbaar, bool inuitrijspoor, List<Sector> sectoren)
+        public Spoor(int remiseid, int nummer, int lengte, bool beschikbaar, bool inuitrijspoor)
         {
             RemiseID = remiseid;
             Nummer = nummer;
             Lengte = lengte;
             Beschikbaar = beschikbaar;
             InUitRijSpoor = inuitrijspoor;
-            Sectoren = sectoren;
         }
 
         public void BlokkeerSpoor()

@@ -30,6 +30,11 @@ namespace EyeCT4RailzMVC.Models
             spoorLogic.RemoveSpoor(spoor);
         }
 
+        public void SpoorSectoren(Spoor spoor)
+        {
+            spoorLogic.SpoorSectoren(spoor);
+        }
+
         public List<Spoor> ListSporen()
         {
             return spoorLogic.ListSporen();
