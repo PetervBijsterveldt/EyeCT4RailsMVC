@@ -35,7 +35,7 @@ namespace EyeCT4RailzMVC.Controllers
             else if (difference < 0)
             {
                 //sectoren gaan eraf
-                spoorRepository.RemoveSectoren(spoor, hoeveelheid);
+                spoorRepository.RemoveSectoren(oudeSpoor, hoeveelheid);
             }
             spoorRepository.EditSpoor(spoor);
 
