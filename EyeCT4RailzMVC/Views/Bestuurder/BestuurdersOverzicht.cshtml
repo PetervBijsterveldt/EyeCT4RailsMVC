@@ -1,7 +1,80 @@
-﻿
+﻿@using EyeCT4RailzMVC.Models
+@model Tuple<Tram, Spoor>
+<!--Refreshed to pagina elke minuut om up to date te blijven-->
+<meta http-equiv="refresh" content="60" />
 @{
     ViewBag.Title = "BestuurdersOverzicht";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Tram tram = Model.Item1;
+    Spoor spoor = Model.Item2;
 }
+<div style="width: 200px">
+    <div class="traminfo">
+        <h2>@GetTramNaam(tram)</h2>
+        <h2>Lengte: @tram.Lengte</h2>
+        <h2>Status: @tram.Status</h2>
+    </div>
 
-<h2>BestuurdersOverzicht</h2>
+    @if (spoor.ID != 0)
+    {
+        <div class="spoordiv" style="height: @CalculateSpoorHeight(spoor);">
+            @for (int j = 0; j < spoor.Sectoren.Count; j++)
+            {
+                if (spoor.Sectoren[j].TramID == 0)
+                {
+                    <div class="sectordiv"></div>
+                }
+                else
+                {
+                    <div class="sectordiv sectorbezet">@GetSectorTramNaam(tram)</div>
+                }
+            }
+            <p style="text-align: center; font-size: 18px;">@spoor.Nummer</p>
+        </div>
+    }
+</div>
 
+<div class="bestuurdercontrols">
+    @if (TempData["InrijError"] == null)
+    {
+        if (spoor.ID == 0)
+        {
+            //Tram staat niet op een spoor.
+            <button type="submit" class="btn btn-primary btn-md" onclick="location.href = '@Url.Action("Inrijden", Model.Item1)'">Inrijden</button>
+        }
+        else if (spoor.ID != 0)
+        {
+            if (spoor.Sectoren.Find(sector => sector.TramID != 0).TramID != tram.ID)
+            {
+                //Er staat een tram voor deze tram.
+                <h1>Deze tram wordt geblokkeerd door een andere tram!</h1>
+            }
+            else
+            {
+                //Tram staat op een spoor zonder een tram ervoor.
+                <button type="submit" class="btn btn-primary btn-md" onclick="location.href = '@Url.Action("Uitrijden", new {spoorid = Model.Item2.ID, tramid = Model.Item1.ID})'">Uitrijden</button>
+            }
+        }
+    }
+    else
+    {
+        <h1>@TempData["InrijError"]</h1>
+    }
+</div>
+@functions
+{
+    string CalculateSpoorHeight(Spoor spoor)
+    {
+        return $"{spoor.Sectoren.Count * 54 + 30}px";
+    }
+
+    string GetTramNaam(Tram tram)
+    {
+        return $"{tram.Type} {tram.TramNr}";
+    }
+
+    string GetSectorTramNaam(Tram tram)
+    {
+        return $"{tram.Type} \n {tram.TramNr}";
+    }
+}

@@ -21,5 +21,8 @@ namespace EyeCT4RailzMVC.Models
         void AddReparatiebeurt(ReparatieBeurt reparatieBeurt);
         void EditOnderhoud(int id);
         void EditTram(Tram tram);
+        Spoor CheckForTramOnSpoor(Tram tram);
+        void Inrijden(Spoor spoor, Tram tram);
+        void Uitrijden(Spoor spoor, Tram tram);
     }
 }
