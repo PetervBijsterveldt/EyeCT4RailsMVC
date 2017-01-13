@@ -114,9 +114,8 @@ namespace EyeCT4RailzMVC.Models
                             cmd.CommandText = "DELETE FROM Spoor WHERE ID = @spoorId";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@spoornr", spoor.ID);
-
-
+                            cmd.Parameters.AddWithValue("@spoorId", spoor.ID);
+                            
                             cmd.ExecuteNonQuery();
                         }
                         catch (Exception ex)
@@ -164,7 +163,7 @@ namespace EyeCT4RailzMVC.Models
             }
         }
 
-        public void SpoorSectoren(Spoor spoor)
+        public void SpoorSectoren(Spoor spoor, int spoorid)
         {
             using (SqlConnection conn = new SqlConnection(connectie))
             {
@@ -178,10 +177,10 @@ namespace EyeCT4RailzMVC.Models
                             using (SqlCommand cmd = new SqlCommand())
                             {
 
-                                cmd.CommandText = "INSERT INTO Sector (Spoor_ID, tram_ID, nummer, Beschikbaar, blokkade) VALUES (@id, 0, @nummer, @beschikbaar, @blokkade)";
+                                cmd.CommandText = "INSERT INTO Sector (Spoor_ID, tram_ID, nummer, Beschikbaar, blokkade) VALUES (@spoor_ID, 0, @nummer, @beschikbaar, @blokkade)";
                                 cmd.Connection = conn;
 
-                                cmd.Parameters.AddWithValue("@spoor_ID", spoor.ID);
+                                cmd.Parameters.AddWithValue("@spoor_ID", spoorid);
                                 cmd.Parameters.AddWithValue("@nummer", i + 1);
                                 cmd.Parameters.AddWithValue("@beschikbaar", "False");
                                 cmd.Parameters.AddWithValue("@blokkade", "False");
@@ -377,20 +376,49 @@ namespace EyeCT4RailzMVC.Models
 
                     try
                     {
-                        using (SqlCommand cmd = new SqlCommand())
+                        for (int i = 0; i < hoeveelheid; i++)
                         {
-                            cmd.CommandText = "DELETE FROM Sector WHERE Spoor_ID = @spoorid AND nummer = @nummer";
-                            cmd.Connection = conn;
-                            cmd.Parameters.AddWithValue("@spoorid", spoor.ID);
-                            for (int i = spoor.Lengte - hoeveelheid + 1; i < spoor.Lengte + 1; i++)
+                            using (SqlCommand cmd = new SqlCommand())
                             {
-                                cmd.Parameters.AddWithValue("@nummer", i);
+                                cmd.CommandText = "DELETE FROM Sector WHERE Spoor_ID = @spoorid AND nummer = @nummer";
+                                cmd.Connection = conn;
+                                cmd.Parameters.AddWithValue("@spoorid", spoor.ID);
+                                cmd.Parameters.AddWithValue("@nummer", spoor.Lengte - i);
+
                                 cmd.ExecuteNonQuery();
                             }
-                            //foreach (var sector in spoor.Sectoren)
-                            //{
-                            //    cmd.ExecuteNonQuery();
-                            //}
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new DataException(ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+        }
+
+        public void RemoveAllSectoren(Spoor spoor)
+        {
+            using (SqlConnection conn = new SqlConnection(connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+
+                    try
+                    {
+
+                        using (SqlCommand cmd = new SqlCommand())
+                        {
+                            cmd.CommandText = "DELETE FROM Sector WHERE Spoor_ID = @spoorid";
+                            cmd.Connection = conn;
+                            cmd.Parameters.AddWithValue("@spoorid", spoor.ID);
+
+                            cmd.ExecuteNonQuery();
                         }
                     }
                     catch (Exception ex)

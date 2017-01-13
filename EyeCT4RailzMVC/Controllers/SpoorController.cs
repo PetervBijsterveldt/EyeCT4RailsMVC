@@ -48,6 +48,13 @@ namespace EyeCT4RailzMVC.Controllers
             return View(spoor);
         }
 
+        public ActionResult Remove(Spoor spoor)
+        {
+            spoorRepository.RemoveAllSectoren(spoor);
+            spoorRepository.RemoveSpoor(spoor);
+            return RedirectToAction("Index");
+        }
+
         [HttpGet]
         public ActionResult TramVerplaatsen(int id)
         {
@@ -73,7 +80,9 @@ namespace EyeCT4RailzMVC.Controllers
         public ActionResult AddSpoor(Spoor spoor)
         {
             spoorRepository.AddSpoor(spoor);
-            spoorRepository.SpoorSectoren(spoor);
+            Spoor AddedSpoor = spoorRepository.ListSporen().Find(x => x.Nummer == spoor.Nummer);
+            
+            spoorRepository.SpoorSectoren(spoor, AddedSpoor.ID);
             return RedirectToAction("Index");
         }
     }
