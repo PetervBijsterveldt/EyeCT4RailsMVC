@@ -72,12 +72,12 @@ namespace EyeCT4RailzMVC.Controllers
             beurt.EindDatum = Convert.ToDateTime(form["EindDatum"]);
             beurt.Type = (SchoonmaakType) Enum.Parse(typeof(SchoonmaakType), form["Type"]);
 
-            MailMessage mail = new MailMessage("beheer@EyeCT4Rails.com", beurt.Medewerkernaam + "@eyect4rails.com");
+            MailMessage mail = new MailMessage("beheer@EyeCT4Railz.local", beurt.Medewerkernaam + "@eyect4railz.local");
             SmtpClient client = new SmtpClient();
             client.Port = 25;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
-            client.Host = "smtp.google.com";
+            client.UseDefaultCredentials = true;
+            client.Host = "localhost";
             mail.Subject = "Nieuwe werkzaamheden zijn beschikbaar";
             mail.Body = "Kijk op de website voor nieuwe taken";
             client.Send(mail);
