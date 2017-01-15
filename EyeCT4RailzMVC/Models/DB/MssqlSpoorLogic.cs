@@ -115,7 +115,7 @@ namespace EyeCT4RailzMVC.Models
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@spoorId", spoor.ID);
-                            
+
                             cmd.ExecuteNonQuery();
                         }
                         catch (Exception ex)
@@ -334,24 +334,23 @@ namespace EyeCT4RailzMVC.Models
 
                     try
                     {
-                        for (int i = 0; i < hoeveelheid; i++)
+                        using (SqlCommand cmd = new SqlCommand())
                         {
-                            using (SqlCommand cmd = new SqlCommand())
+                            cmd.CommandText = "INSERT INTO Sector (Spoor_ID, tram_ID, nummer, Beschikbaar, blokkade) VALUES (@id, 0, @nummer, @beschikbaar, @blokkade)";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@id", spoor.ID);
+                            cmd.Parameters.AddWithValue("@beschikbaar", "False");
+                            cmd.Parameters.AddWithValue("@blokkade", "False");
+
+                            int sectorcount = spoor.Sectoren.Count;
+
+                            for (int i = 0; i < hoeveelheid; i++)
                             {
-                                cmd.CommandText = "INSERT INTO Sector (Spoor_ID, tram_ID, nummer, Beschikbaar, blokkade) VALUES (@id, 0, @nummer, @beschikbaar, @blokkade)";
-                                cmd.Connection = conn;
-
-                                cmd.Parameters.AddWithValue("@id", spoor.ID);
-                                cmd.Parameters.AddWithValue("@beschikbaar", "False");
-                                cmd.Parameters.AddWithValue("@blokkade", "False");
-
-                                cmd.Parameters.AddWithValue("@nummer", spoor.Sectoren.Count + i + 1);
+                                cmd.Parameters.AddWithValue("@nummer", sectorcount + 1);
                                 cmd.ExecuteNonQuery();
+                                sectorcount++;
                             }
-                            //foreach (var sector in spoor.Sectoren)
-                            //{
-                            //    cmd.ExecuteNonQuery();
-                            //}
                         }
                     }
                     catch (Exception ex)
@@ -380,10 +379,11 @@ namespace EyeCT4RailzMVC.Models
                         {
                             using (SqlCommand cmd = new SqlCommand())
                             {
-                                cmd.CommandText = "DELETE FROM Sector WHERE Spoor_ID = @spoorid AND nummer = @nummer";
+                                cmd.CommandText = "DELETE FROM Sector WHERE Spoor_ID = @spoorid AND nummer > @min AND nummer <= @max";
                                 cmd.Connection = conn;
                                 cmd.Parameters.AddWithValue("@spoorid", spoor.ID);
-                                cmd.Parameters.AddWithValue("@nummer", spoor.Lengte - i);
+                                cmd.Parameters.AddWithValue("@min", spoor.Lengte - i);
+                                cmd.Parameters.AddWithValue("@max", spoor.Lengte);
 
                                 cmd.ExecuteNonQuery();
                             }
