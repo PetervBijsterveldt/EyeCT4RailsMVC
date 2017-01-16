@@ -30,9 +30,9 @@ namespace EyeCT4RailzMVC.Models
             tramLogic.AddTram(tram);
         }
 
-        public void RemoveTram(Tram tram)
+        public void RemoveTram(int _id)
         {
-            tramLogic.RemoveTram(tram);
+            tramLogic.RemoveTram(_id);
         }
 
         public void TramInrijden(Tram tram, Spoor spoor)

@@ -63,10 +63,9 @@ namespace EyeCT4RailzMVC.Controllers
             return RedirectToAction("Overzicht");
         }
 
-        [HttpPost]
-        public ActionResult DeleteTram(Tram tram)
+        public ActionResult DeleteTram(int id)
         {
-            tramRepository.RemoveTram(tram);
+            tramRepository.RemoveTram(id);
             return RedirectToAction("Overzicht");
         }
         protected override void OnException(ExceptionContext filterContext)

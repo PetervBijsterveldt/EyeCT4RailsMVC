@@ -22,9 +22,9 @@ namespace EyeCT4RailzMVC.Tests.ModelTests
         [TestInitialize]
         public void TestInitialize()
         {
-            tram_1 = new Tram(0, 0, type_1, 10, 10, "Dienst", /* vervuild */ false, /* defect */ false, /* bestuurder geschikt */ true, /* beschikbaar */ false);
-            tram_2 = new Tram(1, 0, type_2, 11, 15, "Onderhoud", false, true, false, false);
-            tram_3 = new Tram(2, 0, type_3, 12, 5, "Remise", false, false, true, true);
+            tram_1 = new Tram(0, 0, type_1, 10, 10, TramStatus.Dienst, /* vervuild */ false, /* defect */ false, /* bestuurder geschikt */ true, /* beschikbaar */ false);
+            tram_2 = new Tram(1, 0, type_2, 11, 15, TramStatus.Onderhoud, false, true, false, false);
+            tram_3 = new Tram(2, 0, type_3, 12, 5, TramStatus.Remise, false, false, true, true);
             tram_4 = tram_3;
 
             type_1 = TramType.Combino;
@@ -44,15 +44,15 @@ namespace EyeCT4RailzMVC.Tests.ModelTests
         [TestMethod]
         public void StatusVeranderen()
         {
-            tram_3.StatusVeranderen("Remise");
+            tram_3.StatusVeranderen(TramStatus.Dienst);
 
-            Assert.AreEqual(tram_3.Status, "Remise");
+            Assert.AreEqual(tram_3.Status, TramStatus.Dienst);
         }
 
         [TestMethod]
         public void EditTram()
         {
-            tram_4.EditTram(13, 13, "Dienst", type_3);
+            tram_4.EditTram(13, 13, TramStatus.Dienst, type_3);
 
             Assert.AreNotSame(tram_3.TramNr, tram_4.TramNr);
         }

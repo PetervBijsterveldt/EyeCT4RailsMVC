@@ -110,36 +110,66 @@ namespace EyeCT4RailzMVC.Models
                             if (tram.Status == TramStatus.Dienst)
                             {
                                 cmd.Parameters.AddWithValue("@status", "Dienst");
+
+                                cmd.Parameters.AddWithValue("@vervuild", false);
+                                cmd.Parameters.AddWithValue("@defect", false);
+                                cmd.Parameters.AddWithValue("@geschikt", true);
+                                cmd.Parameters.AddWithValue("@beschikbaar", false);
                             }
                             else if (tram.Status == TramStatus.Onderhoud)
                             {
                                 cmd.Parameters.AddWithValue("@status", "Onderhoud");
+
+                                cmd.Parameters.AddWithValue("@vervuild", false);
+                                cmd.Parameters.AddWithValue("@defect", true);
+                                cmd.Parameters.AddWithValue("@geschikt", false);
+                                cmd.Parameters.AddWithValue("@beschikbaar", false);
                             }
                             else if (tram.Status == TramStatus.Remise)
                             {
                                 cmd.Parameters.AddWithValue("@status", "Remise");
+
+                                cmd.Parameters.AddWithValue("@vervuild", false);
+                                cmd.Parameters.AddWithValue("@defect", false);
+                                cmd.Parameters.AddWithValue("@geschikt", true);
+                                cmd.Parameters.AddWithValue("@beschikbaar", true);
                             }
                             else if (tram.Status == TramStatus.Schoonmaak)
                             {
                                 cmd.Parameters.AddWithValue("@status", "Schoonmaak");
+
+                                cmd.Parameters.AddWithValue("@vervuild", true);
+                                cmd.Parameters.AddWithValue("@defect", false);
+                                cmd.Parameters.AddWithValue("@geschikt", false);
+                                cmd.Parameters.AddWithValue("@beschikbaar", false);
                             }
                             else if (tram.Status == TramStatus.SchoonmaakNodig)
                             {
                                 cmd.Parameters.AddWithValue("@status", "SchoonmaakNodig");
+
+                                cmd.Parameters.AddWithValue("@vervuild", true);
+                                cmd.Parameters.AddWithValue("@defect", false);
+                                cmd.Parameters.AddWithValue("@geschikt", true);
+                                cmd.Parameters.AddWithValue("@beschikbaar", true);
                             }
                             else if (tram.Status == TramStatus.ServiceNodig)
                             {
                                 cmd.Parameters.AddWithValue("@status", "ServiceNodig");
+
+                                cmd.Parameters.AddWithValue("@vervuild", false);
+                                cmd.Parameters.AddWithValue("@defect", true);
+                                cmd.Parameters.AddWithValue("@geschikt", true);
+                                cmd.Parameters.AddWithValue("@beschikbaar", true);
                             }
                             else
                             {
                                 cmd.Parameters.AddWithValue("@status", "Remise");
+
+                                cmd.Parameters.AddWithValue("@vervuild", false);
+                                cmd.Parameters.AddWithValue("@defect", false);
+                                cmd.Parameters.AddWithValue("@geschikt", true);
+                                cmd.Parameters.AddWithValue("@beschikbaar", true);
                             }
-                            cmd.Parameters.AddWithValue("@tramnr", tram.TramNr);
-                            cmd.Parameters.AddWithValue("@vervuild", tram.Vervuild);
-                            cmd.Parameters.AddWithValue("@defect", tram.Defect);
-                            cmd.Parameters.AddWithValue("@geschikt", tram.ConducteurGeschikt);
-                            cmd.Parameters.AddWithValue("@beschikbaar", tram.Beschikbaar);
 
                             cmd.ExecuteNonQuery();
                         }
@@ -327,7 +357,7 @@ namespace EyeCT4RailzMVC.Models
             }
         }
 
-        public void RemoveTram(Tram tram)
+        public void RemoveTram(int _ID)
         {
             using (SqlConnection conn = new SqlConnection(connectie))
             {
@@ -342,7 +372,7 @@ namespace EyeCT4RailzMVC.Models
                             cmd.CommandText = "DELETE FROM Tram WHERE ID = @tramid";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@tramid", tram.ID);
+                            cmd.Parameters.AddWithValue("@tramid", _ID);
 
                             cmd.ExecuteNonQuery();
                         }
@@ -575,11 +605,9 @@ namespace EyeCT4RailzMVC.Models
                                     if (!reader.IsDBNull(4))
                                     {
                                         DateTime einddatum = reader.GetDateTime(4);
-                                        //reparatieBeurten.Add(new ReparatieBeurt(reparatieId, medewerkerId, tramId, beginDatumEntijd, einddatum, type));
                                     }
                                     else
                                     {
-                                        //reparatieBeurten.Add(new ReparatieBeurt(reparatieId, medewerkerId, tramId, beginDatumEntijd, type));
                                     }
                                 }
                                 return reparatieBeurten;

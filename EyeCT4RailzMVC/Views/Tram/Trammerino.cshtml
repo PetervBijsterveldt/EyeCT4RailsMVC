@@ -1,12 +1,10 @@
 ﻿@model EyeCT4RailzMVC.Models.Tram
-
 @{
     ViewBag.Title = "Trammerino";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
-
 <h2>Tram</h2>
-
 @using (Html.BeginForm("Edit", "Tram", Model))
 {
     <div>
@@ -15,15 +13,12 @@
             <dt>
                 @Html.DisplayNameFor(model => model.Lengte)
             </dt>
-
             <dd>
                 @Html.EditorFor(model => model.Lengte, new { htmlAttributes = new { @class = "form-control" } })
             </dd>
-
             <dt>
                 @Html.DisplayNameFor(model => model.TramNr)
             </dt>
-
             <dd>
                 @Html.EditorFor(model => model.TramNr, new { htmlAttributes = new { @class = "form-control" } })
             </dd>
@@ -41,39 +36,19 @@
                     new SelectListItem {Text= "Schoonmaak Nodig", Value = "SchoonmaakNodig" }
                 }, new { @class = "form-control" })
             </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.ConducteurGeschikt)
-            </dt>
-
-            <dd>
-                @Html.EditorFor(model => model.ConducteurGeschikt, new { htmlAttributes = new { @class = "form-control" } })
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Beschikbaar)
-            </dt>
-            <dd>
-                @Html.EditorFor(model => model.Beschikbaar, new { htmlAttributes = new { @class = "form-control" } })
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Vervuild)
-            </dt>
-            <dd>
-                @Html.EditorFor(model => model.Vervuild, new { htmlAttributes = new { @class = "form-control" } })
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Defect)
-            </dt>
-            <dd>
-                @Html.EditorFor(model => model.Defect, new { htmlAttributes = new { @class = "form-control" } })
-            </dd>
-            <dt>
-                @Html.ActionLink("Verwijder deze tram", "DeleteTram", "Tram")
-            </dt>
         </dl>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" name="Edit" value="Save" class="btn btn-default" />
             </div>
+        </div>
+    </div>
+}
+@using (Html.BeginForm("DeleteTram", "Tram", Model))
+{
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" name="Delete" value="Verwijder" class="btn btn-default" onclick="return confirm('Weet u zeker dat u deze tram wilt verwijderen?')" />
         </div>
     </div>
 }
