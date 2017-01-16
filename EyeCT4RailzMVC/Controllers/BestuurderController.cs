@@ -59,9 +59,9 @@ namespace EyeCT4RailzMVC.Controllers
 
             List<Spoor> gesorteerdeSporen = sporen;
 
-            gesorteerdeSporen.Sort((spoorA, spoorB) => (spoorA.Lengte - tram.Lengte).CompareTo(spoorB.Lengte - tram.Lengte));
+            gesorteerdeSporen.Sort((spoorA, spoorB) => (spoorA.RestererendeLengte - tram.Lengte).CompareTo(spoorB.RestererendeLengte - tram.Lengte));
 
-            gesorteerdeSporen.RemoveAll(spoor => spoor.Lengte - tram.Lengte < 0);
+            gesorteerdeSporen.RemoveAll(spoor => spoor.RestererendeLengte - tram.Lengte < 0);
 
             if (gesorteerdeSporen[0] == null)
             {
