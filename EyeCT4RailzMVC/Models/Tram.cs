@@ -19,8 +19,7 @@ namespace EyeCT4RailzMVC.Models
         public bool Beschikbaar { get; set; }
         public List<SchoonmaakBeurt> SchoonmaakBeurten { get; set; }
         public List<ReparatieBeurt> ReparatieBeurten { get; set; }
-
-
+        
 
         //constructors
         public Tram()

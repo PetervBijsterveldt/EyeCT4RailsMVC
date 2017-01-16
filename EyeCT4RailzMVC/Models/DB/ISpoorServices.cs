@@ -12,11 +12,13 @@ namespace EyeCT4RailzMVC.Models
         Spoor CheckForSpoorId(int spoorId);
         void AddSpoor(Spoor spoor);
         void RemoveSpoor(Spoor spoor);
+        void SpoorSectoren(Spoor spoor, int spoorid);
         List<Spoor> ListSporen();
         Spoor CheckForSpoor(Spoor spoor);
         void SpoorStatusVeranderen(Spoor spoor);
-        void AddSectoren(Spoor spoor);
-        void RemoveSectoren(Spoor spoor);
+        void AddSectoren(Spoor spoor, int hoeveelheid);
+        void RemoveSectoren(Spoor spoor, int hoeveelheid);
+        void RemoveAllSectoren(Spoor spoor);
         List<Sector> getSectoren(int spoorID);
         void EditSpoor(Spoor spoor);
     }

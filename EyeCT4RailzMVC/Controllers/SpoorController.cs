@@ -9,6 +9,7 @@ namespace EyeCT4RailzMVC.Controllers
 {
     public class SpoorController : Controller
     {
+        private SpoorRepository spoorRepository = new SpoorRepository(new MssqlSpoorLogic());
         // GET: Spoor
         [HttpGet]
 #if !DEBUG
@@ -16,8 +17,6 @@ namespace EyeCT4RailzMVC.Controllers
 #endif
         public ActionResult Index()
         {
-            SpoorRepository spoorRepository = new SpoorRepository(new MssqlSpoorLogic());
-
             return View(spoorRepository.ListSporen());
         }
 
@@ -25,7 +24,19 @@ namespace EyeCT4RailzMVC.Controllers
         [HttpPost]
         public ActionResult Index(Spoor spoor)
         {
-            SpoorRepository spoorRepository = new SpoorRepository(new MssqlSpoorLogic());
+            Spoor oudeSpoor = spoorRepository.CheckForSpoor(spoor);
+            int difference = spoor.Lengte - oudeSpoor.Lengte;
+            int hoeveelheid = Math.Abs(difference);
+            if (difference > 0)
+            {
+                //sectoren komen erbij
+                spoorRepository.AddSectoren(spoor, hoeveelheid);
+            }
+            else if (difference < 0)
+            {
+                //sectoren gaan eraf
+                spoorRepository.RemoveSectoren(oudeSpoor, hoeveelheid);
+            }
             spoorRepository.EditSpoor(spoor);
 
             return RedirectToAction("Index");
@@ -35,6 +46,13 @@ namespace EyeCT4RailzMVC.Controllers
         public ActionResult Edit(Spoor spoor)
         {
             return View(spoor);
+        }
+
+        public ActionResult Remove(Spoor spoor)
+        {
+            spoorRepository.RemoveAllSectoren(spoor);
+            spoorRepository.RemoveSpoor(spoor);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -48,8 +66,23 @@ namespace EyeCT4RailzMVC.Controllers
         [HttpPost]
         public ActionResult TramVerplaatsen(Tram tram, FormCollection form)
         {
-            SpoorRepository spoorRepository = new SpoorRepository(new MssqlSpoorLogic());
             Spoor spoor = spoorRepository.CheckForSpoorId(Convert.ToInt32(form["spoorid"]));
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult AddSpoor()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddSpoor(Spoor spoor)
+        {
+            spoorRepository.AddSpoor(spoor);
+            Spoor AddedSpoor = spoorRepository.ListSporen().Find(x => x.Nummer == spoor.Nummer);
+            
+            spoorRepository.SpoorSectoren(spoor, AddedSpoor.ID);
             return RedirectToAction("Index");
         }
     }

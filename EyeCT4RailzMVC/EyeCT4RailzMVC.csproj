@@ -153,6 +153,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ADController.cs" />
     <Compile Include="Controllers\BeheerController.cs" />
+    <Compile Include="Controllers\BestuurderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReparatieController.cs" />
     <Compile Include="Controllers\SchoonmaakController.cs" />
@@ -214,7 +215,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -249,6 +252,8 @@
     <Content Include="Views\Schoonmaak\Taken.cshtml" />
     <Content Include="Views\Reparatie\Taken.cshtml" />
     <Content Include="Views\Spoor\TramVerplaatsen.cshtml" />
+    <Content Include="Views\Bestuurder\BestuurdersOverzicht.cshtml" />
+    <Content Include="Views\Spoor\AddSpoor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

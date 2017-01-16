@@ -74,9 +74,25 @@ namespace EyeCT4RailzMVC.Models
         {
             tramLogic.AddReparatiebeurt(reparatieBeurt);
         }
+
         public void EditOnderhoud(int id)
         {
             tramLogic.EditOnderhoud(id);
+        }
+
+        public Spoor CheckForTramOnSpoor(Tram tram)
+        {
+            return tramLogic.CheckForTramOnSpoor(tram);
+        }
+
+        public void Inrijden(Spoor spoor, Tram tram)
+        {
+            tramLogic.Inrijden(spoor, tram);
+        }
+
+        public void Uitrijden(Spoor spoor, Tram tram)
+        {
+            tramLogic.Uitrijden(spoor, tram);
         }
     }
 }

@@ -14,7 +14,8 @@ namespace EyeCT4RailzMVC.Models
 #if !DEBUG
         private readonly string connectie = "Server=RailzDB;Database=dbi344475; Database=dbi344475; Trusted_Connection=Yes;";
 #else
-        private readonly string connectie = "Server=mssql.fhict.local;Database=dbi344475;User Id=dbi344475;Password=Rails1;";
+        private readonly string connectie =
+            "Server=mssql.fhict.local;Database=dbi344475;User Id=dbi344475;Password=Rails1;";
 #endif
 
         public Tram CheckForTramId(int tramId)
@@ -39,6 +40,7 @@ namespace EyeCT4RailzMVC.Models
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
+                                reader.Read();
                                 return ReturnTram(reader);
                             }
                         }
@@ -73,6 +75,7 @@ namespace EyeCT4RailzMVC.Models
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@tramid", tram.ID);
+                            cmd.Parameters.AddWithValue("@tramnr", tram.TramNr);
 
                             if (tram.Type == TramType._11G)
                             {
@@ -149,6 +152,109 @@ namespace EyeCT4RailzMVC.Models
                     {
                         conn.Close();
                     }
+                }
+            }
+        }
+
+        public Spoor CheckForTramOnSpoor(Tram tram)
+        {
+            using (SqlConnection conn = new SqlConnection(connectie))
+            {
+                if (conn.State != ConnectionState.Open) conn.Open();
+
+                try
+                {
+                    using (var cmd = new SqlCommand())
+                    {
+                        cmd.CommandText = "SELECT Spoor_ID FROM SECTOR WHERE Tram_ID = @tramid";
+                        cmd.Connection = conn;
+
+                        cmd.Parameters.AddWithValue("@tramid", tram.ID);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            reader.Read();
+
+                            if (reader.HasRows)
+                            {
+                                int spoorid = reader.GetInt32(0);
+
+                                SpoorRepository spoorRepository = new SpoorRepository(new MssqlSpoorLogic());
+
+                                return spoorRepository.CheckForSpoorId(spoorid);
+                            }
+                            else
+                            {
+                                return new Spoor();
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exceptions.DataException(ex.Message);
+                }
+            }
+        }
+
+        public void Inrijden(Spoor spoor, Tram tram)
+        {
+            using (SqlConnection conn = new SqlConnection(connectie))
+            {
+                if (conn.State != ConnectionState.Open) conn.Open();
+
+                try
+                {
+                    using (var cmd = new SqlCommand())
+                    {
+                        cmd.CommandText = "UPDATE SECTOR SET Tram_ID = @tramid WHERE Spoor_ID = @spoorid AND Nummer >= @start AND NUMMER <= @eind";
+                        cmd.Connection = conn;
+
+                        //Bijv spoor met lengte 10 en tram met lengte 4
+                        //op het spoor staat een tram met lengte 3 achteraan
+                        //dus de al ingereden tram staat op sectoren 10-9-8
+                        //de inrijdende tram moet dus op sectoren 7-6-5-4 komen
+                        int eindSectorNummer = spoor.Sectoren.Find(trm => trm.ID != 0).SectorNr - 1;
+                        if (eindSectorNummer == 0) eindSectorNummer = spoor.Sectoren.Count;
+                        int startSectorNummer = eindSectorNummer - tram.Lengte;
+
+                        cmd.Parameters.AddWithValue("tramid", tram.ID);
+                        cmd.Parameters.AddWithValue("spoorID", spoor.ID);
+                        cmd.Parameters.AddWithValue("start", startSectorNummer);
+                        cmd.Parameters.AddWithValue("eind", eindSectorNummer);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exceptions.DataException(ex.Message);
+                }
+            }
+        }
+
+        public void Uitrijden(Spoor spoor, Tram tram)
+        {
+            using (SqlConnection conn = new SqlConnection(connectie))
+            {
+                if (conn.State != ConnectionState.Open) conn.Open();
+
+                try
+                {
+                    using (var cmd = new SqlCommand())
+                    {
+                        cmd.CommandText = "UPDATE SECTOR SET Tram_ID = 0 WHERE Spoor_ID = @spoorid AND Tram_ID = @tramid";
+                        cmd.Connection = conn;
+
+                        cmd.Parameters.AddWithValue("@spoorid", spoor.ID);
+                        cmd.Parameters.AddWithValue("@tramid", tram.ID);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exceptions.DataException(ex.Message);
                 }
             }
         }
@@ -768,5 +874,7 @@ namespace EyeCT4RailzMVC.Models
                 cmd.ExecuteNonQuery();
             }
         }
+
+
     }
 }
