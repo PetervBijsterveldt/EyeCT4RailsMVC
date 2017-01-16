@@ -10,6 +10,7 @@ namespace EyeCT4RailzMVC.Controllers
     public class SpoorController : Controller
     {
         private SpoorRepository spoorRepository = new SpoorRepository(new MssqlSpoorLogic());
+        private TramRepository tramRepository = new TramRepository(new MssqlTramLogic());
         // GET: Spoor
         [HttpGet]
 #if !DEBUG
@@ -20,7 +21,7 @@ namespace EyeCT4RailzMVC.Controllers
             return View(spoorRepository.ListSporen());
         }
 
-        
+
         [HttpPost]
         public ActionResult Index(Spoor spoor)
         {
@@ -66,7 +67,29 @@ namespace EyeCT4RailzMVC.Controllers
         [HttpPost]
         public ActionResult TramVerplaatsen(Tram tram, FormCollection form)
         {
-            Spoor spoor = spoorRepository.CheckForSpoorId(Convert.ToInt32(form["spoorid"]));
+            List<Spoor> sporen = spoorRepository.ListSporen();
+
+            try
+            {
+                Spoor spoor = sporen.Find(x => x.Nummer == int.Parse(form["nummer"]));
+                Spoor oudespoor = tramRepository.CheckForTramOnSpoor(tram);
+
+                if (spoor.Lengte - tram.Lengte > 0)
+                {
+                    tramRepository.Uitrijden(oudespoor, tram);
+                    tramRepository.Inrijden(spoor, tram);
+                }
+                else
+                {
+                    TempData["InrijError"] = "Er is geen plek op deze spoor!";
+                }
+            }
+            catch (Exception)
+            {
+                TempData["InrijError"] = "Dit spoor bestaat niet!";
+            }
+
+
             return RedirectToAction("Index");
         }
 
@@ -80,9 +103,9 @@ namespace EyeCT4RailzMVC.Controllers
         public ActionResult AddSpoor(Spoor spoor)
         {
             spoorRepository.AddSpoor(spoor);
-            Spoor AddedSpoor = spoorRepository.ListSporen().Find(x => x.Nummer == spoor.Nummer);
-            
-            spoorRepository.SpoorSectoren(spoor, AddedSpoor.ID);
+            Spoor addedSpoor = spoorRepository.ListSporen().Find(x => x.Nummer == spoor.Nummer);
+
+            spoorRepository.SpoorSectoren(spoor, addedSpoor.ID);
             return RedirectToAction("Index");
         }
     }

@@ -8,6 +8,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@if (TempData["InrijError"] != null)
+{
+    <script type="text/javascript">
+        alert('@TempData["InrijError"]');
+    </script>
+}
+
 <h2>Index</h2>
 <div>
     @Html.ActionLink("Spoor toevoegen", "AddSpoor", "Spoor")
