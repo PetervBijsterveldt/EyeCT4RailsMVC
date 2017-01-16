@@ -8,6 +8,9 @@ using EyeCT4RailzMVC.Models;
 
 namespace EyeCT4RailzMVC.Controllers
 {
+#if !DEBUG
+        [Authorize(Roles = "Bestuurders")]
+#endif
     public class BestuurderController : Controller
     {
         TramRepository tramRepository = new TramRepository(new MssqlTramLogic());
@@ -16,7 +19,7 @@ namespace EyeCT4RailzMVC.Controllers
         [HttpGet]
         public ActionResult BestuurdersOverzicht()
         {
-            Tram tram = tramRepository.CheckForTramId(2);
+            Tram tram = tramRepository.CheckForTramId(3);
 
             Spoor spoor = tramRepository.CheckForTramOnSpoor(tram);
 
@@ -57,18 +60,16 @@ namespace EyeCT4RailzMVC.Controllers
         {
             List<Spoor> sporen = spoorRepository.ListSporen();
 
-            List<Spoor> gesorteerdeSporen = sporen;
+            sporen.Sort((spoorA, spoorB) => (spoorA.Lengte - tram.Lengte).CompareTo(spoorB.Lengte - tram.Lengte));
 
-            gesorteerdeSporen.Sort((spoorA, spoorB) => (spoorA.Lengte - tram.Lengte).CompareTo(spoorB.Lengte - tram.Lengte));
+            sporen.RemoveAll(spoor => spoor.RestererendeLengte - tram.Lengte < 0);
 
-            gesorteerdeSporen.RemoveAll(spoor => spoor.Lengte - tram.Lengte < 0);
-
-            if (gesorteerdeSporen[0] == null)
+            if (sporen[0] == null)
             {
                 return new Spoor();
             }
 
-            return gesorteerdeSporen[0];
+            return sporen[0];
         }
     }
 }

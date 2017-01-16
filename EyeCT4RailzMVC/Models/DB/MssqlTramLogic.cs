@@ -75,7 +75,7 @@ namespace EyeCT4RailzMVC.Models
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@tramid", tram.ID);
-                            cmd.Parameters.AddWithValue("@tramnr", tram.TramNr);
+                            
 
                             if (tram.Type == TramType._11G)
                             {
