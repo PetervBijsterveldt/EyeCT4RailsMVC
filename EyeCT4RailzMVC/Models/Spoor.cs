@@ -12,7 +12,7 @@ namespace EyeCT4RailzMVC.Models
         public int Nummer { get; set; }
         public List<Sector> Sectoren { get; set; }
         public int Lengte { get; set; }
-        //public int RestererendeLengte { get { return Sectoren.FindAll(x => x.TramID > 0).Count; } }
+        public int RestererendeLengte { get { return Sectoren.FindAll(x => x.TramID == 0).Count; } }
         public bool InUitRijSpoor { get; set; }
         public bool Beschikbaar { get; set; }
 
