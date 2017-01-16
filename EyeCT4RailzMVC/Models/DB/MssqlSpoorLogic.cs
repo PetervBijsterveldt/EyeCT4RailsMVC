@@ -337,6 +337,7 @@ namespace EyeCT4RailzMVC.Models
 
                     try
                     {
+                        int sectorcount = spoor.Lengte;
                         for (int i = 0; i < hoeveelheid; i++)
                         {
                             using (SqlCommand cmd = new SqlCommand())
@@ -347,9 +348,6 @@ namespace EyeCT4RailzMVC.Models
                                 cmd.Parameters.AddWithValue("@id", spoor.ID);
                                 cmd.Parameters.AddWithValue("@beschikbaar", false);
                                 cmd.Parameters.AddWithValue("@blokkade", false);
-
-                                int sectorcount = spoor.Sectoren.Count;
-
 
                                 cmd.Parameters.AddWithValue("@nummer", sectorcount + 1);
                                 cmd.ExecuteNonQuery();
@@ -379,18 +377,15 @@ namespace EyeCT4RailzMVC.Models
 
                     try
                     {
-                        for (int i = 0; i < hoeveelheid; i++)
+                        using (SqlCommand cmd = new SqlCommand())
                         {
-                            using (SqlCommand cmd = new SqlCommand())
-                            {
-                                cmd.CommandText = "DELETE FROM Sector WHERE Spoor_ID = @spoorid AND nummer > @min AND nummer <= @max";
-                                cmd.Connection = conn;
-                                cmd.Parameters.AddWithValue("@spoorid", spoor.ID);
-                                cmd.Parameters.AddWithValue("@min", spoor.Lengte - i);
-                                cmd.Parameters.AddWithValue("@max", spoor.Lengte);
+                            cmd.CommandText = "DELETE FROM Sector WHERE Spoor_ID = @spoorid AND nummer > @min AND nummer <= @max";
+                            cmd.Connection = conn;
+                            cmd.Parameters.AddWithValue("@spoorid", spoor.ID);
+                            cmd.Parameters.AddWithValue("@min", spoor.Lengte - hoeveelheid);
+                            cmd.Parameters.AddWithValue("@max", spoor.Lengte);
 
-                                cmd.ExecuteNonQuery();
-                            }
+                            cmd.ExecuteNonQuery();
                         }
                     }
                     catch (Exception ex)

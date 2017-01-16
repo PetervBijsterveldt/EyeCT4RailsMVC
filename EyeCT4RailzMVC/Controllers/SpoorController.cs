@@ -30,7 +30,7 @@ namespace EyeCT4RailzMVC.Controllers
             if (difference > 0)
             {
                 //sectoren komen erbij
-                spoorRepository.AddSectoren(spoor, hoeveelheid);
+                spoorRepository.AddSectoren(oudeSpoor, hoeveelheid);
             }
             else if (difference < 0)
             {
