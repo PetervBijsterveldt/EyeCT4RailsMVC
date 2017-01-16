@@ -69,7 +69,7 @@ namespace EyeCT4RailzMVC.Models
                         using (SqlCommand cmd = new SqlCommand())
                         {
                             cmd.CommandText =
-                                "UPDATE Tram SET Nummer = @tramnr, TypeTram = @type, Lengte = @lengte, Status = @status WHERE ID = @tramid";
+                                "UPDATE Tram SET Nummer = @tramnr, TramType_ID = @type, Lengte = @lengte, Status = @status, Vervuild = @vervuild, Defect = @defect, ConducteurGeschikt = @geschikt, Beschikbaar = @beschikbaar WHERE ID = @tramid";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@tramid", tram.ID);
@@ -104,7 +104,39 @@ namespace EyeCT4RailzMVC.Models
                             }
 
                             cmd.Parameters.AddWithValue("@lengte", tram.Lengte);
-                            cmd.Parameters.AddWithValue("@status", tram.Status);
+                            if (tram.Status == TramStatus.Dienst)
+                            {
+                                cmd.Parameters.AddWithValue("@status", "Dienst");
+                            }
+                            else if (tram.Status == TramStatus.Onderhoud)
+                            {
+                                cmd.Parameters.AddWithValue("@status", "Onderhoud");
+                            }
+                            else if (tram.Status == TramStatus.Remise)
+                            {
+                                cmd.Parameters.AddWithValue("@status", "Remise");
+                            }
+                            else if (tram.Status == TramStatus.Schoonmaak)
+                            {
+                                cmd.Parameters.AddWithValue("@status", "Schoonmaak");
+                            }
+                            else if (tram.Status == TramStatus.SchoonmaakNodig)
+                            {
+                                cmd.Parameters.AddWithValue("@status", "SchoonmaakNodig");
+                            }
+                            else if (tram.Status == TramStatus.ServiceNodig)
+                            {
+                                cmd.Parameters.AddWithValue("@status", "ServiceNodig");
+                            }
+                            else
+                            {
+                                cmd.Parameters.AddWithValue("@status", "Remise");
+                            }
+                            cmd.Parameters.AddWithValue("@tramnr", tram.TramNr);
+                            cmd.Parameters.AddWithValue("@vervuild", tram.Vervuild);
+                            cmd.Parameters.AddWithValue("@defect", tram.Defect);
+                            cmd.Parameters.AddWithValue("@geschikt", tram.ConducteurGeschikt);
+                            cmd.Parameters.AddWithValue("@beschikbaar", tram.Beschikbaar);
 
                             cmd.ExecuteNonQuery();
                         }

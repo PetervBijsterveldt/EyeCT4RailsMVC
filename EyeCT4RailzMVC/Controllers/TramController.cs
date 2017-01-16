@@ -29,7 +29,7 @@ namespace EyeCT4RailzMVC.Controllers
             }
         }
 
-        
+
         [HttpGet]
         public ActionResult Trammerino(Tram tram)
         {
@@ -63,6 +63,12 @@ namespace EyeCT4RailzMVC.Controllers
             return RedirectToAction("Overzicht");
         }
 
+        [HttpPost]
+        public ActionResult DeleteTram(Tram tram)
+        {
+            tramRepository.RemoveTram(tram);
+            return RedirectToAction("Overzicht");
+        }
         protected override void OnException(ExceptionContext filterContext)
         {
             Exception ex = filterContext.Exception;
