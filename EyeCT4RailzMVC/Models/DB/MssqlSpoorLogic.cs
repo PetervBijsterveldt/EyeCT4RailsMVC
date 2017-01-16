@@ -337,19 +337,20 @@ namespace EyeCT4RailzMVC.Models
 
                     try
                     {
-                        using (SqlCommand cmd = new SqlCommand())
+                        for (int i = 0; i < hoeveelheid; i++)
                         {
-                            cmd.CommandText = "INSERT INTO Sector (Spoor_ID, tram_ID, nummer, Beschikbaar, blokkade) VALUES (@id, 0, @nummer, @beschikbaar, @blokkade)";
-                            cmd.Connection = conn;
-
-                            cmd.Parameters.AddWithValue("@id", spoor.ID);
-                            cmd.Parameters.AddWithValue("@beschikbaar", "False");
-                            cmd.Parameters.AddWithValue("@blokkade", "False");
-
-                            int sectorcount = spoor.Sectoren.Count;
-
-                            for (int i = 0; i < hoeveelheid; i++)
+                            using (SqlCommand cmd = new SqlCommand())
                             {
+                                cmd.CommandText = "INSERT INTO Sector (Spoor_ID, tram_ID, nummer, Beschikbaar, blokkade) VALUES (@id, 0, @nummer, @beschikbaar, @blokkade)";
+                                cmd.Connection = conn;
+
+                                cmd.Parameters.AddWithValue("@id", spoor.ID);
+                                cmd.Parameters.AddWithValue("@beschikbaar", false);
+                                cmd.Parameters.AddWithValue("@blokkade", false);
+
+                                int sectorcount = spoor.Sectoren.Count;
+
+
                                 cmd.Parameters.AddWithValue("@nummer", sectorcount + 1);
                                 cmd.ExecuteNonQuery();
                                 sectorcount++;
