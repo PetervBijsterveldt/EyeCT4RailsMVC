@@ -14,6 +14,7 @@ namespace EyeCT4RailzMVC.Models
         //private readonly string connectie = "Server=RailzDB;Database=dbi344475; Database=dbi344475; Trusted_Connection=Yes;";
         private readonly string connectie = "Server=mssql.fhict.local;Database=dbi344475;User Id=dbi344475;Password=Rails1;";
 
+        //aangepast, werkt
         public Tram CheckForTramId(int tramId)
         {
             using (SqlConnection conn = new SqlConnection(connectie))
@@ -36,35 +37,6 @@ namespace EyeCT4RailzMVC.Models
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
-                                //int id = reader.GetInt32(0);
-                                //int tramnr = reader.GetInt32(1);
-                                //TramType type;
-                                //if (reader.GetString(2) == "11g")
-                                //{
-                                //    type = TramType._11G;
-                                //}
-                                //else if (reader.GetString(2) == "12g")
-                                //{
-                                //    type = TramType._12G;
-                                //}
-                                //else if (reader.GetString(2) == "9g")
-                                //{
-                                //    type = TramType._9G;
-                                //}
-                                //else if (reader.GetString(2) == "10g")
-                                //{
-                                //    type = TramType._10G;
-                                //}
-                                //else
-                                //{
-                                //    type = (TramType)Enum.Parse(typeof(TramType), reader.GetString(2).Replace(" ", ""));
-                                //}
-                                //int lengte = reader.GetInt32(3);
-                                //TramStatus status = (TramStatus)Enum.Parse(typeof(TramStatus), reader.GetString(4));
-                                //bool conducteurgeschikt = reader.GetBoolean(5);
-
-                                //List<SchoonmaakBeurt> schoonmaakBeurten = ListSchoonmaakbeurtenPerTram(id);
-                                //List<ReparatieBeurt> reparatieBeurten = ListReparatiebeurten(id);
                                 int id = reader.GetInt32(0);
                                 int Rid = reader.GetInt32(1);
                                 TramType type;
@@ -125,6 +97,7 @@ namespace EyeCT4RailzMVC.Models
             return null;
         }
 
+        //alles hieronder moet nog
         public void EditTram(Tram tram)
         {
             using (SqlConnection conn = new SqlConnection(connectie))
