@@ -8,56 +8,47 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@if (TempData["InrijError"] != null)
+{
+    <script type="text/javascript">
+        alert('@TempData["InrijError"]');
+    </script>
+}
+
 <h2>Index</h2>
+<div>
+    @Html.ActionLink("Spoor toevoegen", "AddSpoor", "Spoor")
+</div>
 
-<style>
-    .spoordiv {
-        border-left: 3px solid black;
-        border-right: 3px solid black;
-        padding-left: 4px;
-        margin-left: 20px;
-        margin-top: 20px;
-        width: 64px;
-        float: left;
-    }
-
-    .sectordiv {
-        border: 1px solid green;
-        background-color: lawngreen;
-        width: 50px;
-        height: 50px;
-        margin-top: 4px;
-        float: left;
-    }
-
-    .blokkeerbtn {
-        width: 64px;
-        height: 30px;
-        margin-left: -7px;
-        padding-left: 1px;
-        font-size: 11px;
-    }
-</style>
-
-
-<div style="width: @CalculateDivWidht(); position: absolute; left: 15px;">
+<div style="width: @CalculateDivWidth(); position: absolute; left: 15px;">
     @for (int i = 0; i < Model.Count; i++)
     {
-        <div class="spoordiv" style="height: @CalculateSpoorHeight(Model[i])">
+        string opacity = "1";
+        if (!Model[i].Beschikbaar) { opacity = "0.5";}
+        
+        <div class="spoordiv" style="height: @CalculateSpoorHeight(Model[i]); opacity: @opacity;">
             @for (int j = 0; j < Model[i].Sectoren.Count; j++)
             {
-                <div class="sectordiv"></div>
+                if (Model[i].Sectoren[j].TramID == 0)
+                {
+                    <div class="sectordiv"></div>
+                }
+                else
+                {
+                    <div class="sectordiv sectorbezet" onclick="location.href='@Url.Action("TramVerplaatsen", "Spoor", new {id = Model[i].Sectoren[j].TramID})'">@GetTramName(Model[i].Sectoren[j].TramID)</div>
+                }
             }
             <p style="text-align: center; font-size: 18px;">@Model[i].Nummer</p>
 
             <button type="submit" class="blokkeerbtn" onclick="location.href='@Url.Action("Edit", "Spoor", Model[i])'">Wijzig</button>
+            <button type="submit" class="blokkeerbtn" onclick="location.href='@Url.Action("Remove", "Spoor", Model[i])'">Verwijder</button>
         </div>
     }
 </div>
 
 @functions
 {
-    string CalculateDivWidht()
+    string CalculateDivWidth()
     {
         return $"{Model.Count * 84 + 30}px";
     }
@@ -66,4 +57,18 @@
     {
         return $"{spoor.Sectoren.Count * 54 + 30}px";
     }
+
+    string GetTramName(int tramid)
+    {
+        TramRepository tramRepository = new TramRepository(new MssqlTramLogic());
+        Tram tram = tramRepository.CheckForTramId(tramid);
+        if (tram.Type != TramType.DubbelKopCombino)
+        {
+            return $"{tram.Type} \n {tram.TramNr}";
+        }
+        else
+        {
+            return $"DKC \n {tram.TramNr}";
+        }
     }
+}

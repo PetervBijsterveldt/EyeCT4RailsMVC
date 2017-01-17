@@ -23,11 +23,26 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Tramoverzicht", "Overzicht", "Tram")</li>
+                    <li>@Html.ActionLink("Spooroverzicht", "Index", "Spoor")</li>
                     <li>@Html.ActionLink("Schoonmaak", "Schoonmaakoverzicht", "Schoonmaak")</li>
                     <li>@Html.ActionLink("Reparatie", "Reparatieoverzicht", "Reparatie")</li>
                     <li>@Html.ActionLink("Beheer", "UserLijst", "Beheer")</li>
-
+                    <li>@Html.ActionLink("Bestuurder", "BestuurdersOverzicht","Bestuurder")</li>
+                    
                 </ul>
+                <script>
+                    function LogOut() {
+                        try {
+                            document.execCommand("ClearAuthenticationCache");
+                        } catch (e) {
+
+                        }
+                        alert("Je bent uitgelogd!");
+                        window.location.replace("http://192.168.20.45/home/index");
+                       
+                    }
+                </script>
+                <button type="submit" class="btn btn-primary btn-md" onclick="LogOut()">Uitloggen</button>
                 <p class="nav navbar-text navbar-right">Hello, @User.Identity.Name!</p>
             </div>
 

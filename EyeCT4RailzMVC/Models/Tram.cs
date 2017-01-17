@@ -12,15 +12,14 @@ namespace EyeCT4RailzMVC.Models
         public TramType Type { get; set; }
         public int TramNr { get; set; }
         public int Lengte { get; set; }
-        public string Status { get; set; }
-        public int Vervuild { get; set; }
-        public int Defect { get; set; }
+        public TramStatus Status { get; set; }
+        public bool Vervuild { get; set; }
+        public bool Defect { get; set; }
         public bool ConducteurGeschikt { get; set; }
-        public int Beschikbaar { get; set; }
+        public bool Beschikbaar { get; set; }
         public List<SchoonmaakBeurt> SchoonmaakBeurten { get; set; }
         public List<ReparatieBeurt> ReparatieBeurten { get; set; }
-
-
+        
 
         //constructors
         public Tram()
@@ -40,7 +39,7 @@ namespace EyeCT4RailzMVC.Models
             Lengte = lengte;
             Type = type;
         }
-        public Tram(int id, int Rid, TramType type, int nr, int lengte, string status, int vervuild, int defect, bool geschikt, int beschikbaar)
+        public Tram(int id, int Rid, TramType type, int nr, int lengte, TramStatus status, bool vervuild, bool defect, bool geschikt, bool beschikbaar)
         {
             ID = id;
             RemiseID = Rid;
@@ -55,7 +54,7 @@ namespace EyeCT4RailzMVC.Models
             SchoonmaakBeurten = new List<SchoonmaakBeurt>();
             ReparatieBeurten = new List<ReparatieBeurt>();
         }
-        public Tram(int id, int nr, int lengte, TramType type, string status, bool conducteurgeschikt, List<SchoonmaakBeurt> schoonmaakbeurten, List<ReparatieBeurt> reparatiebeurten)
+        public Tram(int id, int nr, int lengte, TramType type, TramStatus status, bool conducteurgeschikt, List<SchoonmaakBeurt> schoonmaakbeurten, List<ReparatieBeurt> reparatiebeurten)
         {
             ID = id;
             TramNr = nr;
@@ -76,11 +75,11 @@ namespace EyeCT4RailzMVC.Models
         {
             ReparatieBeurten.Add(reparatieBeurt);
         }
-        public void StatusVeranderen(string status)
+        public void StatusVeranderen(TramStatus status)
         {
             Status = status;
         }
-        public void EditTram(int nr, int lengte, string status, TramType type)
+        public void EditTram(int nr, int lengte, TramStatus status, TramType type)
         {
             TramNr = nr;
             Lengte = lengte;

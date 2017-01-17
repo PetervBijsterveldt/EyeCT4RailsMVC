@@ -7,17 +7,24 @@ using System.Web.Mvc;
 using EyeCT4RailzMVC.Models;
 using System.Text.RegularExpressions;
 
+
 namespace EyeCT4RailzMVC.Controllers
 {
+   
     public class BeheerController : Controller
     {
         UserRepository userRepository = new UserRepository(new MssqlUserLogic());
         // GET: Beheer
+
+       
         public ActionResult Index()
         {
             return View();
         }
-        
+
+#if !DEBUG
+        [Authorize(Roles = "Beheerder")]
+#endif
         public ActionResult UserLijst()
         {
             UserRepository userRepository = new UserRepository(new MssqlUserLogic());
@@ -28,9 +35,9 @@ namespace EyeCT4RailzMVC.Controllers
         [HttpPost]
         public ActionResult CreateUser(FormCollection form)
         {
-            //User rol kunnen kiezen nog toevoegen
             string naam = form["Naam"];
-            userRepository.AddUser(new User(naam, UserType.Beheerder));
+            UserType rol = (UserType) Enum.Parse(typeof(UserType),form["Rol"]);
+            userRepository.AddUser(new User(naam, rol));
             
             return RedirectToAction("UserLijst");
         }
@@ -65,7 +72,8 @@ namespace EyeCT4RailzMVC.Controllers
             // UserPrincipal userPrincipal =(UserPrincipal) p;
 
             // userPrincipal.Name = edit.Naam;
-
+            
+            userRepository.EditUser(edit);
             return RedirectToAction("UserLijst");
         }
 

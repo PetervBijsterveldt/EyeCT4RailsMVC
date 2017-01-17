@@ -10,6 +10,9 @@ namespace EyeCT4RailzMVC.Controllers
     public class UserViewController : Controller
     {
         // GET: User
+#if !DEBUG
+            [Authorize(Roles = "Beheerder")]
+#endif
         public ActionResult UserOverview()
         {
             UserRepository userRepository = new UserRepository(new MssqlUserLogic());

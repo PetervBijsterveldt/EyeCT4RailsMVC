@@ -1,0 +1,25 @@
+﻿@model EyeCT4RailzMVC.Models.Tram
+
+@{
+    ViewBag.Title = "TramVerplaatsen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@GetTramNaam()</h2>
+
+@using (Html.BeginForm("TramVerplaatsen", "Spoor", Model))
+{
+    <label for="spoorselector">Spoor nummer</label>
+    <input type="number" name="nummer" id="spoorselector" min="1"/>
+    <input type="submit" value="Submit"/>
+}
+
+@functions
+{
+
+    string GetTramNaam()
+    {
+        return $"{Model.Type} {Model.TramNr}";
+    }
+
+}

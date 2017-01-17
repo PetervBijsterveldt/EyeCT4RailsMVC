@@ -12,13 +12,28 @@ namespace EyeCT4RailzMVC.Models
         public int Nummer { get; set; }
         public List<Sector> Sectoren { get; set; }
         public int Lengte { get; set; }
-        public int RestererendeLengte { get { return Sectoren.FindAll(x => x.TramID > 0).Count; } }
+
+        public int RestererendeLengte
+        {
+            get
+            {
+                try
+                {
+                    return Sectoren.FindAll(x => x.TramID == 0).Count;
+                }
+                catch (NullReferenceException)
+                {
+                    return 0;
+                }
+            }
+        }
+
         public bool InUitRijSpoor { get; set; }
         public bool Beschikbaar { get; set; }
 
         public Spoor()
         {
-            
+
         }
 
         public Spoor(int nr, int lengte)
@@ -47,14 +62,13 @@ namespace EyeCT4RailzMVC.Models
         }
 
         //constructor voor in de database, maar dan zonder ID (auto increment)
-        public Spoor(int remiseid, int nummer, int lengte, bool beschikbaar, bool inuitrijspoor, List<Sector> sectoren)
+        public Spoor(int remiseid, int nummer, int lengte, bool beschikbaar, bool inuitrijspoor)
         {
             RemiseID = remiseid;
             Nummer = nummer;
             Lengte = lengte;
             Beschikbaar = beschikbaar;
             InUitRijSpoor = inuitrijspoor;
-            Sectoren = sectoren;
         }
 
         public void BlokkeerSpoor()
